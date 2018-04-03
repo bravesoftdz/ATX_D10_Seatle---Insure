@@ -1,0 +1,32 @@
+unit Slash_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, jpeg, ExtCtrls, StdCtrls;
+
+type
+  TSlash = class(TForm)
+    Image1: TImage;
+    Panel1: TPanel;
+    ProductName: TLabel;
+    Bevel2: TBevel;
+    Version: TLabel;
+    Label1: TLabel;
+    Bevel1: TBevel;
+    Label2: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Slash: TSlash;
+
+implementation
+
+{$R *.dfm}
+
+end.

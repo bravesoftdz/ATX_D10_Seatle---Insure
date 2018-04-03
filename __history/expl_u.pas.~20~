@@ -1,0 +1,483 @@
+unit expl_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbStaticText, ExtCtrls, Grids, DBGrids, LbSpeedButton, DB, ADODB,
+  StdCtrls, Mask, rxToolEdit;
+
+type
+  TfrmExpl = class(TForm)
+    DBGrid_expl: TDBGrid;
+    Panel1: TPanel;
+    LbSpeedButton1: TLbSpeedButton;
+    LbSpeedButton2: TLbSpeedButton;
+    tExplCard: TADOStoredProc;
+    ds_card: TDataSource;
+    LbSpeedButton3: TLbSpeedButton;
+    LbStaticText2: TLbStaticText;
+    RXD1: TDateEdit;
+    RXD2: TDateEdit;
+    LbSpeedButton4: TLbSpeedButton;
+    procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormShow(Sender: TObject);
+    procedure bclClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure bmaxClick(Sender: TObject);
+    procedure bminClick(Sender: TObject);
+    procedure LbSpeedButton4Click(Sender: TObject);
+    procedure LbSpeedButton3Click(Sender: TObject);
+    procedure tExplCardAfterDelete(DataSet: TDataSet);
+    procedure LbSpeedButton2Click(Sender: TObject);
+    procedure LbSpeedButton1Click(Sender: TObject);
+    procedure DBGrid_explDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure FormCreate(Sender: TObject);
+  private
+    id_avt: integer;
+    mark_avt:String;
+    what_form:integer;
+    procedure SetTitleGrid();
+    procedure SetTitleGrid2();
+    procedure SetTitleGrid3();
+    procedure SetTitleCard(title:String);
+    procedure DelRemont(id_remont:Integer);
+    procedure DelZayvka(id_zayvka:Integer);
+  public
+    procedure openExplCard(id:integer;mark:String);
+    procedure openRemontCard(id:integer;mark:String);
+    procedure openZayvkaCard(id:integer;mark:String);
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
+
+  end;
+
+var
+  frmExpl: TfrmExpl;
+
+implementation
+
+uses dm_u, main_u;
+
+{$R *.dfm}
+procedure TfrmExpl.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+end;
+
+procedure TfrmExpl.LbStaticText1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+ReleaseCapture;
+Perform(WM_SYSCOMMAND, $F012, 0);
+end;
+
+procedure TfrmExpl.FormShow(Sender: TObject);
+begin
+WindowState:=wsNormal;
+//if what_form = 3 then
+  Width:=Main.Width-50;
+//else
+  //Width:=500;
+
+Height:=300;
+if (Main.UserRole=USER_USER) or (Main.UserRole=INSURE_USER) then
+begin
+    LbSpeedButton1.Enabled:=false;
+    LbSpeedButton2.Enabled:=false;
+    LbSpeedButton3.Enabled:=false;
+end
+ else
+begin
+    LbSpeedButton1.Enabled:=true;
+    LbSpeedButton2.Enabled:=true;
+    LbSpeedButton3.Enabled:=true;
+end
+
+end;
+
+procedure TfrmExpl.bclClick(Sender: TObject);
+begin
+Close;
+end;
+
+procedure TfrmExpl.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+Action:=caFree;
+end;
+
+procedure TfrmExpl.bmaxClick(Sender: TObject);
+begin
+if WindowState=wsMaximized then
+WindowState:=wsNormal else
+WindowState:=wsMaximized;
+end;
+
+procedure TfrmExpl.bminClick(Sender: TObject);
+begin
+WindowState:=wsMinimized;
+end;
+
+procedure TfrmExpl.SetTitleCard(title:String);
+begin
+Caption:=title;
+end;
+procedure TfrmExpl.SetTitleGrid();
+var
+i:integer;
+begin
+with DBGrid_expl do
+begin
+for i:=0 to DBGrid_expl.Columns.Count-1 do
+    Columns[i].Title.Font.Style:=Columns[i].Title.Font.Style+[fsBold];
+    Columns[0].Title.Caption:='Месяц';
+    Columns[1].Title.Caption:='Год';
+    Columns[2].Title.Caption:='Дн.спис';
+    Columns[3].Title.Caption:='Дн.испр';
+    Columns[4].Title.Caption:='Дн.экпл';
+    Columns[5].Title.Caption:='Дн.рем';
+    Columns[6].Title.Caption:='В нар.';
+    Columns[7].Title.Caption:='Норма проб';
+    Columns[8].Title.Caption:='Факт. проб';
+    Columns[9].Title.Caption:='ТО 1';
+    Columns[10].Title.Caption:='ТО 2';
+    Columns[11].Title.Caption:='КР';
+    Columns[12].Title.Caption:='На начало';
+    Columns[13].Title.Caption:='Выдано';
+    Columns[14].Title.Caption:='На конец';
+    Columns[15].Title.Caption:='Норма';
+    Columns[16].Title.Caption:='Израсх.';
+    Columns[17].Title.Caption:='Спидометр начало';
+    Columns[18].Title.Caption:='Спидометр конец';
+    Columns[19].Visible:=false;
+    Columns[20].Visible:=false;
+    Columns[21].Visible:=false;
+end;
+end;
+
+procedure TfrmExpl.SetTitleGrid2();
+var
+i:integer;
+begin
+with DBGrid_expl do
+begin
+for i:=0 to DBGrid_expl.Columns.Count-1 do
+    Columns[i].Title.Font.Style:=Columns[i].Title.Font.Style+[fsBold];
+    Columns[0].Visible:=false;
+    Columns[1].Visible:=false;
+    Columns[2].Title.Caption:='Дата начала';
+    Columns[3].Title.Caption:='Дата окончания';
+    Columns[4].Title.Caption:='Вид ремонта';
+        Columns[4].Width:=150;
+
+    Columns[5].Title.Caption:='Сумма ремонт';
+        Columns[5].Width:=100;
+    Columns[6].Title.Caption:='Сумма запчастия';
+        Columns[6].Width:=100;
+    Columns[7].Title.Caption:='Сумма ТМЦ';
+        Columns[7].Width:=100;
+    Columns[8].Title.Caption:='Кол-во дней';
+        Columns[8].Width:=100;
+
+
+    Columns[9].Title.Caption:='Место ремонта';
+        Columns[9].Width:=150;
+    Columns[10].Title.Caption:='Спидометр на начало работ';
+        Columns[10].Width:=200;
+    Columns[11].Title.Caption:='Спидометр на следующее ТО';
+        Columns[11].Width:=200;
+    Columns[12].Visible:=false;
+    Columns[13].Visible:=false;
+    Columns[14].Title.Caption:='Малсо (л)';
+        Columns[14].Width:=70;
+end;
+end;
+
+procedure TfrmExpl.SetTitleGrid3();
+var
+i:integer;
+begin
+with DBGrid_expl do
+begin
+for i:=0 to DBGrid_expl.Columns.Count-1 do
+    Columns[i].Title.Font.Style:=Columns[i].Title.Font.Style+[fsBold];
+    Columns[0].Visible:=false;
+    Columns[1].Visible:=false;
+    Columns[2].Title.Caption:='№ заявки';
+    Columns[3].Title.Caption:='Дата заявки';
+    Columns[4].Title.Caption:='Показания спидометра';
+    Columns[5].Title.Caption:='Водитель';
+    Columns[6].Title.Caption:='Вид ТО';
+    Columns[10].Title.Caption:='Организация';
+
+        Columns[2].Width:=80;
+        Columns[3].Width:=80;
+        Columns[4].Width:=100;
+        Columns[5].Width:=150;
+        Columns[6].Width:=100;
+                   Columns[10].Width:=100;
+        Columns[7].Visible:=false;
+        Columns[8].Visible:=false;
+                Columns[9].Visible:=false;
+
+end;
+end;
+
+procedure TfrmExpl.openExplCard(id:integer;mark:String);
+begin
+what_form:=1;
+id_avt:=id;
+if dm.ADO.Connected then
+begin
+        if tExplCard.Active then tExplCard.Active:=false;
+        tExplCard.Parameters.Clear;
+        tExplCard.ProcedureName:='GetExplCard;1';
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[0].Name:='@RETURN_VALUE';
+        tExplCard.Parameters[0].DataType:=ftInteger;
+        tExplCard.Parameters[0].Direction:=pdReturnValue;
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[1].Name:='@id';
+        tExplCard.Parameters[1].DataType:=ftInteger;
+        tExplCard.Parameters[1].Value:=id;
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[2].Name:='@d1';
+        tExplCard.Parameters[2].DataType:=ftString;
+        tExplCard.Parameters[2].Value:=FormatDateTime('dd.mm.yyyy',RXD1.Date);
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[3].Name:='@d2';
+        tExplCard.Parameters[3].DataType:=ftString;
+        tExplCard.Parameters[3].Value:=FormatDateTime('dd.mm.yyyy',RXD2.Date);
+        tExplCard.Open;
+end;
+if tExplCard.RecordCount=0 then
+begin
+LbSpeedButton2.Enabled:=false;
+LbSpeedButton3.Enabled:=false;
+end else
+begin
+LbSpeedButton2.Enabled:=true;
+LbSpeedButton3.Enabled:=true;
+end;
+SetTitleGrid();
+SetTitleCard('Эксплутационные карточки автотранспорта "'+mark+'"');
+mark_avt:=mark;
+DBGrid_expl.SetFocus;
+end;
+
+procedure TfrmExpl.openRemontCard(id:integer;mark:String);
+begin
+what_form:=2;
+id_avt:=id;
+if dm.ADO.Connected then
+begin
+        if tExplCard.Active then tExplCard.Active:=false;
+        tExplCard.Parameters.Clear;
+        tExplCard.ProcedureName:='GetRemontCard;1';
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[0].Name:='@RETURN_VALUE';
+        tExplCard.Parameters[0].DataType:=ftInteger;
+        tExplCard.Parameters[0].Direction:=pdReturnValue;
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[1].Name:='@id';
+        tExplCard.Parameters[1].DataType:=ftInteger;
+        tExplCard.Parameters[1].Value:=id;
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[2].Name:='@d1';
+        tExplCard.Parameters[2].DataType:=ftString;
+        tExplCard.Parameters[2].Value:=FormatDateTime('dd.mm.yyyy',RXD1.Date);
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[3].Name:='@d2';
+        tExplCard.Parameters[3].DataType:=ftString;
+        tExplCard.Parameters[3].Value:=FormatDateTime('dd.mm.yyyy',RXD2.Date);
+        tExplCard.Open;
+end;
+if tExplCard.RecordCount=0 then
+begin
+LbSpeedButton2.Enabled:=false;
+LbSpeedButton3.Enabled:=false;
+end else
+begin
+LbSpeedButton2.Enabled:=true;
+LbSpeedButton3.Enabled:=true;
+end;
+SetTitleGrid2();
+SetTitleCard('Ремонтные карточки автотранспорта "'+mark+'"');
+mark_avt:=mark;
+DBGrid_expl.SetFocus;
+end;
+
+procedure TfrmExpl.openZayvkaCard(id:integer;mark:String);
+begin
+what_form:=3;
+id_avt:=id;
+
+if dm.ADO.Connected then
+begin
+        if tExplCard.Active then tExplCard.Active:=false;
+        tExplCard.Parameters.Clear;
+        tExplCard.ProcedureName:='GetZayvkaCard;1';
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[0].Name:='@RETURN_VALUE';
+        tExplCard.Parameters[0].DataType:=ftInteger;
+        tExplCard.Parameters[0].Direction:=pdReturnValue;
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[1].Name:='@id';
+        tExplCard.Parameters[1].DataType:=ftInteger;
+        tExplCard.Parameters[1].Value:=id;
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[2].Name:='@d1';
+        tExplCard.Parameters[2].DataType:=ftString;
+        tExplCard.Parameters[2].Value:=FormatDateTime('dd.mm.yyyy',RXD1.Date);
+        tExplCard.Parameters.AddParameter;
+        tExplCard.Parameters[3].Name:='@d2';
+        tExplCard.Parameters[3].DataType:=ftString;
+        tExplCard.Parameters[3].Value:=FormatDateTime('dd.mm.yyyy',RXD2.Date);
+        tExplCard.Open;
+end;
+if tExplCard.RecordCount=0 then
+begin
+LbSpeedButton2.Enabled:=false;
+LbSpeedButton3.Enabled:=false;
+end else
+begin
+LbSpeedButton2.Enabled:=true;
+LbSpeedButton3.Enabled:=true;
+end;
+SetTitleGrid3();
+SetTitleCard('Заявочные карточки автотранспорта "'+mark+'"');
+mark_avt:=mark;
+DBGrid_expl.SetFocus;
+end;
+
+procedure TfrmExpl.LbSpeedButton4Click(Sender: TObject);
+begin
+if what_form=1 then
+openExplCard(id_avt,mark_avt);
+if what_form=2 then
+openRemontCard(id_avt,mark_avt);
+if what_form=3 then
+openZayvkaCard(id_avt,mark_avt);
+end;
+
+procedure TfrmExpl.LbSpeedButton3Click(Sender: TObject);
+begin
+if main.UserRole<>4 then
+  if Main.ATXMessageDlg('Вы уверены, что хотите удалить данную запись?',
+    2,mtConfirmation) = mrYes then
+    try
+      if what_form=1 then
+          tExplCard.Delete;
+      if what_form=2 then
+      DelRemont(DBGrid_expl.Fields[0].AsInteger);
+      if what_form=3 then
+      DelZayvka(DBGrid_expl.Fields[0].AsInteger);
+      LbSpeedButton4Click(Self);
+    except
+        Main.ATXMessageDlg('Выбранная запись не может быть удалена!',1,mtError);
+    end;
+end;
+procedure TfrmExpl.DelRemont(id_remont:Integer);
+begin
+with dm do
+begin
+   if ADO.Connected then begin
+   if id_remont<>0 then
+   begin
+      if StoredProc1.Active then StoredProc1.Active:=false;
+         StoredProc1.Parameters.Clear;
+         StoredProc1.ProcedureName:='DelRemont;1';
+         StoredProc1.Parameters.AddParameter;
+         StoredProc1.Parameters[0].Name:='@id_remont';
+         StoredProc1.Parameters[0].DataType:=ftInteger;
+         StoredProc1.Parameters[0].Value:=id_remont;
+         try
+         StoredProc1.ExecProc;
+         CommitTR;
+         except
+         RollBTR;
+         end;
+         StoredProc1.Close;
+      end;
+   end;
+end;
+end;
+procedure TfrmExpl.DelZayvka(id_zayvka:Integer);
+begin
+with dm do
+begin
+   if ADO.Connected then begin
+   if id_zayvka<>0 then
+   begin
+      if StoredProc1.Active then StoredProc1.Active:=false;
+         StoredProc1.Parameters.Clear;
+         StoredProc1.ProcedureName:='DelZayvka;1';
+         StoredProc1.Parameters.AddParameter;
+         StoredProc1.Parameters[0].Name:='@id_zayvka';
+         StoredProc1.Parameters[0].DataType:=ftInteger;
+         StoredProc1.Parameters[0].Value:=id_zayvka;
+         try
+         StoredProc1.ExecProc;
+         CommitTR;
+         except
+         RollBTR;
+         end;
+         StoredProc1.Close;
+      end;
+   end;
+end;
+end;
+procedure TfrmExpl.tExplCardAfterDelete(DataSet: TDataSet);
+begin
+try
+dm.CommitTR;
+except
+dm.RollBTR;
+end;
+end;
+
+procedure TfrmExpl.LbSpeedButton2Click(Sender: TObject);
+begin
+if what_form=1 then
+Main.OpenExplCard(1,id_avt,mark_avt);
+if what_form=2 then
+Main.OpenRemontCard(1,id_avt,mark_avt);
+if what_form=3 then
+Main.OpenZayvkaCard(1,id_avt,mark_avt);
+LbSpeedButton4Click(Self);
+end;
+
+procedure TfrmExpl.LbSpeedButton1Click(Sender: TObject);
+begin
+if what_form=1 then
+Main.OpenExplCard(0,id_avt,mark_avt);
+if what_form=2 then
+Main.OpenRemontCard(0,id_avt,mark_avt);
+if what_form=3 then
+Main.OpenZayvkaCard(0,id_avt,mark_avt);
+LbSpeedButton4Click(Self);
+end;
+
+procedure TfrmExpl.DBGrid_explDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+DBGrid_expl.Canvas.Font.Color :=clBlack;
+if gdSelected in state then
+  DBGrid_expl.Canvas.Brush.Color:=$EFE3DF
+  else
+  DBGrid_expl.Canvas.Brush.Color:=clWhite;
+  DBGrid_expl.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+end;
+
+procedure TfrmExpl.FormCreate(Sender: TObject);
+begin
+RXD1.Date := EncodeDate(CurrentYear, 1,1);
+RXD2.Date := EncodeDate(CurrentYear, 12,31);
+
+end;
+
+end.

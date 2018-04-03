@@ -1,0 +1,95 @@
+object frmListNewAvto: TfrmListNewAvto
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  Caption = #1057#1087#1080#1089#1086#1082' '#1085#1086#1074#1099#1093' '#1090#1088#1072#1085'.'#1089#1088#1077#1076#1089#1090#1074
+  ClientHeight = 527
+  ClientWidth = 803
+  Color = 15590358
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox6: TGroupBox
+    Left = 0
+    Top = 483
+    Width = 803
+    Height = 44
+    Align = alBottom
+    TabOrder = 0
+    ExplicitLeft = -65
+    ExplicitWidth = 868
+    object LbB_Search: TLbButton
+      Left = 7
+      Top = 12
+      Width = 100
+      Height = 25
+      Caption = #1057#1086#1079#1076#1072#1090#1100' '#1086#1090#1095#1077#1090
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 0
+      UseHotTrackFont = False
+    end
+    object LbButton2: TLbButton
+      Left = 113
+      Top = 12
+      Width = 100
+      Height = 25
+      Caption = #1047#1072#1082#1088#1099#1090#1100
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 1
+      UseHotTrackFont = False
+      OnClick = LbButton2Click
+    end
+  end
+  object StringGrid1: TStringGrid
+    Left = 0
+    Top = 0
+    Width = 803
+    Height = 483
+    Align = alClient
+    TabOrder = 1
+    ExplicitLeft = 232
+    ExplicitTop = 200
+    ExplicitWidth = 320
+    ExplicitHeight = 120
+  end
+  object ListStorage: TFormStorage
+    IniSection = 'Software\LebAlex\atx_uvd\listForm'
+    UseRegistry = False
+    StoredValues = <>
+    Left = 656
+    Top = 432
+  end
+end

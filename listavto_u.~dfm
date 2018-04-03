@@ -1,0 +1,187 @@
+object frmListAvto: TfrmListAvto
+  Left = 207
+  Top = 200
+  Width = 696
+  Height = 480
+  Caption = 'frmListAvto'
+  Color = 15590358
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object LbStaticText1: TLbStaticText
+    Tag = 1
+    Left = 0
+    Top = 0
+    Width = 688
+    Height = 25
+    Align = alTop
+    Caption = #1057#1087#1080#1089#1086#1082' '#1072#1074#1090#1086#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+    Color = 13876122
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    HotTrackFont.Charset = DEFAULT_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'MS Sans Serif'
+    HotTrackFont.Style = []
+    ParentColor = False
+    ParentFont = False
+    Style = bsModern
+    OnMouseDown = LbStaticText1MouseDown
+  end
+  object closePanel: TPanel
+    Left = 500
+    Top = 3
+    Width = 18
+    Height = 18
+    AutoSize = True
+    BevelOuter = bvNone
+    Ctl3D = False
+    FullRepaint = False
+    ParentCtl3D = False
+    TabOrder = 1
+    object bcl: TLbSpeedButton
+      Left = 0
+      Top = 0
+      Width = 18
+      Height = 18
+      Color = 187
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        18000000000000030000C30E0000C30E00000000000000000000FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFF
+        FFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFF00FFFF00FF
+        FFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFF
+        FFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FF
+        FF00FFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFF
+        FFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00}
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      NumGlyphs = 1
+      ParentColor = False
+      Style = bsModern
+      OnClick = bclClick
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 411
+    Width = 688
+    Height = 42
+    Align = alBottom
+    BevelOuter = bvNone
+    ParentColor = True
+    TabOrder = 2
+    object LbB_Save: TLbButton
+      Left = 8
+      Top = 11
+      Width = 97
+      Height = 25
+      Caption = #1042#1089#1090#1072#1074#1080#1090#1100
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 0
+      UseHotTrackFont = False
+      OnClick = LbB_SaveClick
+    end
+    object LbButton2: TLbButton
+      Left = 111
+      Top = 11
+      Width = 97
+      Height = 25
+      Caption = #1047#1072#1082#1088#1099#1090#1100
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 1
+      UseHotTrackFont = False
+      OnClick = bclClick
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 25
+    Width = 688
+    Height = 386
+    Align = alClient
+    Ctl3D = False
+    DataSource = dm.DataSource2
+    DefaultDrawing = False
+    FixedColor = 15129554
+    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnDrawColumnCell = DBGrid1DrawColumnCell
+    OnDblClick = LbB_SaveClick
+  end
+  object SearchStorage: TFormStorage
+    IniSection = 'Software\LebAlex\atx_uvd\listAvtForm'
+    UseRegistry = True
+    StoredValues = <>
+    Left = 480
+    Top = 312
+  end
+end

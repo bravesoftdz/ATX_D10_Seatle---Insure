@@ -1,0 +1,336 @@
+unit finGsm_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbSpeedButton, LbStaticText, LbButton, ExtCtrls, StdCtrls, Mask,
+  RXDBCtrl, RxLookup, Grids, DBGrids, DB, ADODB, rxToolEdit, rxCurrEdit;
+
+type
+  TfrmFinGSM = class(TForm)
+    LbStaticText1: TLbStaticText;
+    closePanel: TPanel;
+    bcl: TLbSpeedButton;
+    Panel2: TPanel;
+    LbB_Del: TLbButton;
+    LbB_Last: TLbButton;
+    LbB_Next: TLbButton;
+    LbB_Prior: TLbButton;
+    LbB_First: TLbButton;
+    DBGrid: TDBGrid;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Depart_box: TRxDBLookupCombo;
+    Panel3: TPanel;
+    GroupBox1: TGroupBox;
+    MarkGsm_box: TRxDBLookupCombo;
+    Label2: TLabel;
+    RxCalcEdit1: TRxCalcEdit;
+    Label5: TLabel;
+    Label3: TLabel;
+    Budl_box: TRxDBLookupCombo;
+    Label4: TLabel;
+    DateEdit1: TDateEdit;
+    RadioGroup1: TRadioGroup;
+    RadioButton1: TRadioButton;
+    RadioButton2: TRadioButton;
+    RadioButton3: TRadioButton;
+    LbB_Post: TLbButton;
+    LbStaticText2: TLbStaticText;
+    RXD1: TDateEdit;
+    RXD2: TDateEdit;
+    LbSpeedButton4: TLbSpeedButton;
+    Panel4: TPanel;
+    Label6: TLabel;
+    RxDBLookupCombo1: TRxDBLookupCombo;
+    procedure FormCreate(Sender: TObject);
+    procedure bclClick(Sender: TObject);
+    procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormResize(Sender: TObject);
+    procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Depart_boxChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure LbB_FirstClick(Sender: TObject);
+    procedure LbB_PriorClick(Sender: TObject);
+    procedure LbB_NextClick(Sender: TObject);
+    procedure LbB_LastClick(Sender: TObject);
+    procedure MarkGsm_boxChange(Sender: TObject);
+    procedure LbB_PostClick(Sender: TObject);
+    procedure LbB_DelClick(Sender: TObject);
+    procedure LbSpeedButton4Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
+
+  end;
+
+var
+  frmFinGSM: TfrmFinGSM;
+
+implementation
+
+uses dm_u, main_u;
+
+{$R *.dfm}
+procedure TfrmFinGSM.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams( Params );
+  with Params do
+  begin
+    Style := Style or ws_Overlapped;
+    WndParent := Main.Handle;
+    Style := (Style or WS_POPUP) and (not WS_DLGFRAME);
+  end;
+
+end;
+
+procedure TfrmFinGSM.FormCreate(Sender: TObject);
+begin
+RXD1.Date := EncodeDate(CurrentYear, 1,1);
+RXD2.Date := EncodeDate(CurrentYear, 12,31);
+
+closePanel.Left:=Width-closePanel.Width-13;
+if Main.UserRole=ADMIN_USER then
+LbB_Del.Visible:=true else
+LbB_Del.Visible:=false;
+if Main.UserRole=USER_USER then
+begin
+    LbB_Post.Enabled:=false;
+end;
+if not dm.tDepart.Active then
+dm.tDepart.Active:=true;
+dm.tDepart.Sort:='name';
+dm.tSource_fin.Active:=true;
+dm.tSource_fin.Sort:='name';
+dm.tMarkGSM.Active:=true;
+dm.tMarkGSM.Sort:='name';
+dm.tTypePay.Active:=true;
+dm.tTypePay.Sort:='name';
+end;
+
+procedure TfrmFinGSM.bclClick(Sender: TObject);
+begin
+Close;
+end;
+
+procedure TfrmFinGSM.LbStaticText1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+ReleaseCapture;
+Perform(WM_SYSCOMMAND, $F012, 0);
+end;
+
+procedure TfrmFinGSM.FormResize(Sender: TObject);
+begin
+if frmFinGSM.Width<450 then
+frmFinGSM.Width:=4501;
+closePanel.Left:=Width-closePanel.Width-13;
+end;
+
+procedure TfrmFinGSM.DBGridDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+DBGrid.Canvas.Font.Color :=clBlack;
+if gdSelected in state then
+  DBGrid.Canvas.Brush.Color:=$EFE3DF
+  else
+  DBGrid.Canvas.Brush.Color:=clWhite;
+  DBGrid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+end;
+
+procedure TfrmFinGSM.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+dm.tDepart.Close;
+dm.ADOLidr2.Close;
+frmFinGSM:=nil;
+end;
+
+procedure TfrmFinGSM.Depart_boxChange(Sender: TObject);
+begin
+with dm do
+begin
+if ADO.Connected then begin
+if ADOLidr2.Active then ADOLidr2.Active:=false;
+ADOLidr2.Parameters.Clear;
+ADOLidr2.ProcedureName:='GetLibr2;1';
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[0].Name:='@RETURN_VALUE';
+ADOLidr2.Parameters[0].DataType:=ftInteger;
+ADOLidr2.Parameters[0].Direction:=pdReturnValue;
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[1].Name:='@what';
+ADOLidr2.Parameters[1].DataType:=ftInteger;
+ADOLidr2.Parameters[1].Value:=4;
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[2].Name:='@id_mark';
+ADOLidr2.Parameters[2].DataType:=ftInteger;
+ADOLidr2.Parameters[2].Value:=Depart_box.KeyValue;
+try
+ADOLidr2.Open;
+ADOLidr2.Sort:='date';
+except
+//
+end;
+end;
+end;
+end;
+
+procedure TfrmFinGSM.FormShow(Sender: TObject);
+begin
+DBGrid.Columns.Clear;
+DBGrid.Columns.Add;
+DBGrid.Columns[0].Title.Caption:='Дата';
+DBGrid.Columns[0].FieldName:='date';
+DBGrid.Columns[0].Width:=60;
+DBGrid.Columns.Add;
+DBGrid.Columns[1].Title.Caption:='бюджет';
+DBGrid.Columns[1].FieldName:='budj';
+DBGrid.Columns[1].Width:=150;
+DBGrid.Columns.Add;
+DBGrid.Columns[2].Title.Caption:='ГСМ';
+DBGrid.Columns[2].FieldName:='gsm';
+DBGrid.Columns[2].Width:=60;
+DBGrid.Columns.Add;
+DBGrid.Columns[3].Title.Caption:='значение';
+DBGrid.Columns[3].FieldName:='val';
+DBGrid.Columns[3].Width:=60;
+DBGrid.Columns.Add;
+DBGrid.Columns[4].Title.Caption:='ед.изм.';
+DBGrid.Columns[4].FieldName:='edu';
+DBGrid.Columns[4].Width:=60;
+DBGrid.Columns.Add;
+DBGrid.Columns[5].Title.Caption:='вид перечисления';
+DBGrid.Columns[5].FieldName:='typepay';
+DBGrid.Columns[5].Width:=150;
+
+end;
+
+procedure TfrmFinGSM.LbB_FirstClick(Sender: TObject);
+begin
+dm.ADOLidr2.First;
+end;
+
+procedure TfrmFinGSM.LbB_PriorClick(Sender: TObject);
+begin
+dm.ADOLidr2.Prior;
+end;
+
+procedure TfrmFinGSM.LbB_NextClick(Sender: TObject);
+begin
+dm.ADOLidr2.Next;
+end;
+
+procedure TfrmFinGSM.LbB_LastClick(Sender: TObject);
+begin
+dm.ADOLidr2.Last;
+end;
+
+procedure TfrmFinGSM.MarkGsm_boxChange(Sender: TObject);
+begin
+LbB_Post.Enabled:=true;
+end;
+
+procedure TfrmFinGSM.LbB_PostClick(Sender: TObject);
+begin
+try
+if(Depart_box.KeyValue<>0) and
+(DateEdit1.Date<>0) and
+(MarkGsm_box.KeyValue<>0) and
+(Budl_box.KeyValue<>0) then
+begin
+with dm do
+begin
+   Q1.Close;
+   Q1.Parameters.Clear;
+   Q1.Parameters.Add;
+   q1.Parameters[0].DataType:=ftInteger;
+   q1.Parameters[0].Name:='id0';
+   q1.Parameters[0].Value:=Depart_box.KeyValue;
+   Q1.Parameters.Add;
+   q1.Parameters[1].DataType:=ftDate;
+   q1.Parameters[1].Name:='id1';
+   q1.Parameters[1].Value:=DateEdit1.Date;
+   Q1.Parameters.Add;
+   q1.Parameters[2].DataType:=ftInteger;
+   q1.Parameters[2].Name:='id2';
+   q1.Parameters[2].Value:=Budl_box.KeyValue;
+   Q1.Parameters.Add;
+   q1.Parameters[3].DataType:=ftInteger;
+   q1.Parameters[3].Name:='id3';
+   q1.Parameters[3].Value:=MarkGsm_box.KeyValue;
+   Q1.Parameters.Add;
+   q1.Parameters[4].DataType:=ftFloat;
+   q1.Parameters[4].Name:='id4';
+   q1.Parameters[4].Value:=RxCalcEdit1.Value;
+   Q1.Parameters.Add;
+   q1.Parameters[5].DataType:=ftString;
+   q1.Parameters[5].Name:='id5';
+if RadioButton1.Checked then
+   q1.Parameters[5].Value:='рубли';
+if RadioButton2.Checked then
+   q1.Parameters[5].Value:='литры';
+if RadioButton3.Checked then
+   q1.Parameters[5].Value:='тонны';
+   Q1.Parameters.Add;
+   q1.Parameters[6].DataType:=ftInteger;
+   q1.Parameters[6].Name:='id6';
+   q1.Parameters[6].Value:=RxDBLookupCombo1.KeyValue;
+
+q1.SQL.Text:='insert into tFinanceGsm(id_depart, date, id_budj, id_markgsm, val, edu, id_typepay) values(:id0,:id1,:id2,:id3,:id4,:id5, :id6)';
+q1.ExecSQL;
+try
+CommitTR;
+except
+RollBTR;
+end;
+Depart_boxChange(Self);
+end;
+LbB_Post.Enabled:=false;
+end
+else
+main.ATXShowMessage('Заполнены не все поля!');
+except
+//
+end;
+end;
+procedure TfrmFinGSM.LbB_DelClick(Sender: TObject);
+begin
+if Main.ATXMessageDlg('Вы уверены, что хотите удалить запись?',2,mtWarning) = mrYes then
+begin
+with dm do
+begin
+   Q1.Close;
+   Q1.Parameters.Clear;
+   Q1.Parameters.Add;
+   q1.Parameters[0].DataType:=ftInteger;
+   q1.Parameters[0].Name:='id0';
+   q1.Parameters[0].Value:=ADOLidr2.Fields[0].AsInteger;
+
+q1.SQL.Text:='delete from tFinanceGsm where id=:id0';
+q1.ExecSQL;
+try
+CommitTR;
+except
+RollBTR;
+end;
+end;
+Depart_boxChange(Self);
+end;
+end;
+
+procedure TfrmFinGSM.LbSpeedButton4Click(Sender: TObject);
+begin
+//обновить
+dm.ADOLidr2.Filter:='date>='+DateToStr(RXD1.Date)+' and date<='+DateToStr(RXD2.Date);
+dm.ADOLidr2.Filtered:=true;
+end;
+
+end.

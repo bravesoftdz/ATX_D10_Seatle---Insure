@@ -1,0 +1,64 @@
+unit auth_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbStaticText, LbButton, StdCtrls, ExtCtrls, Grids, DBGrids, DB;
+
+type
+  Tfrmauth = class(TForm)
+    LbStaticText1: TLbStaticText;
+    LbButton2: TLbButton;
+    LbButton1: TLbButton;
+    edit_user: TLabeledEdit;
+    edit_pwd: TLabeledEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure LastUs(LastUser:String);
+        protected
+    procedure CreateParams(var Params: TCreateParams); override;
+
+  end;
+
+var
+  frmauth: Tfrmauth;
+
+implementation
+
+{$R *.dfm}
+procedure Tfrmauth.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+  with Params do
+    Style := (Style or WS_POPUP) and (not WS_DLGFRAME);
+end;
+procedure Tfrmauth.LastUs(LastUser:String);
+begin
+edit_user.Text:=LastUser;
+end;
+
+procedure Tfrmauth.FormCreate(Sender: TObject);
+begin
+LbButton1.Caption:='Отмена';
+end;
+
+procedure Tfrmauth.LbStaticText1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+ReleaseCapture;
+Perform(WM_SYSCOMMAND, $F012, 0);
+end;
+
+procedure Tfrmauth.FormShow(Sender: TObject);
+begin
+if edit_user.Text<>'' then 
+edit_pwd.SetFocus;
+end;
+
+end.

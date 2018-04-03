@@ -1,0 +1,205 @@
+unit listnew_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, LbButton, StdCtrls, rxPlacemnt, DB;
+
+type
+  TfrmListNewAvto = class(TForm)
+    GroupBox6: TGroupBox;
+    LbB_Search: TLbButton;
+    LbButton2: TLbButton;
+    StringGrid1: TStringGrid;
+    ListStorage: TFormStorage;
+    procedure LbButton2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
+      Rect: TRect; State: TGridDrawState);
+    procedure LbB_SearchClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure getList;
+    procedure set_checkbox_alignment;
+     protected
+    procedure CreateParams(var Params: TCreateParams); override;
+  end;
+
+var
+  frmListNewAvto: TfrmListNewAvto;
+
+implementation
+
+uses main_u, dm_u;
+{$R *.dfm}
+procedure TfrmListNewAvto.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams( Params );
+end;
+
+procedure TfrmListNewAvto.FormShow(Sender: TObject);
+var
+Layout: array[0.. KL_NAMELENGTH] of char;
+begin
+LoadKeyboardLayout( StrCopy(Layout,'00000419'),KLF_ACTIVATE);
+if ListStorage.ReadInteger('Visible',1)<>1 then
+ListStorage.RestoreFormPlacement
+else
+begin
+frmListNewAvto.Left:=Main.Left+5;
+frmListNewAvto.Top:=Main.Top+88;
+end;
+
+
+end;
+procedure TfrmListNewAvto.LbButton2Click(Sender: TObject);
+begin
+//save size
+ListStorage.SaveFormPlacement;
+Close;
+end;
+
+procedure TfrmListNewAvto.LbB_SearchClick(Sender: TObject);
+var
+  NewCheckBox: TCheckBox;
+  i,r: Integer;
+begin
+{вставить в БД}
+r:=0;
+for i := 0 to StringGrid1.RowCount do
+  begin
+    NewCheckBox := (StringGrid1.Objects[0, i] as TCheckBox);
+    if NewCheckBox <> nil then
+    begin
+      if NewCheckBox.Checked then
+      begin
+//        ShowMessage(StringGrid1.Cells[6,i]);
+dm.StoredProc1.Parameters.Clear;
+dm.StoredProc1.ProcedureName:='CopyAvtoToEnsure;1';
+dm.StoredProc1.Parameters.AddParameter;
+dm.StoredProc1.Parameters[0].Name:='@id';
+dm.StoredProc1.Parameters[0].DataType:=ftInteger;
+dm.StoredProc1.Parameters[0].Value:=StrToInt(StringGrid1.Cells[6,i]);
+dm.StoredProc1.Open;
+
+if dm.StoredProc1.Fields[0].AsInteger>0 then inc(r);
+  dm.StoredProc1.Close;
+
+
+
+
+
+      end;
+    end;
+  end;
+  Main.ATXShowMessage('Добавлено '+IntToStr(r)+' тран.средств.');
+
+     getList;
+end;
+
+procedure TfrmListNewAvto.set_checkbox_alignment;
+var
+  NewCheckBox: TCheckBox;
+  Rect: TRect;
+  i: Integer;
+begin
+  for i := 0 to StringGrid1.RowCount do
+  begin
+    NewCheckBox := (StringGrid1.Objects[0, i] as TCheckBox);
+    if NewCheckBox <> nil then
+    begin
+      Rect := StringGrid1.CellRect(0, i); // получаем размер ячейки для чекбокса
+      NewCheckBox.Left := StringGrid1.Left + Rect.Left + 2;
+      NewCheckBox.Top := StringGrid1.Top + Rect.Top + 2;
+      NewCheckBox.Width := Rect.Right - Rect.Left;
+      NewCheckBox.Height := Rect.Bottom - Rect.Top;
+      NewCheckBox.Visible := True;
+    end;
+  end;
+end;
+procedure TfrmListNewAvto.StringGrid1DrawCell(Sender: TObject; ACol,
+  ARow: Integer; Rect: TRect; State: TGridDrawState);
+begin
+       //if not (gdFixed in State) then
+       if ACol=0 then
+        set_checkbox_alignment;
+end;
+
+procedure TfrmListNewAvto.getList;
+var
+i:integer;
+NewCheckBox: TCheckBox;
+begin
+
+with dm do
+begin
+StoredProc2.Close;
+StoredProc2.Parameters.Clear;
+StoredProc2.ProcedureName:='GetListNewAvto;1';
+StoredProc2.Open;
+
+    for i := 0 to StringGrid1.RowCount do
+  begin
+    NewCheckBox := (StringGrid1.Objects[0, i] as TCheckBox);
+    if NewCheckBox <> nil then
+    begin
+      NewCheckBox.Visible := false;
+      StringGrid1.Objects[0, i] := nil;
+    end;
+  end;
+  i:=0;
+  StringGrid1.rowCount:=1;
+  StringGrid1.Cells[1,0]:='';
+  StringGrid1.Cells[2,0]:='';
+  StringGrid1.Cells[3,0]:='';
+  StringGrid1.Cells[4,0]:='';
+  StringGrid1.Cells[5,0]:='';
+    StringGrid1.Cells[6,0]:='';
+while not StoredProc2.Eof do
+begin
+if i>=StringGrid1.RowCount then StringGrid1.RowCount:=StringGrid1.RowCount+1;
+
+  StringGrid1.Cells[1,i]:=StoredProc2.Fields[1].AsString;
+  StringGrid1.Cells[2,i]:=StoredProc2.Fields[2].AsString;
+  StringGrid1.Cells[3,i]:=StoredProc2.Fields[3].AsString;
+  StringGrid1.Cells[4,i]:=StoredProc2.Fields[4].AsString;
+  StringGrid1.Cells[5,i]:=StoredProc2.Fields[5].AsString;
+    StringGrid1.Cells[6,i]:=StoredProc2.Fields[0].AsString;
+
+
+
+    NewCheckBox := TCheckBox.Create(Application);
+    NewCheckBox.Color := clWindow;
+    NewCheckBox.Tag := i;
+    //NewCheckBox.OnClick := CheckBox1.OnClick; // Связываем предыдущее событие OnClick
+                                              // с существующим TCheckBox
+    NewCheckBox.Parent := frmListNewAvto;
+
+    StringGrid1.Objects[0, i] := NewCheckBox;
+
+
+
+  StoredProc2.Next;
+  inc(i);
+end;
+StoredProc2.Close;
+StringGrid1.ColWidths[6]:=0;
+StringGrid1.ColWidths[0]:=20;
+StringGrid1.ColWidths[1]:=150;
+StringGrid1.ColWidths[2]:=250;
+set_checkbox_alignment;
+
+ //if (StringGrid1.RowCount=1) and (StringGrid1.Cells[1,0]='') then begin
+ if i=0 then begin
+ 
+  Main.ATXShowMessage('Нет новых тран.средств. в БД!');
+  LbB_Search.Enabled:=false
+  end else
+    LbB_Search.Enabled:=true;
+
+end;
+end;
+
+end.

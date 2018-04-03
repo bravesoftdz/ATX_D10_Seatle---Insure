@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\Unit1.pas=D:\work\ATX\ATX - D2010 - Insure\loaddataprogres_u.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\Unit1.pas=D:\work\ATX\ATX - D2010 - Insure\listnew_u.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\shtat_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\shtat_e_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\libBaseGsm_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\activate_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\libr_lim_probeg_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\New Programm - D2010\Unit1.pas=D:\work\ATX\New Programm - D2010\libShinaLimit_u.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\New Programm - D2010\Unit1.pas=D:\work\ATX\New Programm - D2010\libr_lim_probeg_u.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\New Programm - D2010\Unit1.pas=D:\work\ATX\New Programm - D2010\zayvka_u.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\libShinaLimit_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\libr_lim_probeg_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\shtat_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dproj,D:\work\ATX\ATX - D2010 - Insure\ATX.dproj=D:\work\ATX\ATX - D2010 - Insure\ATX_Insure.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\remont_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\Unit1.dfm=D:\work\ATX\ATX - D2010 - Insure\loaddataprogres_u.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\Unit1.dfm=D:\work\ATX\ATX - D2010 - Insure\listnew_u.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\listnew_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\zayvka_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\SetActive.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\zayvka_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\print_shtate_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\explCard_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\activate_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\libShinaLimit_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\expl_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\explCard_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\listnew_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\print_shtate_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\shtat_e_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\finGsm_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\yearExpl_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\finGsm_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\yearExpl_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\expl_u.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\New Programm - D2010\Unit1.dfm=D:\work\ATX\New Programm - D2010\zayvka_u.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\New Programm - D2010\Unit1.dfm=D:\work\ATX\New Programm - D2010\libr_lim_probeg_u.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\New Programm - D2010\Unit1.dfm=D:\work\ATX\New Programm - D2010\libShinaLimit_u.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\work\ATX\ATX - D2010 - Insure\remont_u.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\work\ATX\ATX - D2010 - Insure\libBaseGsm_u.dfm=</Transaction>
+  </Transactions>
+</BorlandProject>

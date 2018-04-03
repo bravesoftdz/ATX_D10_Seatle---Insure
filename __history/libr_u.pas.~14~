@@ -1,0 +1,472 @@
+unit libr_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbStaticText, LbSpeedButton, ExtCtrls, LbButton, Grids, DBGrids,DB,ADODB;
+
+type
+  TfrmLibr = class(TForm)
+    Panel2: TPanel;
+    LbB_New: TLbButton;
+    LbB_Cancel: TLbButton;
+    LbB_Post: TLbButton;
+    LbB_Del: TLbButton;
+    LbB_Last: TLbButton;
+    LbB_Next: TLbButton;
+    LbB_Prior: TLbButton;
+    LbB_First: TLbButton;
+    DBGrid: TDBGrid;
+    LbB_Edit: TLbButton;
+    LbB_Print: TLbButton;
+    procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormResize(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure bclClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure LbB_EditClick(Sender: TObject);
+    procedure LbB_FirstClick(Sender: TObject);
+    procedure LbB_PriorClick(Sender: TObject);
+    procedure LbB_NextClick(Sender: TObject);
+    procedure LbB_LastClick(Sender: TObject);
+    procedure LbB_NewClick(Sender: TObject);
+    procedure LbB_CancelClick(Sender: TObject);
+    procedure LbB_PostClick(Sender: TObject);
+    procedure LbB_DelClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGridKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure LbB_PrintClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    ProcLibr:integer;
+    procedure OpenLibr(what:integer);
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
+
+  end;
+
+var
+  frmLibr: TfrmLibr;
+
+implementation
+
+uses main_u, dm_u;
+
+{$R *.dfm}
+procedure TfrmLibr.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams( Params );
+  with Params do
+  begin
+    Style := Style or ws_Overlapped;
+    WndParent := Main.Handle;
+//    Style := (Style or WS_POPUP) and (not WS_DLGFRAME);
+  end;
+
+end;
+
+procedure TfrmLibr.LbStaticText1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+ReleaseCapture;
+Perform(WM_SYSCOMMAND, $F012, 0);
+
+end;
+
+procedure TfrmLibr.FormResize(Sender: TObject);
+begin
+if frmLibr.Width<540 then
+frmLibr.Width:=540;
+
+end;
+
+procedure TfrmLibr.FormCreate(Sender: TObject);
+begin
+
+if Main.UserRole=ADMIN_USER then
+LbB_Del.Visible:=true else
+LbB_Del.Visible:=false;
+if Main.UserRole=USER_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+end;
+end;
+
+procedure TfrmLibr.bclClick(Sender: TObject);
+begin
+Close;
+end;
+
+procedure TfrmLibr.OpenLibr(what:integer);
+begin
+ProcLibr:=what;
+case what of
+1:begin Caption:='Гарнизон/Область';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+2:begin Caption:='Управление';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+3:begin Caption:='Отделы';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+4:begin Caption:='Под-отделы';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+5:begin Caption:='Службы';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+6:begin Caption:='Марка автотранспорта';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+7:begin Caption:='Источник финансирования';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+8:begin Caption:='Тип кузова';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+9:begin Caption:='Тех. состояние';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+10:begin Caption:='Группа эксплуатации';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+11:begin Caption:='Место дислокации';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+
+15:begin Caption:='Страховые компании';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+16:begin Caption:='Вид перечисления';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+17:begin Caption:='Категория ТС';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+18:begin Caption:='Под служба';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+
+20:begin Caption:='Тип ДВС';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+21:begin Caption:='Производитель ТС';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+22:begin Caption:='Территории использования (КТ)';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+23:begin Caption:='Период использования (КС)';
+if Main.UserRole<>INSURE_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+    LbB_Del.Enabled:=false;
+end;
+end;
+
+
+end;
+if Main.UserRole=ADMIN_USER then
+begin
+    LbB_New.Enabled:=true;
+    LbB_Edit.Enabled:=true;
+    LbB_Post.Enabled:=true;
+    LbB_Del.Enabled:=true;
+end;
+end;
+procedure TfrmLibr.FormShow(Sender: TObject);
+begin
+with dm do
+begin
+if ADO.Connected then begin
+if ADOLidr.Active then ADOLidr.Active:=false;
+ADOLidr.Parameters.Clear;
+ADOLidr.ProcedureName:='GetLibr;1';
+ADOLidr.Parameters.AddParameter;
+ADOLidr.Parameters[0].Name:='@RETURN_VALUE';
+ADOLidr.Parameters[0].DataType:=ftInteger;
+ADOLidr.Parameters[0].Direction:=pdReturnValue;
+ADOLidr.Parameters.AddParameter;
+ADOLidr.Parameters[1].Name:='@what';
+ADOLidr.Parameters[1].DataType:=ftInteger;
+ADOLidr.Parameters[1].Value:=ProcLibr;
+try
+ADOLidr.Open;
+ADOLidr.Sort:='name';
+DBGrid.Columns.Clear;
+DBGrid.Columns.Add;
+DBGrid.Columns[0].Title.Caption:='Название';
+DBGrid.Columns[0].FieldName:='name';
+if ProcLibr<22 then
+DBGrid.Columns[0].Width:=DBGrid.Width-20
+else if ProcLibr in [22,23] then
+begin
+DBGrid.Columns[0].Width:=DBGrid.Width-120;
+DBGrid.Columns.Add;
+DBGrid.Columns[1].Title.Caption:='Коэффициент';
+DBGrid.Columns[1].FieldName:='koef';
+DBGrid.Columns[1].Width:=90;
+end
+else if ProcLibr in [24] then
+begin
+DBGrid.Columns[0].Width:=DBGrid.Width-200;
+DBGrid.Columns.Add;
+DBGrid.Columns[1].Title.Caption:='От';
+DBGrid.Columns[1].FieldName:='min';
+DBGrid.Columns[1].Width:=30;
+DBGrid.Columns.Add;
+DBGrid.Columns[1].Title.Caption:='До';
+DBGrid.Columns[1].FieldName:='max';
+DBGrid.Columns[1].Width:=30;
+DBGrid.Columns.Add;
+DBGrid.Columns[1].Title.Caption:='Коэффициент';
+DBGrid.Columns[1].FieldName:='koef';
+DBGrid.Columns[1].Width:=90;
+
+
+end;
+except
+//
+end;
+end;
+end;
+
+end;
+
+procedure TfrmLibr.LbB_EditClick(Sender: TObject);
+begin
+try
+DBGrid.Options:=DBGrid.Options+[dgEditing];
+DBGrid.EditorMode:=true;
+dm.ADOLidr.Edit;
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+LbB_New.Enabled:=false;
+LbB_Del.Enabled:=false;
+LbB_Edit.Enabled:=false;
+DBGrid.SetFocus;
+except
+//
+end;
+end;
+
+procedure TfrmLibr.LbB_FirstClick(Sender: TObject);
+begin
+dm.ADOLidr.First;
+end;
+
+procedure TfrmLibr.LbB_PriorClick(Sender: TObject);
+begin
+dm.ADOLidr.Prior;
+end;
+
+procedure TfrmLibr.LbB_NextClick(Sender: TObject);
+begin
+dm.ADOLidr.Next;
+end;
+
+procedure TfrmLibr.LbB_LastClick(Sender: TObject);
+begin
+dm.ADOLidr.Last;
+end;
+
+procedure TfrmLibr.LbB_NewClick(Sender: TObject);
+begin
+dm.ADOLidr.Insert;
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+LbB_New.Enabled:=false;
+LbB_Del.Enabled:=false;
+LbB_Edit.Enabled:=false;
+DBGrid.Options:=DBGrid.Options+[dgEditing];
+DBGrid.EditorMode:=true;
+DBGrid.SetFocus;
+end;
+
+procedure TfrmLibr.LbB_CancelClick(Sender: TObject);
+begin
+dm.ADOLidr.Cancel;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+LbB_New.Enabled:=true;
+LbB_Del.Enabled:=true;
+DBGrid.Options:=DBGrid.Options-[dgEditing];
+DBGrid.EditorMode:=false;
+end;
+
+procedure TfrmLibr.LbB_PostClick(Sender: TObject);
+begin
+try
+dm.ADOLidr.Post;
+except
+dm.ADOLidr.Cancel;
+end;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+LbB_New.Enabled:=true;
+LbB_Del.Enabled:=true;
+LbB_Edit.Enabled:=true;
+DBGrid.Options:=DBGrid.Options-[dgEditing];
+DBGrid.EditorMode:=false;
+end;
+
+procedure TfrmLibr.LbB_DelClick(Sender: TObject);
+begin
+  if Main.ATXMessageDlg('Вы уверены, что хотите удалить запись: "'+dm.ADOLidr.Fields[1].AsString+'" ?'+#13+
+  'Удаление приведет к удалению всего автотранспорта принадлежащего данной записи!',
+    2,mtWarning) = mrYes then
+    try
+        dm.ADOLidr.Delete;
+    except
+        Main.ATXMessageDlg('Не возможно удалить запись!',1,mtError);
+    end;
+end;
+
+procedure TfrmLibr.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+frmLibr:=nil;
+end;
+
+procedure TfrmLibr.DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+DBGrid.Canvas.Font.Color :=clBlack;
+if gdSelected in state then
+  DBGrid.Canvas.Brush.Color:=$EFE3DF
+  else
+  DBGrid.Canvas.Brush.Color:=clWhite;
+  DBGrid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TfrmLibr.DBGridKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+if Ord(Key)=9 then Key:=0;
+end;
+
+procedure TfrmLibr.LbB_PrintClick(Sender: TObject);
+begin
+//
+Main.CreateReportLibr(ProcLibr);
+end;
+
+end.

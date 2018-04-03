@@ -1,0 +1,477 @@
+object frmLibModel: TfrmLibModel
+  Left = 392
+  Top = 318
+  BorderIcons = [biSystemMenu]
+  Caption = #1052#1086#1076#1077#1083#1080
+  ClientHeight = 349
+  ClientWidth = 584
+  Color = clMoneyGreen
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnResize = FormResize
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label2: TLabel
+    Left = 2
+    Top = 80
+    Width = 87
+    Height = 13
+    Caption = '% '#1079#1072' '#1085#1080#1078#1085#1077#1075#1086#1088#1100#1077
+  end
+  object Label3: TLabel
+    Left = 130
+    Top = 80
+    Width = 97
+    Height = 13
+    Caption = '% '#1079#1072' '#1085#1072#1089#1077#1083#1077#1085#1085#1086#1089#1090#1100
+  end
+  object Label4: TLabel
+    Left = 2
+    Top = 128
+    Width = 41
+    Height = 13
+    Caption = #1086#1082#1090#1103#1073#1088#1100
+  end
+  object Label5: TLabel
+    Left = 130
+    Top = 128
+    Width = 36
+    Height = 13
+    Caption = #1085#1086#1103#1073#1088#1100
+  end
+  object Label6: TLabel
+    Left = 258
+    Top = 128
+    Width = 42
+    Height = 13
+    Caption = #1076#1077#1082#1072#1073#1088#1100
+  end
+  object Label7: TLabel
+    Left = 2
+    Top = 176
+    Width = 36
+    Height = 13
+    Caption = #1103#1085#1074#1072#1088#1100
+  end
+  object Label8: TLabel
+    Left = 130
+    Top = 176
+    Width = 44
+    Height = 13
+    Caption = #1092#1077#1074#1088#1072#1083#1100
+  end
+  object Label9: TLabel
+    Left = 258
+    Top = 176
+    Width = 25
+    Height = 13
+    Caption = #1084#1072#1088#1090
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 265
+    Width = 584
+    Height = 84
+    Align = alBottom
+    BevelOuter = bvNone
+    ParentColor = True
+    TabOrder = 0
+    object LbB_New: TLbButton
+      Left = 8
+      Top = 51
+      Width = 100
+      Height = 25
+      Caption = #1053#1086#1074#1072#1103' '#1079#1072#1087#1080#1089#1100
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 0
+      UseHotTrackFont = False
+      OnClick = LbB_NewClick
+    end
+    object LbB_Cancel: TLbButton
+      Left = 216
+      Top = 51
+      Width = 100
+      Height = 25
+      Caption = #1054#1090#1084#1077#1085#1072
+      Color = 13876122
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 1
+      UseHotTrackFont = False
+      OnClick = LbB_CancelClick
+    end
+    object LbB_Post: TLbButton
+      Left = 320
+      Top = 51
+      Width = 100
+      Height = 25
+      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
+      Color = 13876122
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 2
+      UseHotTrackFont = False
+      OnClick = LbB_PostClick
+    end
+    object LbB_Del: TLbButton
+      Left = 424
+      Top = 51
+      Width = 100
+      Height = 25
+      Caption = #1059#1076#1072#1083#1080#1090#1100
+      Color = clMaroon
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 3
+      UseHotTrackFont = False
+      Visible = False
+      OnClick = LbB_DelClick
+    end
+    object LbB_Last: TLbButton
+      Left = 320
+      Top = 19
+      Width = 100
+      Height = 25
+      Hint = #1042' '#1082#1086#1085#1077#1094
+      Caption = '>>>>'
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Style = bsModern
+      TabOrder = 4
+      UseHotTrackFont = False
+      OnClick = LbB_LastClick
+    end
+    object LbB_Next: TLbButton
+      Left = 216
+      Top = 19
+      Width = 100
+      Height = 25
+      Hint = #1042#1087#1077#1088#1077#1076
+      Caption = '>>'
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Style = bsModern
+      TabOrder = 5
+      UseHotTrackFont = False
+      OnClick = LbB_NextClick
+    end
+    object LbB_Prior: TLbButton
+      Left = 112
+      Top = 19
+      Width = 100
+      Height = 25
+      Hint = #1053#1072#1079#1072#1076
+      Caption = '<<'
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Style = bsModern
+      TabOrder = 6
+      UseHotTrackFont = False
+      OnClick = LbB_PriorClick
+    end
+    object LbB_First: TLbButton
+      Left = 8
+      Top = 19
+      Width = 100
+      Height = 25
+      Hint = #1042' '#1085#1072#1095#1072#1083#1086
+      Caption = '<<<<'
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Style = bsModern
+      TabOrder = 7
+      UseHotTrackFont = False
+      OnClick = LbB_FirstClick
+    end
+    object LbB_Edit: TLbButton
+      Left = 110
+      Top = 50
+      Width = 100
+      Height = 25
+      Caption = #1048#1079#1084#1077#1085#1080#1090#1100
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 8
+      UseHotTrackFont = False
+      OnClick = LbB_EditClick
+    end
+    object LbB_Print: TLbButton
+      Left = 424
+      Top = 19
+      Width = 100
+      Height = 25
+      Caption = #1055#1077#1095#1072#1090#1100
+      Color = clGreen
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 9
+      UseHotTrackFont = False
+      OnClick = LbB_PrintClick
+    end
+  end
+  object DBGrid: TDBGrid
+    Left = 0
+    Top = 48
+    Width = 584
+    Height = 217
+    Align = alClient
+    Ctl3D = False
+    DataSource = dm.ds_libr2
+    FixedColor = clMoneyGreen
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnDrawColumnCell = DBGridDrawColumnCell
+    OnKeyDown = DBGridKeyDown
+    OnKeyPress = DBGridKeyPress
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 584
+    Height = 48
+    Align = alTop
+    BevelOuter = bvNone
+    Color = clMoneyGreen
+    ParentBackground = False
+    TabOrder = 2
+    object Label1: TLabel
+      Left = 4
+      Top = 8
+      Width = 33
+      Height = 13
+      Caption = #1052#1072#1088#1082#1072
+    end
+    object Mark_box: TRxDBLookupCombo
+      Left = 2
+      Top = 23
+      Width = 145
+      Height = 21
+      DropDownCount = 8
+      LookupField = 'id'
+      LookupDisplay = 'name'
+      LookupSource = dm.dss_mark
+      TabOrder = 0
+      OnChange = Mark_boxChange
+    end
+  end
+  object DBEdit1: TDBEdit
+    Left = 2
+    Top = 96
+    Width = 121
+    Height = 21
+    Enabled = False
+    TabOrder = 3
+    Visible = False
+  end
+  object DBEdit2: TDBEdit
+    Left = 130
+    Top = 96
+    Width = 121
+    Height = 21
+    Enabled = False
+    TabOrder = 4
+    Visible = False
+  end
+  object DBEdit3: TDBEdit
+    Left = 2
+    Top = 144
+    Width = 121
+    Height = 21
+    Enabled = False
+    TabOrder = 5
+    Visible = False
+  end
+  object DBEdit4: TDBEdit
+    Left = 130
+    Top = 144
+    Width = 121
+    Height = 21
+    Enabled = False
+    TabOrder = 6
+    Visible = False
+  end
+  object DBEdit5: TDBEdit
+    Left = 258
+    Top = 144
+    Width = 121
+    Height = 21
+    Enabled = False
+    TabOrder = 7
+    Visible = False
+  end
+  object DBEdit6: TDBEdit
+    Left = 2
+    Top = 192
+    Width = 121
+    Height = 21
+    Enabled = False
+    TabOrder = 8
+    Visible = False
+  end
+  object DBEdit7: TDBEdit
+    Left = 130
+    Top = 192
+    Width = 121
+    Height = 21
+    Enabled = False
+    TabOrder = 9
+    Visible = False
+  end
+  object DBEdit8: TDBEdit
+    Left = 258
+    Top = 192
+    Width = 121
+    Height = 21
+    Enabled = False
+    TabOrder = 10
+    Visible = False
+  end
+end

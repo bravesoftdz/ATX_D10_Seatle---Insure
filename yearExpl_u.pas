@@ -1,0 +1,241 @@
+unit yearExpl_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbSpeedButton, Grids, DBGrids, LbStaticText, RxLookup, StdCtrls,
+  LbButton, ExtCtrls, Mask, DBCtrls;
+
+type
+  TfrmYearExpl = class(TForm)
+    Panel2: TPanel;
+    LbB_New: TLbButton;
+    LbB_Cancel: TLbButton;
+    LbB_Post: TLbButton;
+    LbB_Del: TLbButton;
+    LbB_Last: TLbButton;
+    LbB_Next: TLbButton;
+    LbB_Prior: TLbButton;
+    LbB_First: TLbButton;
+    LbB_Edit: TLbButton;
+    Panel1: TPanel;
+    DBGrid: TDBGrid;
+    DBEdit1: TDBEdit;
+    Label1: TLabel;
+    LbButton1: TLbButton;
+    procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormResize(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure bclClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure LbB_PostClick(Sender: TObject);
+    procedure LbB_NewClick(Sender: TObject);
+    procedure LbB_EditClick(Sender: TObject);
+    procedure LbB_CancelClick(Sender: TObject);
+    procedure LbB_FirstClick(Sender: TObject);
+    procedure LbB_PriorClick(Sender: TObject);
+    procedure LbB_NextClick(Sender: TObject);
+    procedure LbB_LastClick(Sender: TObject);
+    procedure LbButton1Click(Sender: TObject);
+    procedure DBEdit1Enter(Sender: TObject);
+    procedure LbB_DelClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
+
+  end;
+
+var
+  frmYearExpl: TfrmYearExpl;
+
+implementation
+uses main_u, dm_u;
+
+{$R *.dfm}
+procedure TfrmYearExpl.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams( Params );
+  with Params do
+  begin
+    Style := Style or ws_Overlapped;
+    WndParent := Main.Handle;
+    //Style := (Style or WS_POPUP) and (not WS_DLGFRAME);
+  end;
+
+end;
+
+
+procedure TfrmYearExpl.LbStaticText1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+ReleaseCapture;
+Perform(WM_SYSCOMMAND, $F012, 0);
+
+end;
+
+procedure TfrmYearExpl.FormResize(Sender: TObject);
+begin
+if frmYearExpl.Width<540 then
+frmYearExpl.Width:=540;
+end;
+
+procedure TfrmYearExpl.FormCreate(Sender: TObject);
+begin
+if Main.UserRole=1 then
+LbB_Del.Visible:=true else
+LbB_Del.Visible:=false;
+if Main.UserRole<>6 then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+end;
+if Main.UserRole=1 then
+begin
+    LbB_New.Enabled:=true;
+    LbB_Edit.Enabled:=true;
+    LbB_Post.Enabled:=true;
+    LbB_Del.Enabled:=true;
+end;
+
+dm.tYearExpl.Open;
+dm.tYearExplBig.Open;
+DBGrid.Columns.Clear;
+DBGrid.Columns.Add;
+DBGrid.Columns[0].Title.Caption:='Год';
+DBGrid.Columns[0].FieldName:='year';
+DBGrid.Columns[0].Width:=60;
+DBGrid.Columns.Add;
+DBGrid.Columns[1].Title.Caption:='%';
+DBGrid.Columns[1].FieldName:='val';
+DBGrid.Columns[1].Width:=40;
+end;
+
+procedure TfrmYearExpl.bclClick(Sender: TObject);
+begin
+Close;
+end;
+
+procedure TfrmYearExpl.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+dm.tYearExpl.Close;
+dm.tYearExplBig.Close;
+frmYearExpl:=nil;
+end;
+
+procedure TfrmYearExpl.LbB_PostClick(Sender: TObject);
+begin
+if dm.tYearExpl.Fields[0].AsInteger>100 then
+Main.ATXMessageDlg('Автомобили столько не экплуатируются!',1, mtError)
+else
+begin
+try
+dm.tYearExpl.Post;
+except
+dm.tYearExpl.Cancel;
+end;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+LbB_New.Enabled:=true;
+LbB_Del.Enabled:=true;
+LbB_Edit.Enabled:=true;
+DBGrid.Options:=DBGrid.Options-[dgEditing];
+DBGrid.EditorMode:=false;
+end;
+end;
+
+procedure TfrmYearExpl.LbB_NewClick(Sender: TObject);
+begin
+dm.tYearExpl.Insert;
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+LbB_New.Enabled:=false;
+LbB_Del.Enabled:=false;
+LbB_Edit.Enabled:=false;
+DBGrid.Options:=DBGrid.Options+[dgEditing];
+DBGrid.EditorMode:=true;
+DBGrid.SetFocus;
+
+end;
+
+procedure TfrmYearExpl.LbB_EditClick(Sender: TObject);
+begin
+try
+DBGrid.Options:=DBGrid.Options+[dgEditing];
+DBGrid.EditorMode:=true;
+dm.tYearExpl.Edit;
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+LbB_New.Enabled:=false;
+LbB_Del.Enabled:=false;
+LbB_Edit.Enabled:=false;
+DBGrid.SetFocus;
+except
+//
+end;
+
+end;
+
+procedure TfrmYearExpl.LbB_CancelClick(Sender: TObject);
+begin
+dm.tYearExpl.Cancel;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+LbB_New.Enabled:=true;
+LbB_Del.Enabled:=true;
+DBGrid.Options:=DBGrid.Options-[dgEditing];
+DBGrid.EditorMode:=false;
+
+end;
+
+procedure TfrmYearExpl.LbB_FirstClick(Sender: TObject);
+begin
+dm.tYearExpl.First;
+end;
+
+procedure TfrmYearExpl.LbB_PriorClick(Sender: TObject);
+begin
+dm.tYearExpl.Prior;
+end;
+
+procedure TfrmYearExpl.LbB_NextClick(Sender: TObject);
+begin
+dm.tYearExpl.Next;
+end;
+
+procedure TfrmYearExpl.LbB_LastClick(Sender: TObject);
+begin
+dm.tYearExpl.Last;
+end;
+
+procedure TfrmYearExpl.LbButton1Click(Sender: TObject);
+begin
+dm.tYearExplBig.Post;
+LbButton1.Enabled:=false;
+end;
+
+procedure TfrmYearExpl.DBEdit1Enter(Sender: TObject);
+begin
+dm.tYearExpl.Edit;
+LbButton1.Enabled:=true;
+end;
+
+procedure TfrmYearExpl.LbB_DelClick(Sender: TObject);
+begin
+if Main.ATXMessageDlg('Удалить текущую запись?',
+    2,mtWarning) = mrYes then
+    begin
+
+try
+dm.tYearExpl.Delete;
+except
+dm.tYearExpl.Cancel;
+end;
+end;
+end;
+end.

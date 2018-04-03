@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2012.08.09 03:08:02.367.pas,D:\work\ATX\New Programm - D2010\Unit1.pas=D:\work\ATX\New Programm - D2010\libr_lim_probeg_u.pas</Transaction>
+    <Transaction>2012.08.09 03:08:02.367.dfm,D:\work\ATX\New Programm - D2010\Unit1.dfm=D:\work\ATX\New Programm - D2010\libr_lim_probeg_u.dfm</Transaction>
+    <Transaction>2013.02.06 06:11:30.655.pas,D:\work\ATX\New Programm - D2010\Unit1.pas=D:\work\ATX\New Programm - D2010\libShinaLimit_u.pas</Transaction>
+    <Transaction>2013.02.06 06:11:30.662.dfm,D:\work\ATX\New Programm - D2010\Unit1.dfm=D:\work\ATX\New Programm - D2010\libShinaLimit_u.dfm</Transaction>
+    <Transaction>2015.01.30 07:41:28.637.pas,D:\work\ATX\New Programm - D2010\Unit1.pas=D:\work\ATX\New Programm - D2010\zayvka_u.pas</Transaction>
+    <Transaction>2015.01.30 07:41:28.637.dfm,D:\work\ATX\New Programm - D2010\Unit1.dfm=D:\work\ATX\New Programm - D2010\zayvka_u.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

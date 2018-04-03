@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="4.9.32" DotMatrixReport="False" IniFile="\Software\Fast Reports" OldStyleProgress="True" PreviewOptions.Buttons="3577" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="39141,2783635301" ReportOptions.Description.Text="" ReportOptions.LastChange="42716,2384190046" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end." PropData="044C656674021003546F7002600844617461736574730100095661726961626C65730100055374796C650100">
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxReportPage Name="Page1" PaperWidth="210" PaperHeight="297" PaperSize="9" LeftMargin="19" RightMargin="4" TopMargin="4" BottomMargin="4" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxReportTitle Name="ReportTitle1" Height="1028" Left="0" Top="18,89765" Width="706,77211">
+      <TfrxMemoView Name="Memo1" Left="2" Top="56" Width="668" Height="20" ShowHint="False" StretchMode="smMaxHeight" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="1" HAlign="haCenter" ParentFont="False" Text="Технические характеристики"/>
+      <TfrxMemoView Name="Memo2" Left="2" Top="132" Width="128" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Гарнизон/Область"/>
+      <TfrxMemoView Name="Memo3" Left="2" Top="152" Width="128" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Управление"/>
+      <TfrxMemoView Name="Memo4" Left="2" Top="172" Width="128" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Отдел"/>
+      <TfrxMemoView Name="Memo5" Left="2" Top="192" Width="128" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Под-отдел"/>
+      <TfrxMemoView Name="Memo6" Left="2" Top="212" Width="128" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Служба"/>
+      <TfrxMemoView Name="Memo7" Left="2" Top="232" Width="128" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Под служба"/>
+      <TfrxMemoView Name="Memo8" Left="134" Top="132" Width="552" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[reg]"/>
+      <TfrxMemoView Name="Memo9" Left="134" Top="152" Width="552" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[div]"/>
+      <TfrxMemoView Name="Memo10" Left="134" Top="172" Width="552" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[depart]"/>
+      <TfrxMemoView Name="Memo11" Left="134" Top="192" Width="552" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[predepart]"/>
+      <TfrxMemoView Name="Memo12" Left="134" Top="212" Width="552" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[serv]"/>
+      <TfrxMemoView Name="Memo13" Left="134" Top="232" Width="552" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[preserv]"/>
+      <TfrxLineView Name="Line1" Left="2" Top="284" Width="668" Height="0" ShowHint="False" Frame.Typ="4" Frame.Width="2"/>
+      <TfrxMemoView Name="Memo14" Left="2" Top="308" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Марка"/>
+      <TfrxMemoView Name="Memo15" Left="2" Top="328" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Модель"/>
+      <TfrxMemoView Name="Memo16" Left="2" Top="348" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Гос. № (1)"/>
+      <TfrxMemoView Name="Memo17" Left="2" Top="368" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Гос. № (2)"/>
+      <TfrxMemoView Name="Memo18" Left="2" Top="388" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Год выпуска"/>
+      <TfrxMemoView Name="Memo19" Left="2" Top="408" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Цвет"/>
+      <TfrxMemoView Name="Memo20" Left="2" Top="428" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="VIN"/>
+      <TfrxMemoView Name="Memo21" Left="2" Top="448" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="№ Двигателя"/>
+      <TfrxMemoView Name="Memo22" Left="2" Top="468" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="№ Кузова"/>
+      <TfrxMemoView Name="Memo23" Left="2" Top="488" Width="96" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="№ Шасси"/>
+      <TfrxMemoView Name="Memo24" Left="98" Top="308" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[mark]"/>
+      <TfrxMemoView Name="Memo27" Left="98" Top="328" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[model]"/>
+      <TfrxMemoView Name="Memo28" Left="98" Top="348" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[num1]"/>
+      <TfrxMemoView Name="Memo29" Left="98" Top="368" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[num2]"/>
+      <TfrxMemoView Name="Memo30" Left="98" Top="388" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[year]"/>
+      <TfrxMemoView Name="Memo31" Left="98" Top="408" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[color]"/>
+      <TfrxMemoView Name="Memo32" Left="98" Top="428" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[vin]"/>
+      <TfrxMemoView Name="Memo33" Left="98" Top="448" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[eng]"/>
+      <TfrxMemoView Name="Memo34" Left="98" Top="468" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[body]"/>
+      <TfrxMemoView Name="Memo35" Left="98" Top="488" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[shas]"/>
+      <TfrxMemoView Name="Memo26" Left="330" Top="460" Width="116" Height="32" ShowHint="False" StretchMode="smMaxHeight" Text="Дата постановки&#13;&#10;на учет"/>
+      <TfrxMemoView Name="Memo37" Left="330" Top="428" Width="116" Height="32" ShowHint="False" StretchMode="smMaxHeight" Text="Группа&#13;&#10;эксплуатации"/>
+      <TfrxMemoView Name="Memo38" Left="330" Top="408" Width="116" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Тех. состояние"/>
+      <TfrxMemoView Name="Memo39" Left="330" Top="388" Width="116" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Тип кузова"/>
+      <TfrxMemoView Name="Memo40" Left="330" Top="368" Width="116" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Дата выдачи"/>
+      <TfrxMemoView Name="Memo41" Left="330" Top="348" Width="116" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="№ Техпаспорта"/>
+      <TfrxMemoView Name="Memo42" Left="330" Top="328" Width="116" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Мощность(лс/кВт)"/>
+      <TfrxMemoView Name="Memo43" Left="330" Top="308" Width="116" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Пред. Гос. №"/>
+      <TfrxMemoView Name="Memo45" Left="446" Top="472" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[uch]"/>
+      <TfrxMemoView Name="Memo47" Left="446" Top="440" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[expl]"/>
+      <TfrxMemoView Name="Memo48" Left="446" Top="408" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[tech]"/>
+      <TfrxMemoView Name="Memo49" Left="446" Top="388" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[kuz]"/>
+      <TfrxMemoView Name="Memo50" Left="446" Top="368" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[date1]"/>
+      <TfrxMemoView Name="Memo51" Left="446" Top="348" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[tech_p]"/>
+      <TfrxMemoView Name="Memo52" Left="446" Top="328" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[power]"/>
+      <TfrxMemoView Name="Memo53" Left="446" Top="308" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[oldnum]"/>
+      <TfrxMemoView Name="Memo25" Left="330" Top="492" Width="116" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Приказ"/>
+      <TfrxMemoView Name="Memo36" Left="446" Top="492" Width="224" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[prik]"/>
+      <TfrxMemoView Name="Memo44" Left="2" Top="520" Width="668" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[otstoi]"/>
+      <TfrxLineView Name="Line2" Left="2" Top="548" Width="668" Height="0" ShowHint="False" Frame.Typ="4" Frame.Width="2"/>
+      <TfrxMemoView Name="Memo46" Left="2" Top="556" Width="152" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Источник приобретения"/>
+      <TfrxMemoView Name="Memo54" Left="2" Top="576" Width="148" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Источник содержания"/>
+      <TfrxMemoView Name="Memo63" Left="158" Top="556" Width="512" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[source1]"/>
+      <TfrxMemoView Name="Memo66" Left="158" Top="576" Width="512" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[source2]"/>
+      <TfrxMemoView Name="Memo78" Left="2" Top="76" Width="668" Height="20" ShowHint="False" StretchMode="smMaxHeight" HAlign="haCenter" Text="на автомобиль"/>
+      <TfrxMemoView Name="Memo79" Left="2" Top="96" Width="668" Height="20" ShowHint="False" StretchMode="smMaxHeight" HAlign="haCenter" Text="[avto1]"/>
+      <TfrxMemoView Name="Memo80" Left="2" Top="252" Width="128" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="Место дислокации"/>
+      <TfrxMemoView Name="Memo81" Left="134" Top="252" Width="552" Height="20" ShowHint="False" StretchMode="smMaxHeight" Text="[dislok]"/>
+      <TfrxMemoView Name="Memo61" Left="2" Top="603,24397" Width="144" Height="16" ShowHint="False" Text="Страховка"/>
+      <TfrxMemoView Name="Memo62" Left="2" Top="623,24397" Width="144" Height="16" ShowHint="False" Text="Страховая компания"/>
+      <TfrxMemoView Name="Memo72" Left="2" Top="643,24397" Width="144" Height="16" ShowHint="False" Text="Примечание"/>
+      <TfrxMemoView Name="Memo73" Left="2" Top="663,24397" Width="144" Height="16" ShowHint="False" Text="[notatx]"/>
+      <TfrxMemoView Name="Memo70" Left="158" Top="603,24397" Width="388" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[insur1]"/>
+      <TfrxMemoView Name="Memo71" Left="158" Top="623,24397" Width="388" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[insur2]"/>
+    </TfrxReportTitle>
+  </TfrxReportPage>
+</TfrxReport>

@@ -1,0 +1,107 @@
+object frmListAvto: TfrmListAvto
+  Left = 207
+  Top = 200
+  BorderIcons = [biSystemMenu]
+  Caption = #1057#1087#1080#1089#1086#1082' '#1072#1074#1090#1086#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+  ClientHeight = 442
+  ClientWidth = 680
+  Color = 15590358
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel3: TPanel
+    Left = 0
+    Top = 400
+    Width = 680
+    Height = 42
+    Align = alBottom
+    BevelOuter = bvNone
+    ParentColor = True
+    TabOrder = 0
+    object LbB_Save: TLbButton
+      Left = 8
+      Top = 11
+      Width = 97
+      Height = 25
+      Caption = #1042#1089#1090#1072#1074#1080#1090#1100
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 0
+      UseHotTrackFont = False
+      OnClick = LbB_SaveClick
+    end
+    object LbButton2: TLbButton
+      Left = 111
+      Top = 11
+      Width = 97
+      Height = 25
+      Caption = #1047#1072#1082#1088#1099#1090#1100
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 1
+      UseHotTrackFont = False
+      OnClick = bclClick
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 680
+    Height = 400
+    Align = alClient
+    Ctl3D = False
+    DataSource = dm.DataSource2
+    DefaultDrawing = False
+    FixedColor = 15129554
+    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnDrawColumnCell = DBGrid1DrawColumnCell
+    OnDblClick = LbB_SaveClick
+  end
+  object SearchStorage: TFormStorage
+    IniSection = 'Software\LebAlex\atx_uvd\listAvtForm'
+    UseRegistry = False
+    StoredValues = <>
+    Left = 480
+    Top = 312
+  end
+end

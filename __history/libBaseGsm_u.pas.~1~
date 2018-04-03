@@ -1,0 +1,334 @@
+unit libBaseGsm_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbSpeedButton, Grids, DBGrids, LbStaticText, RxLookup, StdCtrls,
+  LbButton, ExtCtrls,DB,ADODB;
+
+type
+  TfrmLidBaseGsm = class(TForm)
+    Panel2: TPanel;
+    LbB_New: TLbButton;
+    LbB_Cancel: TLbButton;
+    LbB_Post: TLbButton;
+    LbB_Del: TLbButton;
+    LbB_Last: TLbButton;
+    LbB_Next: TLbButton;
+    LbB_Prior: TLbButton;
+    LbB_First: TLbButton;
+    LbB_Edit: TLbButton;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Mark_box: TRxDBLookupCombo;
+    LbStaticText1: TLbStaticText;
+    DBGrid: TDBGrid;
+    closePanel: TPanel;
+    bcl: TLbSpeedButton;
+    Label2: TLabel;
+    Model_box: TRxDBLookupCombo;
+    Label3: TLabel;
+    ModelGsm_box: TRxDBLookupCombo;
+    procedure Mark_boxChange(Sender: TObject);
+    procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormResize(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure bclClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure Model_boxChange(Sender: TObject);
+    procedure LbB_NewClick(Sender: TObject);
+    procedure LbB_PostClick(Sender: TObject);
+    procedure LbB_EditClick(Sender: TObject);
+    procedure LbB_DelClick(Sender: TObject);
+    procedure LbB_CancelClick(Sender: TObject);
+    procedure LbB_FirstClick(Sender: TObject);
+    procedure LbB_PriorClick(Sender: TObject);
+    procedure LbB_NextClick(Sender: TObject);
+    procedure LbB_LastClick(Sender: TObject);
+    procedure ModelGsm_boxChange(Sender: TObject);
+    procedure DBGridKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBGridKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
+  end;
+
+var
+  frmLidBaseGsm: TfrmLidBaseGsm;
+
+implementation
+
+uses main_u, dm_u;
+
+{$R *.dfm}
+procedure TfrmLidBaseGsm.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams( Params );
+  with Params do
+  begin
+    Style := Style or ws_Overlapped;
+    WndParent := Main.Handle;
+    Style := (Style or WS_POPUP) and (not WS_DLGFRAME);
+  end;
+
+end;
+
+procedure TfrmLidBaseGsm.Mark_boxChange(Sender: TObject);
+begin
+with dm do
+begin
+if ADO.Connected then begin
+if ADOLidr2.Active then ADOLidr2.Active:=false;
+ADOLidr2.Parameters.Clear;
+ADOLidr2.ProcedureName:='GetLibr2;1';
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[0].Name:='@RETURN_VALUE';
+ADOLidr2.Parameters[0].DataType:=ftInteger;
+ADOLidr2.Parameters[0].Direction:=pdReturnValue;
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[1].Name:='@what';
+ADOLidr2.Parameters[1].DataType:=ftInteger;
+ADOLidr2.Parameters[1].Value:=1;
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[2].Name:='@id_mark';
+ADOLidr2.Parameters[2].DataType:=ftInteger;
+ADOLidr2.Parameters[2].Value:=Mark_box.KeyValue;
+try
+ADOLidr2.Open;
+if not ADOLidr2.Eof then
+begin
+ADOLidr2.Sort:='name';
+dm.tBaseNormGsm.Close;
+Model_box.Enabled:=true;
+end;
+except
+//
+end;
+end;
+end;
+
+end;
+
+procedure TfrmLidBaseGsm.LbStaticText1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+ReleaseCapture;
+Perform(WM_SYSCOMMAND, $F012, 0);
+end;
+
+procedure TfrmLidBaseGsm.FormResize(Sender: TObject);
+begin
+if frmLidBaseGsm.Width<540 then
+frmLidBaseGsm.Width:=540;
+closePanel.Left:=Width-closePanel.Width-13;
+
+end;
+
+procedure TfrmLidBaseGsm.FormCreate(Sender: TObject);
+begin
+Model_box.LookupSource:=dm.ds_libr2;
+Model_box.LookupField:='id';
+Model_box.LookupDisplay:='name';
+closePanel.Left:=Width-closePanel.Width-13;
+if Main.UserRole=ADMIN_USER then
+LbB_Del.Visible:=true else
+LbB_Del.Visible:=false;
+if Main.UserRole<>GSM_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+end;
+if Main.UserRole=ADMIN_USER then
+begin
+    LbB_New.Enabled:=true;
+    LbB_Edit.Enabled:=true;
+    //LbB_Post.Enabled:=true;
+    LbB_Del.Enabled:=true;
+end;
+
+dm.tMark_avt.Open;
+DBGrid.Columns.Clear;
+DBGrid.Columns.Add;
+DBGrid.Columns[0].Title.Caption:='Ќорма';
+DBGrid.Columns[0].FieldName:='norm';
+DBGrid.Columns[0].Width:=40;
+
+end;
+
+procedure TfrmLidBaseGsm.bclClick(Sender: TObject);
+begin
+Close;
+end;
+
+procedure TfrmLidBaseGsm.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+dm.tMark_avt.Close;
+dm.tMarkGSM.Close;
+dm.tBaseNormGsm.Close;
+dm.ADOLidr2.Close;
+Model_box.LookupSource:=nil;
+Model_box.LookupField:='';
+Model_box.LookupDisplay:='';
+ModelGsm_box.LookupSource:=nil;
+ModelGsm_box.LookupField:='';
+ModelGsm_box.LookupDisplay:='';
+frmLidBaseGsm:=nil;
+end;
+
+procedure TfrmLidBaseGsm.DBGridDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+DBGrid.Canvas.Font.Color :=clBlack;
+if gdSelected in state then
+  DBGrid.Canvas.Brush.Color:=$EFE3DF
+  else
+  DBGrid.Canvas.Brush.Color:=clWhite;
+  DBGrid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TfrmLidBaseGsm.Model_boxChange(Sender: TObject);
+begin
+dm.tMarkGSM.open;
+if not dm.tMarkGSM.Eof then
+begin
+ModelGsm_boxChange(Self);
+ModelGsm_box.Enabled:=true;
+end;
+end;
+
+procedure TfrmLidBaseGsm.LbB_NewClick(Sender: TObject);
+begin
+dm.tBaseNormGsm.Insert;
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+LbB_New.Enabled:=false;
+LbB_Del.Enabled:=false;
+LbB_Edit.Enabled:=false;
+DBGrid.Options:=DBGrid.Options+[dgEditing];
+DBGrid.EditorMode:=true;
+DBGrid.SetFocus;
+
+end;
+
+procedure TfrmLidBaseGsm.LbB_PostClick(Sender: TObject);
+begin
+try
+dm.tBaseNormGsm.Fields[1].Value:=Mark_box.KeyValue;
+dm.tBaseNormGsm.Fields[2].Value:=Model_box.KeyValue;
+dm.tBaseNormGsm.Fields[3].Value:=ModelGsm_box.KeyValue;
+dm.tBaseNormGsm.Post;
+except
+dm.tBaseNormGsm.Cancel;
+end;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+LbB_New.Enabled:=true;
+LbB_Del.Enabled:=true;
+LbB_Edit.Enabled:=true;
+DBGrid.Options:=DBGrid.Options-[dgEditing];
+DBGrid.EditorMode:=false;
+
+end;
+
+procedure TfrmLidBaseGsm.LbB_EditClick(Sender: TObject);
+begin
+try
+DBGrid.Options:=DBGrid.Options+[dgEditing];
+DBGrid.EditorMode:=true;
+dm.tBaseNormGsm.Edit;
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+LbB_New.Enabled:=false;
+LbB_Del.Enabled:=false;
+LbB_Edit.Enabled:=false;
+DBGrid.SetFocus;
+except
+//
+end;
+
+end;
+
+procedure TfrmLidBaseGsm.LbB_DelClick(Sender: TObject);
+begin
+  if Main.ATXMessageDlg('¬ы уверены, что хотите удалить запись: "'+dm.tBaseNormGsm.Fields[4].AsString+'" ?'+#13+
+  '”даление приведет к удалению всего автотранспорта принадлежащего данной записи!',
+    2,mtWarning) = mrYes then
+    try
+        dm.tBaseNormGsm.Delete;
+    except
+        Main.ATXMessageDlg('Ќе возможно удалить запись!',1,mtError);
+    end;
+
+end;
+
+procedure TfrmLidBaseGsm.LbB_CancelClick(Sender: TObject);
+begin
+dm.tBaseNormGsm.Cancel;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+LbB_New.Enabled:=true;
+LbB_Del.Enabled:=true;
+DBGrid.Options:=DBGrid.Options-[dgEditing];
+DBGrid.EditorMode:=false;
+
+end;
+
+procedure TfrmLidBaseGsm.LbB_FirstClick(Sender: TObject);
+begin
+dm.tBaseNormGsm.First;
+end;
+
+procedure TfrmLidBaseGsm.LbB_PriorClick(Sender: TObject);
+begin
+dm.tBaseNormGsm.Prior;
+end;
+
+procedure TfrmLidBaseGsm.LbB_NextClick(Sender: TObject);
+begin
+dm.tBaseNormGsm.Next;
+end;
+
+procedure TfrmLidBaseGsm.LbB_LastClick(Sender: TObject);
+begin
+dm.tBaseNormGsm.Last;
+end;
+
+procedure TfrmLidBaseGsm.ModelGsm_boxChange(Sender: TObject);
+begin
+if ModelGsm_box.KeyValue<>null then begin
+dm.tBaseNormGsm.Close;
+dm.tBaseNormGsm.Filter:='id_mark='+Mark_box.KeyValue+' and id_model='+Model_box.KeyValue+' and id_gsm='+ModelGsm_box.KeyValue;
+dm.tBaseNormGsm.Filtered:=true;
+dm.tBaseNormGsm.Open;
+end;
+
+end;
+
+procedure TfrmLidBaseGsm.DBGridKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+if Ord(Key)=9 then Key:=0;
+end;
+
+procedure TfrmLidBaseGsm.DBGridKeyPress(Sender: TObject; var Key: Char);
+begin
+if Key in ['0'..'9','.',','] then
+begin
+//
+end
+else Key:=#0;
+
+end;
+
+end.

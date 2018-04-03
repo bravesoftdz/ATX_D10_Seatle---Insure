@@ -1,0 +1,773 @@
+unit dm_u;
+
+interface
+
+uses
+  SysUtils, Classes, DB, ADODB,Dialogs,Controls,Forms,
+  ADOInt, IniFiles;
+
+type
+  Tdm = class(TDataModule)
+    ADO: TADOConnection;
+    StoredProc1: TADOStoredProc;
+    ADOLidr: TADOStoredProc;
+    ds_libr: TDataSource;
+    ado_reg: TADOTable;
+    ado_div: TADOTable;
+    ado_depart: TADOTable;
+    ado_pre: TADOTable;
+    ado_serv: TADOTable;
+    ado_mark: TADOTable;
+    ado_source: TADOTable;
+    ado_type: TADOTable;
+    ado_tech: TADOTable;
+    ado_group: TADOTable;
+    ds_reg: TDataSource;
+    ds_div: TDataSource;
+    ds_depart: TDataSource;
+    ds_pre: TDataSource;
+    ds_serv: TDataSource;
+    ds_mark: TDataSource;
+    ds_source: TDataSource;
+    ds_type: TDataSource;
+    ds_tech: TDataSource;
+    ds_group: TDataSource;
+    SP_Report: TADOStoredProc;
+    DS_Report: TDataSource;
+    ADOCom1: TADOCommand;
+    DataSource1: TDataSource;
+    DataSource2: TDataSource;
+    Proc_ListAvt: TADOStoredProc;
+    tAvto: TADOStoredProc;
+    tMark_avt: TADOTable;
+    tRegion: TADOTable;
+    tDivision: TADOTable;
+    tDepart: TADOTable;
+    tPre_depart: TADOTable;
+    tServices: TADOTable;
+    tGroup_used: TADOTable;
+    tTech: TADOTable;
+    tType_body: TADOTable;
+    tSource_fin: TADOTable;
+    dss_avto: TDataSource;
+    dss_mark: TDataSource;
+    dss_reg: TDataSource;
+    dss_div: TDataSource;
+    dss_dep: TDataSource;
+    dss_pred: TDataSource;
+    dss_serv: TDataSource;
+    dss_group: TDataSource;
+    dss_tech: TDataSource;
+    dss_type_b: TDataSource;
+    dss_source_f: TDataSource;
+    StoredProc2: TADOStoredProc;
+    StoredProc3: TADOStoredProc;
+    DS_sp_r2: TDataSource;
+    ADOTable1: TADOTable;
+    DS_sp_r3: TDataSource;
+    ADOTable2: TADOTable;
+    Q1: TADOQuery;
+    Q2: TADOQuery;
+    Q3: TADOQuery;
+    Q4: TADOQuery;
+    ado_dislok: TADOTable;
+    ds_dislok: TDataSource;
+    tDislokation: TADOTable;
+    dss_dislok: TDataSource;
+    ADOLidr2: TADOStoredProc;
+    ds_libr2: TDataSource;
+    tModel_avt: TADOTable;
+    dss_model: TDataSource;
+    tSettingProgramm: TADOTable;
+    tInsureCompany: TADOTable;
+    dss_insure_company: TDataSource;
+    ADOQuery1: TADOQuery;
+    DataSource3: TDataSource;
+    tTypePay: TADOTable;
+    dss_typePay: TDataSource;
+    ado_model: TADOTable;
+    ds_model: TDataSource;
+    tTypeTC: TADOTable;
+    dss_typeTc: TDataSource;
+    ado_typetc: TADOTable;
+    ds_typetc: TDataSource;
+    ado_preserv: TADOTable;
+    ds_preserv: TDataSource;
+    dss_preserv: TDataSource;
+    tPreServ: TADOTable;
+    ADOQuery3: TADOQuery;
+    DataSource5: TDataSource;
+    tOut_state: TADOTable;
+    dss_out_state: TDataSource;
+    tTypeDVC: TADOTable;
+    dss_typeDVC: TDataSource;
+    tManufactureTC: TADOTable;
+    dss_ManufactureTC: TDataSource;
+    ado_typeDVC: TADOTable;
+    ado_manufactureTC: TADOTable;
+    ds_typeDVC: TDataSource;
+    ds_manufactureTC: TDataSource;
+    dss_osago: TDataSource;
+    StoredProc_osago: TADOStoredProc;
+    tTerUse: TADOTable;
+    dss_teruse: TDataSource;
+    tKC: TADOTable;
+    dss_tKC: TDataSource;
+    ds_StoredProc3: TDataSource;
+    procedure ADOLidrAfterPost(DataSet: TDataSet);
+    procedure ADOLidrAfterScroll(DataSet: TDataSet);
+    procedure DataModuleDestroy(Sender: TObject);
+    procedure tAvtoBeforePost(DataSet: TDataSet);
+    procedure tAvtoAfterScroll(DataSet: TDataSet);
+    procedure tAvtoAfterPost(DataSet: TDataSet);
+    procedure tAvtoBeforeEdit(DataSet: TDataSet);
+    procedure tAvtoAfterDelete(DataSet: TDataSet);
+    procedure tAvtoPostError(DataSet: TDataSet; E: EDatabaseError;
+      var Action: TDataAction);
+    procedure ADOLidrPostError(DataSet: TDataSet; E: EDatabaseError;
+      var Action: TDataAction);
+    procedure tAvtoFetchProgress(DataSet: TCustomADODataSet; Progress,
+      MaxProgress: Integer; var EventStatus: TEventStatus);
+    procedure SP_ReportAfterScroll(DataSet: TDataSet);
+    procedure ADOLidr2PostError(DataSet: TDataSet; E: EDatabaseError;
+      var Action: TDataAction);
+    procedure ADOLidr2AfterScroll(DataSet: TDataSet);
+    procedure DataModuleCreate(Sender: TObject);
+    procedure ADOLidr2BeforePost(DataSet: TDataSet);
+  private
+    procedure setTimeOut(tout:integer);
+  public
+  pathUpdate,ftpuser,ftppass,fileNameUpdate:String;
+  verDB:integer;
+  function CheckingUser(user,pwd:String):boolean;
+  procedure BeginTR;
+  procedure CommitTR;
+  procedure RollBTR;
+  function openProc(id,reg_p,div_p,depart_p,pre_p,serv_p,mark_p,source1_p,source2_p,group_p,dislok_p:integer; model,numb1_p,numb2_p,oldnumb_p,year1_p,year2_p,vin_p,Neng_p,Nbody_p,Nshas_p,Npts_p,InAc1_p,InAc2_p,OutD1,OutD2:String;State_p,UotAc_p,life_p:integer;N_insur,D_insur:String;preserv_p,notATX_p:integer):boolean;
+  function SearchNumber(numb:String;id_search:integer):integer;
+  function ExchangeNumbr(id_avt:Integer;date,old,new:String):boolean;
+  function Peredacha(id_avt:Integer;from_edit,to_edit,date,Nprok_edit:String):boolean;
+  function getVersion():boolean;
+  function getVersionString():integer;
+  procedure setMoreTimeOut();
+    { Public declarations }
+  end;
+  const
+VER_PRG=19;
+var
+  dm: Tdm;
+
+implementation
+
+uses auth_u, main_u, libr_u,avtocard_u, loaddata_u, libModel_u;
+
+{$R *.dfm}
+
+
+function Tdm.getVersionString():integer;
+
+begin
+getVersionString:=VER_PRG;
+end;
+
+procedure Tdm.BeginTR;
+begin
+if not ADO.InTransaction then
+ADO.BeginTrans;
+end;
+procedure Tdm.CommitTR;
+begin
+
+if not ADO.InTransaction then
+ADO.BeginTrans;
+ADO.CommitTrans;
+
+end;
+procedure Tdm.RollBTR;
+begin
+if not ADO.InTransaction then
+ADO.BeginTrans;
+ADO.RollbackTrans;
+end;
+function Tdm.getVersion():boolean;
+begin
+verDB:=0;
+if ADO.Connected then begin
+   Q1.SQL.Clear;
+   Q1.SQL.Add('select * from tVer');
+   Q1.Active:=true;
+   verDB:=Q1.Fields[0].AsInteger;
+   pathUpdate:=Trim(Q1.Fields[1].AsString);
+   ftpuser:=Trim(Q1.Fields[2].AsString);
+   ftppass:=Trim(Q1.Fields[3].AsString);
+   try
+    fileNameUpdate:=Trim(Q1.Fields[4].AsString);
+   except
+    fileNameUpdate:='';
+   end;
+
+   Q1.Close;
+   Q1.SQL.Clear;
+end;
+if verDB<>VER_PRG then getVersion:=false else getVersion:=true;
+end;
+
+
+function Tdm.CheckingUser(user,pwd:String):boolean;
+begin
+CheckingUser:=false;
+if ADO.Connected then begin
+StoredProc1.Parameters.Clear;
+StoredProc1.ProcedureName:='CheckUser;1';
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[0].Name:='@RETURN_VALUE';
+StoredProc1.Parameters[0].DataType:=ftInteger;
+StoredProc1.Parameters[0].Direction:=pdReturnValue;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[1].Name:='@user';
+StoredProc1.Parameters[1].DataType:=ftString;
+StoredProc1.Parameters.ParamByName('@user').Value:=user;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[2].Name:='@pwd';
+StoredProc1.Parameters[2].DataType:=ftString;
+StoredProc1.Parameters.ParamByName('@pwd').Value:=pwd;
+StoredProc1.Active:=true;
+if StoredProc1.RecordCount=1 then begin
+main.UserRole:=StoredProc1.Fields[3].AsInteger;
+CheckingUser:=true end else
+CheckingUser:=false;
+StoredProc1.Active:=false;
+end;
+end;
+procedure Tdm.ADOLidrAfterPost(DataSet: TDataSet);
+begin
+try
+dm.CommitTR;
+Main.RefreshLibr;
+except
+dm.RollBTR;
+end;
+end;
+
+procedure Tdm.ADOLidrAfterScroll(DataSet: TDataSet);
+begin
+if DataSet.RecNo=1 then
+begin
+frmLibr.LbB_First.Enabled:=false;
+frmLibr.LbB_Prior.Enabled:=false;
+end
+else
+begin
+frmLibr.LbB_First.Enabled:=true;
+frmLibr.LbB_Prior.Enabled:=true;
+end;
+if DataSet.RecNo=DataSet.RecordCount then
+begin
+frmLibr.LbB_Next.Enabled:=false;
+frmLibr.LbB_Last.Enabled:=false;
+end
+else
+begin
+frmLibr.LbB_Next.Enabled:=true;
+frmLibr.LbB_Last.Enabled:=true;
+end;
+end;
+
+function Tdm.openProc(id,reg_p,div_p,depart_p,pre_p,serv_p,mark_p,source1_p,source2_p,group_p,dislok_p:integer; model,numb1_p,numb2_p,oldnumb_p,year1_p,year2_p,vin_p,Neng_p,Nbody_p,Nshas_p,Npts_p,InAc1_p,InAc2_p,OutD1,OutD2:String;State_p,UotAc_p,life_p:integer;N_insur,D_insur:String;preserv_p,notATX_p:integer):boolean;
+var
+res:boolean;
+begin
+res:=false;
+if ADO.Connected then begin
+if tAvto.Active then tAvto.Active:=false;
+tAvto.DisableControls;
+tAvto.Parameters.Clear;
+tAvto.ProcedureName:='GetListAvto;1';
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[0].Name:='@RETURN_VALUE';
+tAvto.Parameters[0].DataType:=ftInteger;
+tAvto.Parameters[0].Direction:=pdReturnValue;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[1].Name:='@reg_p';
+tAvto.Parameters[1].DataType:=ftInteger;
+tAvto.Parameters[1].Value:=reg_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[2].Name:='@div_p';
+tAvto.Parameters[2].DataType:=ftInteger;
+tAvto.Parameters[2].Value:=div_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[3].Name:='@depart_p';
+tAvto.Parameters[3].DataType:=ftInteger;
+tAvto.Parameters[3].Value:=depart_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[4].Name:='@pre_p';
+tAvto.Parameters[4].DataType:=ftInteger;
+tAvto.Parameters[4].Value:=pre_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[5].Name:='@serv_p';
+tAvto.Parameters[5].DataType:=ftInteger;
+tAvto.Parameters[5].Value:=serv_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[6].Name:='@mark_p';
+tAvto.Parameters[6].DataType:=ftInteger;
+tAvto.Parameters[6].Value:=mark_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[7].Name:='@source1_p';
+tAvto.Parameters[7].DataType:=ftInteger;
+tAvto.Parameters[7].Value:=source1_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[8].Name:='@source2_p';
+tAvto.Parameters[8].DataType:=ftInteger;
+tAvto.Parameters[8].Value:=source2_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[9].Name:='@group_p';
+tAvto.Parameters[9].DataType:=ftInteger;
+tAvto.Parameters[9].Value:=group_p;
+
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[10].Name:='@model';
+tAvto.Parameters[10].DataType:=ftString;
+tAvto.Parameters[10].Value:=model;
+
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[11].Name:='@numb1_p';
+tAvto.Parameters[11].DataType:=ftString;
+tAvto.Parameters[11].Value:=numb1_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[12].Name:='@numb2_p';
+tAvto.Parameters[12].DataType:=ftString;
+tAvto.Parameters[12].Value:=numb2_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[13].Name:='@oldnumb_p';
+tAvto.Parameters[13].DataType:=ftString;
+tAvto.Parameters[13].Value:=oldnumb_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[14].Name:='@year1_p';
+tAvto.Parameters[14].DataType:=ftString;
+tAvto.Parameters[14].Value:=year1_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[15].Name:='@year2_p';
+tAvto.Parameters[15].DataType:=ftString;
+tAvto.Parameters[15].Value:=year2_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[16].Name:='@vin_p';
+tAvto.Parameters[16].DataType:=ftString;
+tAvto.Parameters[16].Value:=vin_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[17].Name:='@Neng_p';
+tAvto.Parameters[17].DataType:=ftString;
+tAvto.Parameters[17].Value:=Neng_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[18].Name:='@Nbody_p';
+tAvto.Parameters[18].DataType:=ftString;
+tAvto.Parameters[18].Value:=Nbody_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[19].Name:='@Nshas_p';
+tAvto.Parameters[19].DataType:=ftString;
+tAvto.Parameters[19].Value:=Nshas_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[20].Name:='@Npts_p';
+tAvto.Parameters[20].DataType:=ftString;
+tAvto.Parameters[20].Value:=Npts_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[21].Name:='@InAc1_p';
+tAvto.Parameters[21].DataType:=ftString;
+tAvto.Parameters[21].Value:=InAc1_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[22].Name:='@InAc2_p';
+tAvto.Parameters[22].DataType:=ftString;
+tAvto.Parameters[22].Value:=InAc2_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[23].Name:='@State_p';
+tAvto.Parameters[23].DataType:=ftInteger;
+tAvto.Parameters[23].Value:=State_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[24].Name:='@UotAc_p';
+tAvto.Parameters[24].DataType:=ftInteger;
+tAvto.Parameters[24].Value:=UotAc_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[25].Name:='@life_p';
+tAvto.Parameters[25].DataType:=ftInteger;
+tAvto.Parameters[25].Value:=life_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[26].Name:='@OutD1';
+tAvto.Parameters[26].DataType:=ftString;
+tAvto.Parameters[26].Value:=OutD1;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[27].Name:='@OutD2';
+tAvto.Parameters[27].DataType:=ftString;
+tAvto.Parameters[27].Value:=OutD2;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[28].Name:='@id';
+tAvto.Parameters[28].DataType:=ftInteger;
+tAvto.Parameters[28].Value:=id;
+
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[29].Name:='@N_insur';
+tAvto.Parameters[29].DataType:=ftString;
+tAvto.Parameters[29].Value:=N_insur;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[30].Name:='@D_insur';
+tAvto.Parameters[30].DataType:=ftString;
+tAvto.Parameters[30].Value:=D_insur;
+
+
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[31].Name:='@dislok_p';
+tAvto.Parameters[31].DataType:=ftInteger;
+tAvto.Parameters[31].Value:=dislok_p;
+
+
+
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[32].Name:='@preserv_p';
+tAvto.Parameters[32].DataType:=ftInteger;
+tAvto.Parameters[32].Value:=preserv_p;
+tAvto.Parameters.AddParameter;
+tAvto.Parameters[33].Name:='@notATX_p';
+tAvto.Parameters[33].DataType:=ftInteger;
+tAvto.Parameters[33].Value:=notATX_p;
+
+
+
+try
+    tAvto.Open;
+    tMark_avt.Open;tMark_avt.Sort:='name';
+    tTypeTC.Open;tTypeTC.Sort:='name';
+    tRegion.Open;tRegion.Sort:='name';
+    tDivision.Open;tDivision.Sort:='name';
+    tDepart.Open;tDepart.Sort:='name';
+    tPre_Depart.Open;tPre_Depart.Sort:='name';
+    tServices.Open;tServices.Sort:='name';
+    tPreServ.Open;tPreServ.Sort:='name';
+    tDislokation.Open;tDislokation.Sort:='name';
+    tSource_fin.Open;tSource_fin.Sort:='name';
+    tType_body.Open;tType_body.Sort:='name';
+    tTech.Open;tTech.Sort:='name';
+
+
+    tGroup_used.Open;tGroup_used.Sort:='name';
+    tInsureCompany.Open;tInsureCompany.Sort:='name';
+    tTerUse.Open;tTerUse.Sort:='name';
+    tKC.Open;tKC.Sort:='name';
+
+    tOut_state.Open;tOut_state.Sort:='id_out_state';
+    tTypeDVC.Open;tType_body.Sort:='name';
+    tManufactureTC.Open;tManufactureTC.Sort:='name';
+
+
+tAvto.EnableControls;
+tAvto.First;
+res:=true;
+except
+main.ATXShowMessage('Нет соединения с сервером!');
+res:=false;
+end;
+end;
+result:=res;
+end;
+
+
+procedure Tdm.DataModuleDestroy(Sender: TObject);
+begin
+ADO.Connected:=false;
+end;
+
+procedure Tdm.tAvtoBeforePost(DataSet: TDataSet);
+begin
+if Main.MDIChildCount<> 0 then
+with Main.ActiveMDIChild as Tfrmavtocard do
+AvtoBeforePost(DataSet);
+end;
+
+procedure Tdm.tAvtoAfterScroll(DataSet: TDataSet);
+begin
+if Main.MDIChildCount<> 0 then
+with Main.ActiveMDIChild as Tfrmavtocard do
+AvtoAfterScroll(DataSet)
+end;
+
+procedure Tdm.tAvtoAfterPost(DataSet: TDataSet);
+begin
+if Main.MDIChildCount<> 0 then
+with Main.ActiveMDIChild as Tfrmavtocard do
+AvtoAfterPost(DataSet)
+end;
+
+procedure Tdm.tAvtoBeforeEdit(DataSet: TDataSet);
+begin
+if Main.MDIChildCount<> 0 then
+with Main.ActiveMDIChild as Tfrmavtocard do
+//AvtoBeforeEdit(DataSet);
+AvtoBeforeEdit;
+end;
+
+procedure Tdm.tAvtoAfterDelete(DataSet: TDataSet);
+begin
+if Main.MDIChildCount<> 0 then
+with Main.ActiveMDIChild as Tfrmavtocard do
+AvtoAfterDelete(DataSet);
+end;
+
+function Tdm.SearchNumber(numb:String;id_search:integer):integer;
+begin
+result:=0;
+if ADO.Connected then begin
+if StoredProc1.Active then StoredProc1.Active:=false;
+StoredProc1.Parameters.Clear;
+StoredProc1.ProcedureName:='SearchNumber;1';
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[0].Name:='@RETURN_VALUE';
+StoredProc1.Parameters[0].DataType:=ftInteger;
+StoredProc1.Parameters[0].Direction:=pdReturnValue;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[1].Name:='@numb';
+StoredProc1.Parameters[1].DataType:=ftString;
+StoredProc1.Parameters[1].Value:=numb;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[2].Name:='@ids';
+StoredProc1.Parameters[2].DataType:=ftInteger;
+StoredProc1.Parameters[2].Value:=id_search;
+StoredProc1.Active:=true;
+if StoredProc1.RecordCount>0 then
+result:=StoredProc1.Fields[0].AsInteger
+else result:=0;
+StoredProc1.Active:=false;
+end;
+
+end;
+
+procedure Tdm.tAvtoPostError(DataSet: TDataSet; E: EDatabaseError;
+  var Action: TDataAction);
+begin
+   if (E.Message='Row cannot be located for updating. Some values may have been changed since it was last read') then
+    begin
+    Main.ATXMessageDlg('Запись была изменена или удалена другим пользователем.',1,mtInformation);
+      with Main.ActiveMDIChild as Tfrmavtocard do
+        LbB_CancelClick(Self);
+        tAvto.UpdateCursorPos;
+        tAvto.Recordset.Resync(adAffectCurrent, adResyncAllValues);
+        tAvto.Resync([]);
+    end
+   else
+   if E.Message='Connection failure' then
+Main.ATXMessageDlg('Ошибка сети. Связь с сервером прервана'+#13+'Необходимо перезапустить программу. Не сохраненные данные будут потеряны.',1,mtError)
+   else
+      Main.ATXMessageDlg(E.Message,1,mtError);
+end;
+
+procedure Tdm.ADOLidrPostError(DataSet: TDataSet; E: EDatabaseError;
+  var Action: TDataAction);
+begin
+   if (E.Message='Row cannot be located for updating. Some values may have been changed since it was last read') then
+    begin
+    Main.ATXShowMessage('Запись была изменена другим пользователем.');
+        ADOLidr.UpdateCursorPos;
+        ADOLidr.Recordset.Resync(adAffectCurrent, adResyncAllValues);
+        ADOLidr.Resync([]);
+    end
+   else
+      Main.ATXMessageDlg(E.Message,1,mtError);
+end;
+
+procedure Tdm.tAvtoFetchProgress(DataSet: TCustomADODataSet; Progress,
+  MaxProgress: Integer; var EventStatus: TEventStatus);
+begin
+//ShowMessage(InttoStr(Progress)+' on '+InttoStr(MaxProgress));
+//Main.LbStaticText1.Caption:=InttoStr(Progress)+' on '+InttoStr(MaxProgress);
+//Application.ProcessMessages;
+//Sleep(1000);
+end;
+
+procedure Tdm.SP_ReportAfterScroll(DataSet: TDataSet);
+begin
+main.str_old_m:='';
+main.str_old_f:='';
+if (ADOTable2.Active) and (ADOTable1.Active) then
+begin
+ADOTable2.First;
+ADOTable1.First;
+if ADOTable2.RecordCount>ADOTable1.RecordCount then
+main.frxUserDataset2.RangeEndCount:=ADOTable2.RecordCount
+else
+main.frxUserDataset2.RangeEndCount:=ADOTable1.RecordCount;
+end;
+if SP_Report.ProcedureName='GetReportShina;1' then
+begin
+  ADOQuery3.Close;
+  ADOQuery3.Parameters[0].Value:=SP_Report.Fields[8].AsInteger;
+  ADOQuery3.Open;
+end;
+end;
+
+procedure Tdm.ADOLidr2BeforePost(DataSet: TDataSet);
+begin
+//
+end;
+
+procedure Tdm.ADOLidr2PostError(DataSet: TDataSet; E: EDatabaseError;
+  var Action: TDataAction);
+begin
+   if (E.Message='Row cannot be located for updating. Some values may have been changed since it was last read') then
+    begin
+    Main.ATXShowMessage('Запись была изменена другим пользователем.');
+        ADOLidr2.UpdateCursorPos;
+        ADOLidr2.Recordset.Resync(adAffectCurrent, adResyncAllValues);
+        ADOLidr2.Resync([]);
+    end
+   else
+      Main.ATXMessageDlg(E.Message,1,mtError);
+
+end;
+
+procedure Tdm.ADOLidr2AfterScroll(DataSet: TDataSet);
+begin
+if frmLibModel<>nil then
+begin
+if DataSet.RecNo=1 then
+begin
+frmLibModel.LbB_First.Enabled:=false;
+frmLibModel.LbB_Prior.Enabled:=false;
+end
+else
+begin
+frmLibModel.LbB_First.Enabled:=true;
+frmLibModel.LbB_Prior.Enabled:=true;
+end;
+if DataSet.RecNo=DataSet.RecordCount then
+begin
+frmLibModel.LbB_Next.Enabled:=false;
+frmLibModel.LbB_Last.Enabled:=false;
+end
+else
+begin
+frmLibModel.LbB_Next.Enabled:=true;
+frmLibModel.LbB_Last.Enabled:=true;
+end;
+end;
+
+end;
+
+function Tdm.ExchangeNumbr(id_avt:Integer;date,old,new:String):boolean;
+begin
+result:=false;
+if ADO.Connected then begin
+if StoredProc1.Active then StoredProc1.Active:=false;
+try
+StoredProc1.Parameters.Clear;
+StoredProc1.ProcedureName:='ExchengeNumbr;1';
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[0].Name:='@id_avt';
+StoredProc1.Parameters[0].DataType:=ftInteger;
+StoredProc1.Parameters[0].Value:=id_avt;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[1].Name:='@date';
+StoredProc1.Parameters[1].DataType:=ftDate;
+StoredProc1.Parameters[1].Value:=date;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[2].Name:='@old_n';
+StoredProc1.Parameters[2].DataType:=ftString;
+StoredProc1.Parameters[2].Value:=old;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[3].Name:='@new_n';
+StoredProc1.Parameters[3].DataType:=ftString;
+StoredProc1.Parameters[3].Value:=new;
+StoredProc1.ExecProc;
+CommitTR;
+result:=true;
+except
+RollBTR
+end;
+end;
+end;
+function Tdm.Peredacha(id_avt:Integer;from_edit,to_edit,date,Nprok_edit:String):boolean;
+begin
+result:=false;
+if ADO.Connected then begin
+if StoredProc1.Active then StoredProc1.Active:=false;
+try
+StoredProc1.Parameters.Clear;
+StoredProc1.ProcedureName:='PeredachaAvt;1';
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[0].Name:='@id_avt';
+StoredProc1.Parameters[0].DataType:=ftInteger;
+StoredProc1.Parameters[0].Value:=id_avt;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[1].Name:='@date';
+StoredProc1.Parameters[1].DataType:=ftDate;
+StoredProc1.Parameters[1].Value:=date;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[2].Name:='@from_edit';
+StoredProc1.Parameters[2].DataType:=ftString;
+StoredProc1.Parameters[2].Value:=from_edit;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[3].Name:='@to_edit';
+StoredProc1.Parameters[3].DataType:=ftString;
+StoredProc1.Parameters[3].Value:=to_edit;
+StoredProc1.Parameters.AddParameter;
+StoredProc1.Parameters[4].Name:='@nprok_edit';
+StoredProc1.Parameters[4].DataType:=ftString;
+StoredProc1.Parameters[4].Value:=Nprok_edit;
+StoredProc1.ExecProc;
+CommitTR;
+result:=true;
+except
+RollBTR
+end;
+end;
+end;
+
+procedure Tdm.DataModuleCreate(Sender: TObject);
+var
+DMIni:TIniFile;
+TimeOut:integer;
+//i:integer;
+begin
+DMIni := TIniFile.Create(ExtractFilePath(Application.ExeName)+'cfg.ini');
+  with DMIni do
+  begin
+     TimeOut:=ReadInteger('Options','TimeOut',0);
+     end;
+  DMIni.Free;
+
+ADO.CommandTimeout:=TimeOut;
+ADO.ConnectionTimeout:=TimeOut;
+setTimeOut(TimeOut);
+end;
+procedure Tdm.setTimeOut(tout:integer);
+var i:integer;
+begin
+try
+for i:=0 to dm.ComponentCount-1 do
+begin
+   if(dm.Components[i].ClassType=TADOStoredProc) then
+        (dm.Components[i] as TADOStoredProc).CommandTimeout:=tout;
+   if(dm.Components[i].ClassType=TADOTable) then
+        (dm.Components[i] as TADOTable).CommandTimeout:=tout;
+   if(dm.Components[i].ClassType=TADOCommand) then
+        (dm.Components[i] as TADOCommand).CommandTimeout:=tout;
+end;
+except
+//
+end;
+end;
+procedure Tdm.setMoreTimeOut();
+var
+DMIni:TIniFile;
+TimeOut:integer;
+//i:integer;
+begin
+DMIni := TIniFile.Create(ExtractFilePath(Application.ExeName)+'cfg.ini');
+  with DMIni do
+  begin
+     TimeOut:=ReadInteger('Options','TimeOut',0);
+     if TimeOut>0 then
+        TimeOut:=TimeOut+60;
+        WriteInteger('Options','TimeOut',TimeOut);
+        setTimeOut(TimeOut);
+  end;
+
+  DMIni.Free;
+
+end;
+end.

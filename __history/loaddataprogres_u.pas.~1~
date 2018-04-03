@@ -1,0 +1,25 @@
+unit loaddataprogres_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ComCtrls;
+
+type
+  TfrmLoadDataProgres = class(TForm)
+    ProgressBar1: TProgressBar;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLoadDataProgres: TfrmLoadDataProgres;
+
+implementation
+
+{$R *.dfm}
+
+end.

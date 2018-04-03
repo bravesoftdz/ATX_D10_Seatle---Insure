@@ -1,0 +1,345 @@
+unit zayvka_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbButton, StdCtrls, rxCurrEdit, RxLookup, Mask, rxToolEdit, DB, ADODB,
+  Menus, Grids;
+
+type
+  TfrmZayvka = class(TForm)
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label3: TLabel;
+    Label10: TLabel;
+    DateZayvka: TDateEdit;
+    VidCombo1: TRxDBLookupCombo;
+    RxCalcSpeed: TRxCalcEdit;
+    Label2: TLabel;
+    FIOEdit: TEdit;
+    Label4: TLabel;
+    ComboBoxGraf: TComboBox;
+    Label5: TLabel;
+    LbB_Cancel: TLbButton;
+    LbB_Post: TLbButton;
+    LbButton5: TLbButton;
+    ds_zayvka: TDataSource;
+    SG_NEISP: TStringGrid;
+    PopupMenu1: TPopupMenu;
+    N1: TMenuItem;
+    Button1: TLbButton;
+    Label6: TLabel;
+    NumEdit: TEdit;
+    Label7: TLabel;
+    organisationEdit: TEdit;
+    PlaceCombo2: TRxDBLookupCombo;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure LbB_CancelClick(Sender: TObject);
+    procedure LbB_PostClick(Sender: TObject);
+    procedure LbButton5Click(Sender: TObject);
+    procedure FIOEditChange(Sender: TObject);
+    procedure N1Click(Sender: TObject);
+    procedure SG_NEISPSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+    procedure SG_NEISPDrawCell(Sender: TObject; ACol, ARow: Integer;
+      Rect: TRect; State: TGridDrawState);
+  private
+    id_zayvka,id_avt,what,iRow:integer;
+    procedure ds_mainBeforeEdit(DataSet: TDataSet);
+    procedure CheckUser;
+  public
+    ds_main:TDataSet;
+  procedure NewCard(id:integer;mark:String);
+  procedure OpenCard(ds:TDataSet;id:integer;mark:String);
+  procedure SetTitleCard(title:String);
+  end;
+
+var
+  frmZayvka: TfrmZayvka;
+
+implementation
+   uses main_u, dm_u;
+{$R *.dfm}
+
+procedure TfrmZayvka.FIOEditChange(Sender: TObject);
+begin
+CheckUser;
+end;
+
+procedure TfrmZayvka.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+if dm.ADO.Connected then begin
+if dm.SP_Report.Active then dm.SP_Report.Active:=false;
+dm.tVidRemont.Close;
+end;
+frmZayvka:=nil;
+end;
+
+procedure TfrmZayvka.FormShow(Sender: TObject);
+begin
+dm.tPlaceRemont.Open;
+dm.tVidRemont.Open;
+end;
+procedure TfrmZayvka.LbButton5Click(Sender: TObject);
+begin
+//print
+//showmessage(inttostr(id_avt));
+Main.CreateReportZayvka(id_avt);
+end;
+
+procedure TfrmZayvka.LbB_CancelClick(Sender: TObject);
+begin
+Close;
+end;
+
+procedure TfrmZayvka.LbB_PostClick(Sender: TObject);
+//save
+var
+i,j:integer;
+s1:TStringGrid;
+StrFloatValue:String;
+begin
+if (DateZayvka.Date<>0) and
+(Trim(VidCombo1.Text)<>'') then
+begin
+with dm do
+begin
+   if ADO.Connected then begin
+   if id_zayvka<>0 then
+   begin
+      if StoredProc1.Active then StoredProc1.Active:=false;
+         StoredProc1.Parameters.Clear;
+         StoredProc1.ProcedureName:='DelZayvka;1';
+         StoredProc1.Parameters.AddParameter;
+         StoredProc1.Parameters[0].Name:='@id_zayvka';
+         StoredProc1.Parameters[0].DataType:=ftInteger;
+         StoredProc1.Parameters[0].Value:=id_zayvka;
+         try
+         StoredProc1.ExecProc;
+         CommitTR;
+         except
+         RollBTR;
+         end;
+         StoredProc1.Close;
+      end;
+
+   end;
+    ADOCom1.Parameters.Clear;
+    ADOCom1.CommandType:=cmdStoredProc;
+    ADOCom1.CommandText:='SetZayvka';
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[0].Name:='@id_avt';
+    ADOCom1.Parameters[0].DataType:=ftInteger;
+    ADOCom1.Parameters[0].Value:=id_avt;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[1].Name:='@num';
+    ADOCom1.Parameters[1].DataType:=ftString;
+    ADOCom1.Parameters[1].Value:=NumEdit.Text;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[2].Name:='@date1';
+    ADOCom1.Parameters[2].DataType:=ftDate;
+    ADOCom1.Parameters[2].Value:=DateZayvka.Date;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[3].Name:='@speed_b';
+    ADOCom1.Parameters[3].DataType:=ftfloat;
+    ADOCom1.Parameters[3].Value:=RxCalcSpeed.Value;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[4].Name:='@fio';
+    ADOCom1.Parameters[4].DataType:=ftString;
+    ADOCom1.Parameters[4].Value:=FIOEdit.Text;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[5].Name:='@graf';
+    ADOCom1.Parameters[5].DataType:=ftInteger;
+    ADOCom1.Parameters[5].Value:=ComboBoxGraf.ItemIndex;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[6].Name:='@id_vid';
+    ADOCom1.Parameters[6].DataType:=ftInteger;
+    ADOCom1.Parameters[6].Value:=VidCombo1.KeyValue;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[7].Name:='@organisation';
+    ADOCom1.Parameters[7].DataType:=ftString;
+    ADOCom1.Parameters[7].Value:=organisationEdit.Text;
+
+
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[8].Name:='@id';
+    ADOCom1.Parameters[8].DataType:=ftInteger;
+    ADOCom1.Parameters[8].Direction:=pdReturnValue;
+
+
+      try
+        ADOCom1.Execute;
+        id_zayvka:=ADOCom1.Parameters[8].Value;
+        CommitTR;
+        for i:=0 to SG_NEISP.RowCount-1 do
+        begin
+           if trim(SG_NEISP.Cells[0,i])<>'' then
+           begin
+            if StoredProc1.Active then StoredProc1.Active:=false;
+                StoredProc1.Parameters.Clear;
+                StoredProc1.ProcedureName:='SetZayvkaDifr;1';
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[0].Name:='@id_zayvka';
+                StoredProc1.Parameters[0].DataType:=ftInteger;
+                StoredProc1.Parameters[0].Value:=id_zayvka;
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[1].Name:='@num';
+                StoredProc1.Parameters[1].DataType:=ftInteger;
+                StoredProc1.Parameters[1].Value:=i+1;
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[2].Name:='@neisparnost';
+                StoredProc1.Parameters[2].DataType:=ftString;
+                StoredProc1.Parameters[2].Value:=trim(SG_NEISP.Cells[0,i]);
+
+                try
+                        StoredProc1.ExecProc;
+                        CommitTR;
+                except
+                   RollBTR;
+                end;
+            end;
+           end;
+        
+        LbB_Post.Enabled:=false;
+      except
+        RollBTR;
+      end;
+end;
+end;
+Close;
+end;
+
+procedure TfrmZayvka.ds_mainBeforeEdit(DataSet: TDataSet);
+begin
+LbB_Cancel.Enabled:=true;
+CheckUser;
+end;
+procedure TfrmZayvka.CheckUser;
+begin
+if (Main.UserRole=7) or (Main.UserRole=1) or (Main.UserRole=2) then
+LbB_Post.Enabled:=true;
+end;
+procedure TfrmZayvka.SetTitleCard(title:String);
+begin
+Caption:='Заявочный лист автотранспорта "'+title+'"';
+end;
+procedure TfrmZayvka.SG_NEISPDrawCell(Sender: TObject; ACol, ARow: Integer;
+  Rect: TRect; State: TGridDrawState);
+var
+  l_oldalign: word;
+  l_YPos, l_XPos, i: integer;
+  s, s1: string;
+  l_col, l_row: longint;
+  R:TRect;
+  SG:TStringGrid;
+begin
+  l_col := acol;
+  l_row := arow;
+  SG:=sender as tstringgrid;
+  Button1.Parent:=SG;
+  with sender as tstringgrid do
+  begin
+  R := CellRect(1, iRow);
+      l_XPos := rect.left;
+      l_YPos:=rect.top;
+      s := cells[l_col, l_row];
+    if (gdSelected in State) then
+    begin
+      canvas.Brush.Color := $EFE3DF;
+      canvas.Font.Color:=clActiveCaption;
+    end;
+    canvas.FillRect(Rect);
+    SetBkMode(Handle, TRANSPARENT);
+
+          canvas.textrect(rect,l_Xpos,l_YPos,s);
+          InflateRect(R, -1, -1);
+          OffsetRect(R, Left-12, Top-170);
+
+
+          Button1.Left:=r.left+6;
+          Button1.Top:=r.top-56
+   end;
+
+end;
+
+procedure TfrmZayvka.SG_NEISPSelectCell(Sender: TObject; ACol, ARow: Integer;
+  var CanSelect: Boolean);
+begin
+iRow:=ARow;
+end;
+
+procedure TfrmZayvka.N1Click(Sender: TObject);
+var
+i:integer;
+begin
+if SG_NEISP.RowCount=1 then
+begin
+SG_NEISP.Cells[0,iRow]:='';
+end else begin
+for i:=iRow to SG_NEISP.RowCount-2 do
+begin
+SG_NEISP.Cells[0,i]:=SG_NEISP.Cells[0,i+1];
+end;
+//SG_NEISP.RowCount:=SG_NEISP.RowCount-1;
+end;
+CheckUser;
+end;
+
+procedure TfrmZayvka.NewCard(id:integer;mark:String);
+begin
+what:=0;
+id_avt:=id;
+id_zayvka:=0;
+frmZayvka.DateZayvka.Date:=Now();
+//frmZayvka.Height:=425;
+end;
+procedure TfrmZayvka.OpenCard(ds:TDataSet;id:integer;mark:String);
+var
+dat:TDateTime;
+M,D,Y:Word;
+RowNum:integer;
+begin
+what:=1;
+//frmRemont.Height:=400;
+id_avt:=id;
+SetTitleCard(mark);
+ds_zayvka.DataSet:=ds;
+ds_main:=ds;
+ds_main.BeforeEdit:=ds_mainBeforeEdit;
+NumEdit.Text:=ds_main.Fields[2].AsString;
+DateZayvka.Date:=ds_main.Fields[3].AsDateTime;
+FIOEdit.Text:=ds_main.Fields[5].AsString;
+RxCalcSpeed.Value:=ds_main.Fields[4].AsInteger;
+VidCombo1.KeyValue:=ds_main.Fields[8].AsInteger;
+ComboBoxGraf.ItemIndex:=ds_main.Fields[7].AsInteger;
+ id_zayvka:=ds_main.Fields[0].AsInteger;
+   //organisationEdit.Text:=ds_main.Fields[9].AsString;
+
+   PlaceCombo2.KeyValue:=ds_main.Fields[9].AsInteger;
+
+
+with dm do
+begin
+   if ADO.Connected then begin
+            if StoredProc1.Active then StoredProc1.Active:=false;
+                StoredProc1.Parameters.Clear;
+                StoredProc1.ProcedureName:='GetZayvkaDifr;1';
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[0].Name:='@id_zayvka';
+                StoredProc1.Parameters[0].DataType:=ftInteger;
+                StoredProc1.Parameters[0].Value:=id_zayvka;
+                StoredProc1.Open;
+                RowNum:=0;
+                while not StoredProc1.Eof do
+                begin
+                     SG_NEISP.Cells[0,RowNum]:=StoredProc1.Fields[0].AsString;
+                           inc(RowNum);
+                  StoredProc1.Next;
+                end;
+                StoredProc1.Close;
+   end;
+end;
+end;
+end.

@@ -1,0 +1,132 @@
+unit libShinaLimit_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbButton, RxLookup, StdCtrls, ExtCtrls, Mask, DBCtrls;
+
+type
+  TfrmLidShinaLimit = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Shina_R_box: TRxDBLookupCombo;
+    Shina_K_box: TRxDBLookupCombo;
+    Shina_T_box: TRxDBLookupCombo;
+    Panel2: TPanel;
+    LbB_Cancel: TLbButton;
+    LbB_Post: TLbButton;
+    lim_value_edit: TDBEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure Shina_R_boxChange(Sender: TObject);
+    procedure LbB_PostClick(Sender: TObject);
+    procedure LbB_CancelClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button1Click(Sender: TObject);
+    procedure lim_value_editKeyPress(Sender: TObject; var Key: Char);
+  private
+    newRecord:boolean;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLidShinaLimit: TfrmLidShinaLimit;
+
+implementation
+
+uses main_u, dm_u;
+
+{$R *.dfm}
+
+procedure TfrmLidShinaLimit.Button1Click(Sender: TObject);
+begin
+dm.tShina_Limit.Insert;
+end;
+
+procedure TfrmLidShinaLimit.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+dm.tShina_R.Close;
+dm.tShina_Konst.Close;
+dm.tShina_Type.Close;
+dm.tShina_Limit.Close;
+
+Shina_R_box.LookupSource:=nil;
+Shina_R_box.LookupField:='';
+Shina_R_box.LookupDisplay:='';
+Shina_K_box.LookupSource:=nil;
+Shina_K_box.LookupField:='';
+Shina_K_box.LookupDisplay:='';
+Shina_T_box.LookupSource:=nil;
+Shina_T_box.LookupField:='';
+Shina_T_box.LookupDisplay:='';
+frmLidShinaLimit:=nil;
+end;
+
+procedure TfrmLidShinaLimit.FormCreate(Sender: TObject);
+begin
+    dm.tShina_R.Open;dm.tShina_R.Sort:='name';
+    dm.tShina_Konst.Open;dm.tShina_Konst.Sort:='name';
+    dm.tShina_Type.Open;dm.tShina_Type.Sort:='name';
+end;
+
+procedure TfrmLidShinaLimit.LbB_CancelClick(Sender: TObject);
+begin
+dm.tShina_Limit.Cancel;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+end;
+
+procedure TfrmLidShinaLimit.LbB_PostClick(Sender: TObject);
+
+begin
+try
+
+dm.tShina_Limit.Fields[0].Value:=Shina_R_box.KeyValue;
+dm.tShina_Limit.Fields[1].Value:=Shina_K_box.KeyValue;
+dm.tShina_Limit.Fields[2].Value:=Shina_T_box.KeyValue;
+dm.tShina_Limit.Post;
+except
+dm.tShina_Limit.Cancel;
+end;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+end;
+
+
+
+procedure TfrmLidShinaLimit.lim_value_editKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+if Main.UserRole=TECH_USER then
+begin
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+end;
+if Main.UserRole=ADMIN_USER then
+begin
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+end;
+if newRecord then
+  dm.tShina_Limit.Insert else
+                              dm.tShina_Limit.Edit;
+end;
+
+procedure TfrmLidShinaLimit.Shina_R_boxChange(Sender: TObject);
+begin
+if (Shina_R_box.KeyValue<>null) and (Shina_K_box.KeyValue<>null) and (Shina_T_box.KeyValue<>null) then begin
+dm.tShina_Limit.Close;
+dm.tShina_Limit.Filter:='id_shina_r='+Shina_R_box.KeyValue+' and id_shina_konst='+Shina_K_box.KeyValue+' and id_shina_type='+Shina_T_box.KeyValue;
+dm.tShina_Limit.Filtered:=true;
+dm.tShina_Limit.Open;
+if dm.tShina_Limit.Eof then newRecord:=true else newRecord:=false;
+
+end;
+end;
+
+end.

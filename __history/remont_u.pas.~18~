@@ -1,0 +1,612 @@
+unit remont_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, LbSpeedButton, Grids, DBGrids, LbStaticText, LbButton, ExtCtrls,
+  RxLookup, StdCtrls, Mask,
+  Menus, DB, ADODB, ComCtrls, rxCurrEdit, rxToolEdit;
+
+type
+  TfrmRemont = class(TForm)
+    Panel2: TPanel;
+    LbB_Cancel: TLbButton;
+    LbB_Post: TLbButton;
+    Panel1: TPanel;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    DateEdit1: TDateEdit;
+    DateEdit2: TDateEdit;
+    VidCombo1: TRxDBLookupCombo;
+    PlaceCombo2: TRxDBLookupCombo;
+    GroupBox2: TGroupBox;
+    Label5: TLabel;
+    Label7: TLabel;
+    RxCalcEdit1: TRxCalcEdit;
+    RxCalcEdit2: TRxCalcEdit;
+    Panel3: TPanel;
+    LabeledEdit1: TLabeledEdit;
+    LabeledEdit2: TLabeledEdit;
+    LabeledEdit3: TLabeledEdit;
+    LbButton1: TLbButton;
+    SG_AGR: TStringGrid;
+    PopupMenu1: TPopupMenu;
+    N1: TMenuItem;
+    Panel4: TPanel;
+    LabeledEdit4: TLabeledEdit;
+    LbButton2: TLbButton;
+    SG_REM: TStringGrid;
+    CurrencyEdit1: TCurrencyEdit;
+    Label6: TLabel;
+    Panel5: TPanel;
+    Label8: TLabel;
+    LabeledEdit5: TLabeledEdit;
+    LbButton3: TLbButton;
+    CurrencyEdit2: TCurrencyEdit;
+    SG_ZAP: TStringGrid;
+    Panel6: TPanel;
+    Label9: TLabel;
+    LabeledEdit6: TLabeledEdit;
+    LbButton4: TLbButton;
+    CurrencyEdit3: TCurrencyEdit;
+    SG_TMC: TStringGrid;
+    Button1: TLbButton;
+    LbButton5: TLbButton;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    TabSheet4: TTabSheet;
+    ds_remont: TDataSource;
+    RxCalcOil: TRxCalcEdit;
+    Label10: TLabel;
+    TabSheet5: TTabSheet;
+    Panel7: TPanel;
+    Label11: TLabel;
+    LabeledEdit7: TLabeledEdit;
+    LbButton6: TLbButton;
+    CurrencyEdit4: TCurrencyEdit;
+    SG_TMC_SKLAD: TStringGrid;
+    RxCalcEdit3: TRxCalcEdit;
+    Label12: TLabel;
+    procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure bclClick(Sender: TObject);
+    procedure LbB_CancelClick(Sender: TObject);
+    procedure LbButton1Click(Sender: TObject);
+    procedure N1Click(Sender: TObject);
+    procedure SG_AGRSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+    procedure FormShow(Sender: TObject);
+    procedure LbB_PostClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DateEdit1Change(Sender: TObject);
+    procedure LbButton2Click(Sender: TObject);
+    procedure LbButton3Click(Sender: TObject);
+    procedure LbButton4Click(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure SG_AGRDrawCell(Sender: TObject; ACol, ARow: Integer;
+      Rect: TRect; State: TGridDrawState);
+    procedure LbButton5Click(Sender: TObject);
+    procedure LbButton6Click(Sender: TObject);
+  private
+    { Private declarations }
+    id_remont,id_avt,what,iRow:integer;
+    procedure ds_mainBeforeEdit(DataSet: TDataSet);
+    procedure CheckUser;
+  public
+  ds_main:TDataSet;
+  procedure NewCard(id:integer;mark:String);
+  procedure OpenCard(ds:TDataSet;id:integer;mark:String);
+  procedure SetTitleCard(title:String);
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
+
+  end;
+
+var
+  frmRemont: TfrmRemont;
+
+implementation
+
+uses main_u, dm_u;
+
+{$R *.dfm}
+procedure TfrmRemont.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams( Params );
+  with Params do
+  begin
+    Style := Style or ws_Overlapped;
+    WndParent := Main.Handle;
+    //Style := (Style or WS_POPUP) and (not WS_DLGFRAME);
+  end;
+end;
+
+procedure TfrmRemont.LbStaticText1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+ReleaseCapture;
+Perform(WM_SYSCOMMAND, $F012, 0);
+end;
+
+procedure TfrmRemont.bclClick(Sender: TObject);
+begin
+Close;
+end;
+
+procedure TfrmRemont.LbB_CancelClick(Sender: TObject);
+begin
+Close;
+end;
+procedure TfrmRemont.CheckUser;
+begin
+if (Main.UserRole=7) or (Main.UserRole=1) or (Main.UserRole=2) then
+LbB_Post.Enabled:=true;
+end;
+
+procedure TfrmRemont.LbButton1Click(Sender: TObject);
+begin
+if(trim(LabeledEdit1.Text)<>'') then begin
+if(SG_AGR.RowCount=1) and (trim(SG_AGR.Cells[0,0])='') then
+SG_AGR.RowCount:=SG_AGR.RowCount
+else
+SG_AGR.RowCount:=SG_AGR.RowCount+1;
+CheckUser;
+SG_AGR.Cells[0,SG_AGR.RowCount-1]:=LabeledEdit1.Text;
+SG_AGR.Cells[1,SG_AGR.RowCount-1]:=LabeledEdit2.Text;
+SG_AGR.Cells[2,SG_AGR.RowCount-1]:=LabeledEdit3.Text;
+LabeledEdit1.Text:='';LabeledEdit2.Text:='';LabeledEdit3.Text:='';
+end;
+end;
+
+procedure TfrmRemont.N1Click(Sender: TObject);
+var
+i:integer;
+SG:TStringGrid;
+begin
+//удалить из списка
+if PageControl1.ActivePageIndex=0 then
+SG:=SG_AGR;
+if PageControl1.ActivePageIndex=1 then
+SG:=SG_REM;
+if PageControl1.ActivePageIndex=2 then
+SG:=SG_ZAP;
+if PageControl1.ActivePageIndex=3 then
+SG:=SG_TMC;
+if PageControl1.ActivePageIndex=4 then
+SG:=SG_TMC_SKLAD;
+if SG.RowCount=1 then
+begin
+SG.Cells[0,iRow]:='';
+SG.Cells[1,iRow]:='';
+SG.Cells[2,iRow]:='';
+end else begin
+for i:=iRow to SG.RowCount-2 do
+begin
+SG.Cells[0,i]:=SG.Cells[0,i+1];
+SG.Cells[1,i]:=SG.Cells[1,i+1];
+SG.Cells[2,i]:=SG.Cells[2,i+1];
+end;
+SG.RowCount:=SG.RowCount-1;
+end;
+CheckUser;
+end;
+
+procedure TfrmRemont.SG_AGRSelectCell(Sender: TObject; ACol, ARow: Integer;
+  var CanSelect: Boolean);
+begin
+iRow:=ARow;
+end;
+
+procedure TfrmRemont.FormShow(Sender: TObject);
+begin
+PageControl1.ActivePageIndex:=0;
+dm.tPlaceRemont.Open;
+dm.tVidRemont.Open;
+end;
+procedure TfrmRemont.NewCard(id:integer;mark:String);
+begin
+what:=0;
+id_avt:=id;
+id_remont:=0;
+frmRemont.Height:=425;
+end;
+
+procedure TfrmRemont.LbB_PostClick(Sender: TObject);
+var
+i,j:integer;
+s1:TStringGrid;
+StrFloatValue:String;
+begin
+if(DateEdit1.Date<>0) and(DateEdit2.Date<>0) and
+(Trim(VidCombo1.Text)<>'') and (Trim(PlaceCombo2.Text)<>'') then
+begin
+with dm do
+begin
+   if ADO.Connected then begin
+   if id_remont<>0 then
+   begin
+      if StoredProc1.Active then StoredProc1.Active:=false;
+         StoredProc1.Parameters.Clear;
+         StoredProc1.ProcedureName:='DelRemont;1';
+         StoredProc1.Parameters.AddParameter;
+         StoredProc1.Parameters[0].Name:='@id_remont';
+         StoredProc1.Parameters[0].DataType:=ftInteger;
+         StoredProc1.Parameters[0].Value:=id_remont;
+         try
+         StoredProc1.ExecProc;
+         CommitTR;
+         except
+         RollBTR;
+         end;
+         StoredProc1.Close;
+      end;
+
+
+    ADOCom1.Parameters.Clear;
+    ADOCom1.CommandType:=cmdStoredProc;
+    ADOCom1.CommandText:='SetRemont';
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[0].Name:='@id_avt';
+    ADOCom1.Parameters[0].DataType:=ftInteger;
+    ADOCom1.Parameters[0].Value:=id_avt;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[1].Name:='@date1';
+    ADOCom1.Parameters[1].DataType:=ftDate;
+    ADOCom1.Parameters[1].Value:=DateEdit1.Date;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[2].Name:='@date2';
+    ADOCom1.Parameters[2].DataType:=ftDate;
+    ADOCom1.Parameters[2].Value:=DateEdit2.Date;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[3].Name:='@id_vid';
+    ADOCom1.Parameters[3].DataType:=ftInteger;
+    ADOCom1.Parameters[3].Value:=VidCombo1.KeyValue;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[4].Name:='@id_place';
+    ADOCom1.Parameters[4].DataType:=ftInteger;
+    ADOCom1.Parameters[4].Value:=PlaceCombo2.KeyValue;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[5].Name:='@speed_b';
+    ADOCom1.Parameters[5].DataType:=ftfloat;
+    ADOCom1.Parameters[5].Value:=RxCalcEdit1.Value;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[6].Name:='@speed_to';
+    ADOCom1.Parameters[6].DataType:=ftFloat;
+    ADOCom1.Parameters[6].Value:=RxCalcEdit2.Value;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[7].Name:='@oil';
+    ADOCom1.Parameters[7].DataType:=ftFloat;
+    ADOCom1.Parameters[7].Value:=RxCalcOil.Value;
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[8].Name:='@number';
+    ADOCom1.Parameters[8].DataType:=ftInteger;
+    ADOCom1.Parameters[8].Value:=Trunc(RxCalcEdit3.Value);
+    ADOCom1.Parameters.AddParameter;
+    ADOCom1.Parameters[9].Name:='@id';
+    ADOCom1.Parameters[9].DataType:=ftInteger;
+    ADOCom1.Parameters[9].Direction:=pdReturnValue;
+
+      try
+        ADOCom1.Execute;
+        id_remont:=ADOCom1.Parameters[8].Value;
+        CommitTR;
+        for i:=0 to SG_AGR.RowCount-1 do
+        begin
+           if trim(SG_AGR.Cells[0,i])<>'' then
+           begin
+            if StoredProc1.Active then StoredProc1.Active:=false;
+                StoredProc1.Parameters.Clear;
+                StoredProc1.ProcedureName:='SetRemontAgr;1';
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[0].Name:='@id_remont';
+                StoredProc1.Parameters[0].DataType:=ftInteger;
+                StoredProc1.Parameters[0].Value:=id_remont;
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[1].Name:='@name';
+                StoredProc1.Parameters[1].DataType:=ftString;
+                StoredProc1.Parameters[1].Value:=trim(SG_AGR.Cells[0,i]);
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[2].Name:='@num_old';
+                StoredProc1.Parameters[2].DataType:=ftString;
+                StoredProc1.Parameters[2].Value:=trim(SG_AGR.Cells[1,i]);
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[3].Name:='@num_new';
+                StoredProc1.Parameters[3].DataType:=ftString;
+                StoredProc1.Parameters[3].Value:=trim(SG_AGR.Cells[2,i]);
+                try
+                        StoredProc1.ExecProc;
+                        CommitTR;
+                except
+                   RollBTR;
+                end;
+            end;
+           end;
+        for j:=1 to 4 do begin
+        case j of
+        1:s1:=SG_REM;
+        2:s1:=SG_ZAP;
+        3:s1:=SG_TMC;
+        4:s1:=SG_TMC_SKLAD;
+        end;
+        for i:=0 to s1.RowCount-1 do
+        begin
+           if trim(s1.Cells[0,i])<>'' then
+           begin
+            if StoredProc1.Active then StoredProc1.Active:=false;
+                StoredProc1.Parameters.Clear;
+                StoredProc1.ProcedureName:='SetRemontDifr;1';
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[0].Name:='@id_remont';
+                StoredProc1.Parameters[0].DataType:=ftInteger;
+                StoredProc1.Parameters[0].Value:=id_remont;
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[1].Name:='@name';
+                StoredProc1.Parameters[1].DataType:=ftString;
+                StoredProc1.Parameters[1].Value:=trim(s1.Cells[0,i]);
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[2].Name:='@coast';
+                StoredProc1.Parameters[2].DataType:=ftFloat;
+                StrFloatValue:=StringReplace(s1.Cells[1,i],'.',DecimalSeparator,[rfReplaceAll, rfIgnoreCase]);
+                StrFloatValue:=StringReplace(StrFloatValue,',',DecimalSeparator,[rfReplaceAll, rfIgnoreCase]);
+                StoredProc1.Parameters[2].Value:=StrToFloat(trim(StrFloatValue));
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[3].Name:='@type';
+                StoredProc1.Parameters[3].DataType:=ftInteger;
+                StoredProc1.Parameters[3].Value:=j;
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[4].Name:='@num';
+                StoredProc1.Parameters[4].DataType:=ftInteger;
+                StoredProc1.Parameters[4].Value:=i+1;
+                try
+                        StoredProc1.ExecProc;
+                        CommitTR;
+                except
+                   RollBTR;
+                end;
+            end;
+           end;
+           end;
+        LbB_Post.Enabled:=false;
+      except
+        RollBTR;
+      end;
+end;
+end;
+Close;
+end
+else Main.ATXShowMessage('«аполните об€зательные пол€!');
+end;
+
+procedure TfrmRemont.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+dm.tPlaceRemont.Close;
+dm.tVidRemont.Close;
+frmRemont:=nil;
+end;
+
+procedure TfrmRemont.DateEdit1Change(Sender: TObject);
+begin
+CheckUser;
+end;
+
+procedure TfrmRemont.LbButton2Click(Sender: TObject);
+begin
+if(trim(LabeledEdit4.Text)<>'') then begin
+if(SG_REM.RowCount=1) and (trim(SG_REM.Cells[0,0])='') then
+SG_REM.RowCount:=SG_REM.RowCount
+else
+SG_REM.RowCount:=SG_REM.RowCount+1;
+
+CheckUser;
+SG_REM.Cells[0,SG_REM.RowCount-1]:=LabeledEdit4.Text;
+SG_REM.Cells[1,SG_REM.RowCount-1]:=FloatToStr(CurrencyEdit1.Value);
+LabeledEdit4.Text:='';CurrencyEdit1.Value:=0;
+end;
+end;
+
+procedure TfrmRemont.LbButton3Click(Sender: TObject);
+begin
+if(trim(LabeledEdit5.Text)<>'') then begin
+if(SG_ZAP.RowCount=1) and (trim(SG_ZAP.Cells[0,0])='') then
+SG_ZAP.RowCount:=SG_ZAP.RowCount
+else
+SG_ZAP.RowCount:=SG_ZAP.RowCount+1;
+
+CheckUser;
+SG_ZAP.Cells[0,SG_ZAP.RowCount-1]:=LabeledEdit5.Text;
+SG_ZAP.Cells[1,SG_ZAP.RowCount-1]:=FloatToStr(CurrencyEdit2.Value);
+LabeledEdit5.Text:='';CurrencyEdit2.Value:=0;
+end;
+end;
+
+procedure TfrmRemont.LbButton4Click(Sender: TObject);
+begin
+if(trim(LabeledEdit6.Text)<>'') then begin
+if(SG_TMC.RowCount=1) and (trim(SG_TMC.Cells[0,0])='') then
+SG_TMC.RowCount:=SG_TMC.RowCount
+else
+SG_TMC.RowCount:=SG_TMC.RowCount+1;
+CheckUser;
+SG_TMC.Cells[0,SG_TMC.RowCount-1]:=LabeledEdit6.Text;
+SG_TMC.Cells[1,SG_TMC.RowCount-1]:=FloatToStr(CurrencyEdit3.Value);
+LabeledEdit6.Text:='';CurrencyEdit3.Value:=0;
+end;
+end;
+
+procedure TfrmRemont.OpenCard(ds:TDataSet;id:integer;mark:String);
+var
+dat:TDateTime;
+M,D,Y:Word;
+begin
+what:=1;
+frmRemont.Height:=400;
+id_avt:=id;
+SetTitleCard(mark);
+ds_remont.DataSet:=ds;
+ds_main:=ds;
+ds_main.BeforeEdit:=ds_mainBeforeEdit;
+RxCalcEdit3.Value:=ds_main.Fields[2].AsInteger;
+DateEdit1.Date:=ds_main.Fields[3].AsDateTime;
+DateEdit2.Date:=ds_main.Fields[4].AsDateTime;
+VidCombo1.KeyValue:=ds_main.Fields[13].AsInteger;
+PlaceCombo2.KeyValue:=ds_main.Fields[14].AsInteger;
+RxCalcEdit1.Value:=ds_main.Fields[11].AsFloat;
+RxCalcEdit2.Value:=ds_main.Fields[12].AsFloat;
+id_remont:=ds_main.Fields[0].AsInteger;
+RxCalcOil.Value:=ds_main.Fields[15].AsFloat;
+with dm do
+begin
+   if ADO.Connected then begin
+            if StoredProc1.Active then StoredProc1.Active:=false;
+                StoredProc1.Parameters.Clear;
+                StoredProc1.ProcedureName:='GetRemontDifr;1';
+                StoredProc1.Parameters.AddParameter;
+                StoredProc1.Parameters[0].Name:='@id_remont';
+                StoredProc1.Parameters[0].DataType:=ftInteger;
+                StoredProc1.Parameters[0].Value:=id_remont;
+                StoredProc1.Open;
+                while not StoredProc1.Eof do
+                begin
+                  case StoredProc1.Fields[3].AsInteger of
+                  0:begin
+                      SG_AGR.Cells[0,SG_AGR.RowCount-1]:=StoredProc1.Fields[0].AsString;
+                      SG_AGR.Cells[1,SG_AGR.RowCount-1]:=StoredProc1.Fields[1].AsString;
+                      SG_AGR.Cells[2,SG_AGR.RowCount-1]:=StoredProc1.Fields[2].AsString;
+                      SG_AGR.RowCount:=SG_AGR.RowCount+1;
+                  end;
+                  1:begin
+                      SG_REM.Cells[0,SG_REM.RowCount-1]:=StoredProc1.Fields[0].AsString;
+                      SG_REM.Cells[1,SG_REM.RowCount-1]:=StoredProc1.Fields[1].AsString;//FloatToStr(StoredProc1.Fields[1].AsFloat);
+                      SG_REM.RowCount:=SG_REM.RowCount+1;
+                  end;
+                  2:begin
+                      SG_ZAP.Cells[0,SG_ZAP.RowCount-1]:=StoredProc1.Fields[0].AsString;
+                      SG_ZAP.Cells[1,SG_ZAP.RowCount-1]:=StoredProc1.Fields[1].AsString;//FloatToStr(StoredProc1.Fields[1].AsFloat);
+                      SG_ZAP.RowCount:=SG_ZAP.RowCount+1;
+                  end;
+                  3:begin
+                      SG_TMC.Cells[0,SG_TMC.RowCount-1]:=StoredProc1.Fields[0].AsString;
+                      SG_TMC.Cells[1,SG_TMC.RowCount-1]:=StoredProc1.Fields[1].AsString;//FloatToStr(StoredProc1.Fields[1].AsFloat);
+                      SG_TMC.RowCount:=SG_TMC.RowCount+1;
+                  end;
+                  4:begin
+                      SG_TMC_SKLAD.Cells[0,SG_TMC_SKLAD.RowCount-1]:=StoredProc1.Fields[0].AsString;
+                      SG_TMC_SKLAD.Cells[1,SG_TMC_SKLAD.RowCount-1]:=StoredProc1.Fields[1].AsString;
+                      SG_TMC_SKLAD.RowCount:=SG_TMC_SKLAD.RowCount+1;
+                  end;
+                  end;//case
+
+                  StoredProc1.Next;
+                end;
+                StoredProc1.Close;
+   end;
+end;
+if SG_AGR.RowCount>1 then
+SG_AGR.RowCount:=SG_AGR.RowCount-1;
+if SG_REM.RowCount>1 then
+SG_REM.RowCount:=SG_REM.RowCount-1;
+if SG_ZAP.RowCount>1 then
+SG_ZAP.RowCount:=SG_ZAP.RowCount-1;
+if SG_TMC.RowCount>1 then
+SG_TMC.RowCount:=SG_TMC.RowCount-1;
+if SG_TMC_SKLAD.RowCount>1 then
+SG_TMC_SKLAD.RowCount:=SG_TMC_SKLAD.RowCount-1;
+LbB_Post.Enabled:=false;
+end;
+
+procedure TfrmRemont.ds_mainBeforeEdit(DataSet: TDataSet);
+begin
+LbB_Cancel.Enabled:=true;
+CheckUser;
+end;
+
+procedure TfrmRemont.SetTitleCard(title:String);
+begin
+Caption:='–емонтна€ карточка автотранспорта "'+title+'"';
+end;
+
+
+
+procedure TfrmRemont.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+   if Key = #13 then
+   begin
+     Key := #0;
+     if GetKeyState(VK_Shift) and $8000 <> 0 then
+       PostMessage(Handle, WM_NEXTDLGCTL, 1, 0)
+     else
+       PostMessage(Handle, WM_NEXTDLGCTL, 0, 0);
+   end;
+
+end;
+
+procedure TfrmRemont.SG_AGRDrawCell(Sender: TObject; ACol, ARow: Integer;
+  Rect: TRect; State: TGridDrawState);
+var
+  l_oldalign: word;
+  l_YPos, l_XPos, i: integer;
+  s, s1: string;
+  l_col, l_row: longint;
+  R:TRect;
+  SG:TStringGrid;
+begin
+  l_col := acol;
+  l_row := arow;
+  SG:=sender as tstringgrid;
+  Button1.Parent:=SG;
+  with sender as tstringgrid do
+  begin
+  R := CellRect(2, iRow);
+      l_XPos := rect.left;
+      l_YPos:=rect.top;
+      s := cells[l_col, l_row];
+    if (gdSelected in State) then
+    begin
+      canvas.Brush.Color := $EFE3DF;
+      canvas.Font.Color:=clActiveCaption;
+    end;
+    canvas.FillRect(Rect);
+    SetBkMode(Handle, TRANSPARENT);
+
+          canvas.textrect(rect,l_Xpos,l_YPos,s);
+          InflateRect(R, -1, -1);
+          case PageControl1.ActivePageIndex of
+          0:OffsetRect(R, Left + 118, Top-67);
+          1:OffsetRect(R, Left, Top-67);
+          2:OffsetRect(R, Left, Top-67);
+          3:OffsetRect(R, Left, Top-67);
+          4:OffsetRect(R, Left, Top-67);
+          end;
+
+          Button1.Left:=r.left;
+          Button1.Top:=r.top;
+   end;
+
+end;
+
+procedure TfrmRemont.LbButton5Click(Sender: TObject);
+begin
+Main.CreateReportRemont;
+end;
+
+procedure TfrmRemont.LbButton6Click(Sender: TObject);
+begin
+if(trim(LabeledEdit7.Text)<>'') then begin
+if(SG_TMC_SKLAD.RowCount=1) and (trim(SG_TMC_SKLAD.Cells[0,0])='') then
+SG_TMC_SKLAD.RowCount:=SG_TMC_SKLAD.RowCount
+else
+SG_TMC_SKLAD.RowCount:=SG_TMC_SKLAD.RowCount+1;
+CheckUser;
+SG_TMC_SKLAD.Cells[0,SG_TMC_SKLAD.RowCount-1]:=LabeledEdit7.Text;
+SG_TMC_SKLAD.Cells[1,SG_TMC_SKLAD.RowCount-1]:=FloatToStr(CurrencyEdit4.Value);
+LabeledEdit7.Text:='';CurrencyEdit4.Value:=0;
+end;
+end;
+
+end.

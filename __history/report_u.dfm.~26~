@@ -1,0 +1,1414 @@
+object frmreport: Tfrmreport
+  Left = 200
+  Top = 250
+  BorderIcons = [biSystemMenu]
+  Caption = #1042#1099#1073#1086#1088#1082#1072' '#1076#1083#1103' '#1086#1090#1095#1077#1090#1072
+  ClientHeight = 601
+  ClientWidth = 711
+  Color = 15590358
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 711
+    Height = 557
+    Align = alClient
+    Caption = #1050#1088#1080#1090#1077#1088#1080#1081' '#1087#1086#1080#1089#1082#1072
+    TabOrder = 0
+    ExplicitHeight = 480
+    object ScrollBox1: TScrollBox
+      Left = 2
+      Top = 15
+      Width = 707
+      Height = 540
+      HorzScrollBar.Size = 15
+      HorzScrollBar.Style = ssFlat
+      VertScrollBar.Size = 15
+      VertScrollBar.Style = ssFlat
+      Align = alClient
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      BorderStyle = bsNone
+      TabOrder = 0
+      ExplicitHeight = 463
+      object Label1: TLabel
+        Left = 128
+        Top = 304
+        Width = 6
+        Height = 13
+        Caption = #1089
+      end
+      object Label2: TLabel
+        Left = 202
+        Top = 304
+        Width = 12
+        Height = 13
+        Caption = #1087#1086
+      end
+      object Label3: TLabel
+        Left = 432
+        Top = 232
+        Width = 6
+        Height = 13
+        Caption = #1089
+      end
+      object Label4: TLabel
+        Left = 427
+        Top = 256
+        Width = 12
+        Height = 13
+        Caption = #1087#1086
+      end
+      object d1L: TLabel
+        Left = 88
+        Top = 0
+        Width = 35
+        Height = 13
+        Caption = #1044#1072#1090#1072' '#1089
+      end
+      object d2L: TLabel
+        Left = 224
+        Top = 0
+        Width = 12
+        Height = 13
+        Caption = #1087#1086
+      end
+      object Label5: TLabel
+        Left = 432
+        Top = 288
+        Width = 6
+        Height = 13
+        Caption = #1089
+      end
+      object Label6: TLabel
+        Left = 427
+        Top = 312
+        Width = 12
+        Height = 13
+        Caption = #1087#1086
+      end
+      object Date_Insur2: TDateEdit
+        Left = 488
+        Top = 56
+        Width = 89
+        Height = 21
+        Enabled = False
+        NumGlyphs = 2
+        YearDigits = dyFour
+        TabOrder = 52
+      end
+      object db_dislok: TRxDBLookupCombo
+        Left = 432
+        Top = 200
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_dislok
+        TabOrder = 57
+      end
+      object year_box: TCheckBox
+        Left = 8
+        Top = 296
+        Width = 97
+        Height = 17
+        Caption = #1043#1086#1076' '#1074#1099#1087#1091#1089#1082#1072' (4)'
+        TabOrder = 16
+        OnClick = year_boxClick
+      end
+      object vin_edit: TEdit
+        Left = 128
+        Top = 320
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 18
+      end
+      object vin_box: TCheckBox
+        Left = 8
+        Top = 320
+        Width = 97
+        Height = 17
+        Caption = 'VIN'
+        TabOrder = 17
+        OnClick = vin_boxClick
+      end
+      object Source2_box: TCheckBox
+        Left = 280
+        Top = 152
+        Width = 121
+        Height = 17
+        Caption = #1048#1089#1090#1086#1095#1085#1080#1082' '#1089#1086#1076#1077#1088#1078#1072#1085#1080#1103
+        TabOrder = 29
+        OnClick = Source2_boxClick
+      end
+      object Source1_box: TCheckBox
+        Left = 280
+        Top = 128
+        Width = 145
+        Height = 17
+        Caption = #1048#1089#1090#1086#1095#1085#1080#1082' '#1087#1088#1080#1086#1073#1088#1077#1090#1077#1085#1080#1103
+        TabOrder = 27
+        OnClick = Source1_boxClick
+      end
+      object shas_edit: TEdit
+        Left = 432
+        Top = 80
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 24
+      end
+      object serv_box: TCheckBox
+        Left = 8
+        Top = 128
+        Width = 97
+        Height = 17
+        Caption = #1057#1083#1091#1078#1073#1072
+        TabOrder = 8
+        OnClick = serv_boxClick
+      end
+      object reg_box: TCheckBox
+        Left = 8
+        Top = 32
+        Width = 121
+        Height = 17
+        Caption = #1043#1072#1088#1085#1080#1079#1086#1085'/'#1054#1073#1083#1072#1089#1090#1100
+        TabOrder = 0
+        OnClick = reg_boxClick
+      end
+      object pts_edit: TEdit
+        Left = 432
+        Top = 104
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 26
+      end
+      object pre_depart_box: TCheckBox
+        Left = 8
+        Top = 104
+        Width = 97
+        Height = 17
+        Caption = #1055#1086#1076'-'#1086#1090#1076#1077#1083
+        TabOrder = 6
+        OnClick = pre_depart_boxClick
+      end
+      object numb2_edit: TEdit
+        Left = 128
+        Top = 248
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 15
+      end
+      object numb2_box: TCheckBox
+        Left = 8
+        Top = 248
+        Width = 97
+        Height = 17
+        Caption = #1043#1086#1089' '#8470' (2)'
+        TabOrder = 14
+        OnClick = numb2_boxClick
+      end
+      object numb1_edit: TEdit
+        Left = 128
+        Top = 224
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 13
+      end
+      object numb1_box: TCheckBox
+        Left = 8
+        Top = 224
+        Width = 97
+        Height = 17
+        Caption = #1043#1086#1089' '#8470' (1)'
+        TabOrder = 12
+        OnClick = numb1_boxClick
+      end
+      object NShas_box: TCheckBox
+        Left = 280
+        Top = 80
+        Width = 97
+        Height = 17
+        Caption = #8470' '#1096#1072#1089#1089#1080
+        TabOrder = 23
+        OnClick = NShas_boxClick
+      end
+      object Npts_box: TCheckBox
+        Left = 280
+        Top = 104
+        Width = 97
+        Height = 17
+        Caption = #8470' '#1090#1077#1093#1087#1072#1089#1087#1086#1088#1090#1072
+        TabOrder = 25
+        OnClick = Npts_boxClick
+      end
+      object Neng_box: TCheckBox
+        Left = 8
+        Top = 344
+        Width = 97
+        Height = 17
+        Caption = #8470' '#1076#1074#1080#1075#1072#1090#1077#1083#1103
+        TabOrder = 19
+        OnClick = Neng_boxClick
+      end
+      object Nbody_box: TCheckBox
+        Left = 8
+        Top = 367
+        Width = 97
+        Height = 17
+        Caption = #8470' '#1082#1091#1079#1086#1074#1072
+        TabOrder = 21
+        OnClick = Nbody_boxClick
+      end
+      object mark_box: TCheckBox
+        Left = 8
+        Top = 176
+        Width = 97
+        Height = 17
+        Caption = #1052#1072#1088#1082#1072
+        TabOrder = 10
+        OnClick = mark_boxClick
+      end
+      object InAccount_box: TCheckBox
+        Left = 280
+        Top = 224
+        Width = 153
+        Height = 17
+        Caption = #1044#1072#1090#1072' '#1087#1086#1089#1090#1072#1085#1086#1074#1082#1080' '#1085#1072' '#1091#1095#1077#1090
+        TabOrder = 33
+        OnClick = InAccount_boxClick
+      end
+      object InAc2: TDateEdit
+        Left = 440
+        Top = 248
+        Width = 137
+        Height = 21
+        Enabled = False
+        NumGlyphs = 2
+        YearDigits = dyFour
+        TabOrder = 35
+      end
+      object InAc1: TDateEdit
+        Left = 440
+        Top = 224
+        Width = 137
+        Height = 21
+        Enabled = False
+        NumGlyphs = 2
+        YearDigits = dyFour
+        TabOrder = 34
+      end
+      object Group_box: TCheckBox
+        Left = 280
+        Top = 176
+        Width = 137
+        Height = 17
+        Caption = #1043#1088#1091#1087#1087#1072' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
+        TabOrder = 31
+        OnClick = Group_boxClick
+      end
+      object eng_edit: TEdit
+        Left = 128
+        Top = 344
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 20
+      end
+      object div_box: TCheckBox
+        Left = 8
+        Top = 56
+        Width = 97
+        Height = 17
+        Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077
+        TabOrder = 2
+        OnClick = div_boxClick
+      end
+      object depart_box: TCheckBox
+        Left = 8
+        Top = 80
+        Width = 97
+        Height = 17
+        Caption = #1054#1090#1076#1077#1083
+        TabOrder = 4
+        OnClick = depart_boxClick
+      end
+      object db_source2: TRxDBLookupCombo
+        Left = 432
+        Top = 152
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_source
+        TabOrder = 30
+      end
+      object db_source1: TRxDBLookupCombo
+        Left = 432
+        Top = 128
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_source
+        TabOrder = 28
+      end
+      object db_serv: TRxDBLookupCombo
+        Left = 128
+        Top = 128
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_serv
+        TabOrder = 9
+      end
+      object db_reg: TRxDBLookupCombo
+        Left = 128
+        Top = 32
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_reg
+        TabOrder = 1
+      end
+      object db_pre: TRxDBLookupCombo
+        Left = 128
+        Top = 104
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_pre
+        TabOrder = 7
+      end
+      object db_mark: TRxDBLookupCombo
+        Left = 128
+        Top = 176
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_mark
+        TabOrder = 11
+        OnChange = db_markChange
+      end
+      object db_group: TRxDBLookupCombo
+        Left = 432
+        Top = 176
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_group
+        TabOrder = 32
+      end
+      object db_div: TRxDBLookupCombo
+        Left = 128
+        Top = 56
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_div
+        TabOrder = 3
+      end
+      object db_depart: TRxDBLookupCombo
+        Left = 128
+        Top = 80
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_depart
+        TabOrder = 5
+      end
+      object body_edit: TEdit
+        Left = 128
+        Top = 367
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 22
+      end
+      object d1R: TDateEdit
+        Left = 128
+        Top = 0
+        Width = 89
+        Height = 21
+        NumGlyphs = 2
+        YearDigits = dyFour
+        TabOrder = 36
+      end
+      object d2R: TDateEdit
+        Left = 240
+        Top = 0
+        Width = 89
+        Height = 21
+        NumGlyphs = 2
+        YearDigits = dyFour
+        TabOrder = 37
+      end
+      object GroupBox2: TGroupBox
+        Left = 581
+        Top = 0
+        Width = 126
+        Height = 540
+        Align = alRight
+        Caption = #1055#1086#1083#1103
+        TabOrder = 38
+        Visible = False
+        ExplicitHeight = 463
+        object CheckBox1: TCheckBox
+          Left = 5
+          Top = 32
+          Width = 97
+          Height = 17
+          Caption = #1052#1072#1088#1082#1072
+          Checked = True
+          State = cbChecked
+          TabOrder = 0
+        end
+        object CheckBox3: TCheckBox
+          Left = 5
+          Top = 64
+          Width = 97
+          Height = 17
+          Caption = #1043#1086#1089' '#8470
+          TabOrder = 1
+        end
+        object CheckBox4: TCheckBox
+          Left = 5
+          Top = 80
+          Width = 97
+          Height = 17
+          Caption = #1043#1086#1076' '#1074#1099#1087#1091#1089#1082#1072
+          TabOrder = 2
+        end
+        object CheckBox5: TCheckBox
+          Left = 5
+          Top = 96
+          Width = 97
+          Height = 17
+          Caption = #1062#1074#1077#1090
+          TabOrder = 3
+        end
+        object CheckBox6: TCheckBox
+          Left = 5
+          Top = 112
+          Width = 97
+          Height = 17
+          Caption = 'VIN'
+          TabOrder = 4
+        end
+        object CheckBox7: TCheckBox
+          Left = 5
+          Top = 128
+          Width = 97
+          Height = 17
+          Caption = #8470' '#1076#1074#1080#1075#1072#1090#1077#1083#1103
+          TabOrder = 5
+        end
+        object CheckBox8: TCheckBox
+          Left = 5
+          Top = 144
+          Width = 97
+          Height = 17
+          Caption = #8470' '#1082#1091#1079#1086#1074#1072
+          TabOrder = 6
+        end
+        object CheckBox9: TCheckBox
+          Left = 5
+          Top = 160
+          Width = 97
+          Height = 17
+          Caption = #8470' '#1096#1072#1089#1089#1080
+          TabOrder = 7
+        end
+        object CheckBox10: TCheckBox
+          Left = 5
+          Top = 176
+          Width = 97
+          Height = 17
+          Caption = #1041#1102#1076#1078#1077#1090
+          TabOrder = 8
+        end
+        object CheckBox11: TCheckBox
+          Left = 5
+          Top = 192
+          Width = 97
+          Height = 17
+          Caption = #1057#1083#1091#1078#1073#1072
+          TabOrder = 9
+        end
+        object CheckBox13: TCheckBox
+          Left = 5
+          Top = 224
+          Width = 97
+          Height = 17
+          Caption = #8470' '#1058#1077#1093#1087#1072#1089#1087#1086#1088#1090#1072
+          TabOrder = 10
+        end
+        object CheckBox14: TCheckBox
+          Left = 5
+          Top = 240
+          Width = 97
+          Height = 17
+          Caption = #8470' '#1057#1090#1088#1072#1093#1086#1074#1082#1080
+          TabOrder = 11
+        end
+        object CheckBox18: TCheckBox
+          Left = 5
+          Top = 304
+          Width = 97
+          Height = 17
+          Caption = #1044#1072#1090#1072' '#1085#1072' '#1091#1095#1077#1090
+          TabOrder = 12
+        end
+        object CheckBox16: TCheckBox
+          Left = 5
+          Top = 272
+          Width = 116
+          Height = 17
+          Caption = #1057#1090#1088#1072#1093'. '#1082#1086#1084#1087#1072#1085#1080#1103
+          TabOrder = 13
+        end
+        object CheckBox17: TCheckBox
+          Left = 5
+          Top = 288
+          Width = 97
+          Height = 17
+          Caption = #1052#1086#1097#1085#1086#1089#1090#1100
+          TabOrder = 14
+        end
+        object CheckBox19: TCheckBox
+          Left = 5
+          Top = 320
+          Width = 97
+          Height = 17
+          Caption = #1044#1080#1089#1083#1086#1082#1072#1094#1080#1103
+          TabOrder = 15
+        end
+        object CheckBox2: TCheckBox
+          Left = 5
+          Top = 48
+          Width = 97
+          Height = 17
+          Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1103
+          TabOrder = 16
+        end
+        object CheckBox20: TCheckBox
+          Left = 5
+          Top = 336
+          Width = 97
+          Height = 17
+          Caption = #1057#1087#1080#1076#1086#1084#1077#1090#1088
+          TabOrder = 17
+        end
+        object CheckBox21: TCheckBox
+          Left = 5
+          Top = 352
+          Width = 97
+          Height = 17
+          Caption = #1040#1088#1077#1085#1076#1072
+          TabOrder = 18
+        end
+        object CheckBox15: TCheckBox
+          Left = 5
+          Top = 256
+          Width = 97
+          Height = 17
+          Caption = #1044#1072#1090#1072' '#1089#1090#1088#1072#1093'.'
+          TabOrder = 19
+        end
+        object CheckBox22: TCheckBox
+          Left = 5
+          Top = 368
+          Width = 97
+          Height = 17
+          Caption = #1043#1088#1091#1087#1087#1072' '#1101#1082#1089#1087'.'
+          TabOrder = 20
+        end
+        object CheckBox12: TCheckBox
+          Left = 5
+          Top = 208
+          Width = 97
+          Height = 17
+          Caption = #1055#1086#1076' '#1089#1083#1091#1078#1073#1072
+          TabOrder = 21
+        end
+        object CheckBox23: TCheckBox
+          Left = 5
+          Top = 384
+          Width = 97
+          Height = 17
+          Caption = #1052#1086#1076#1077#1083#1100' '#1044#1042#1057
+          TabOrder = 22
+        end
+        object CheckBox25: TCheckBox
+          Left = 5
+          Top = 416
+          Width = 97
+          Height = 17
+          Caption = #1058#1080#1087' '#1044#1042#1057
+          TabOrder = 23
+        end
+        object CheckBox26: TCheckBox
+          Left = 5
+          Top = 432
+          Width = 118
+          Height = 17
+          Caption = #1055#1088#1086#1080#1079#1074#1086#1076#1080#1090#1077#1083#1100' '#1058#1057
+          TabOrder = 24
+        end
+        object CheckBox24: TCheckBox
+          Left = 5
+          Top = 400
+          Width = 97
+          Height = 17
+          Caption = #1054#1073#1098#1077#1084
+          TabOrder = 25
+        end
+      end
+      object OutD1: TDateEdit
+        Left = 440
+        Top = 280
+        Width = 137
+        Height = 21
+        Enabled = False
+        NumGlyphs = 2
+        YearDigits = dyFour
+        TabOrder = 39
+      end
+      object OutD2: TDateEdit
+        Left = 440
+        Top = 304
+        Width = 137
+        Height = 21
+        Enabled = False
+        NumGlyphs = 2
+        YearDigits = dyFour
+        TabOrder = 40
+      end
+      object State_box: TRadioButton
+        Left = 280
+        Top = 280
+        Width = 113
+        Height = 17
+        Caption = #1042' '#1086#1090#1089#1090#1086#1077
+        TabOrder = 41
+        OnClick = State_boxClick
+      end
+      object OutAccount_box: TRadioButton
+        Left = 280
+        Top = 296
+        Width = 113
+        Height = 17
+        Caption = #1057#1085#1103#1090#1099' '#1089' '#1091#1095#1077#1090#1072
+        TabOrder = 42
+        OnClick = State_boxClick
+      end
+      object life_box: TRadioButton
+        Left = 280
+        Top = 312
+        Width = 113
+        Height = 17
+        Caption = #1057#1087#1080#1089#1072#1085#1085#1099#1077
+        TabOrder = 43
+        OnClick = State_boxClick
+      end
+      object RadioButton1: TRadioButton
+        Left = 280
+        Top = 328
+        Width = 297
+        Height = 17
+        Caption = #1053#1077' '#1087#1088#1080#1085#1080#1084#1072#1090#1100' '#1074#1086' '#1074#1085#1080#1084#1072#1085#1080#1077
+        Checked = True
+        TabOrder = 44
+        TabStop = True
+        OnClick = RadioButton1Click
+      end
+      object insur_box: TCheckBox
+        Left = 280
+        Top = 32
+        Width = 97
+        Height = 17
+        Caption = #8470' '#1089#1090#1088#1072#1093#1086#1074#1082#1080
+        TabOrder = 45
+        OnClick = insur_boxClick
+      end
+      object insur_edit: TEdit
+        Left = 432
+        Top = 32
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 46
+      end
+      object date_insur_box: TCheckBox
+        Left = 280
+        Top = 56
+        Width = 97
+        Height = 17
+        Caption = #1057' '#1076#1072#1090#1099
+        TabOrder = 47
+        OnClick = date_insur_boxClick
+      end
+      object Date_Insur1: TDateEdit
+        Left = 392
+        Top = 56
+        Width = 89
+        Height = 21
+        Enabled = False
+        NumGlyphs = 2
+        YearDigits = dyFour
+        TabOrder = 48
+      end
+      object oldNumbBox: TCheckBox
+        Left = 8
+        Top = 272
+        Width = 97
+        Height = 17
+        Caption = #1055#1088#1077#1076'. '#1043#1086#1089' '#8470
+        TabOrder = 49
+        OnClick = oldNumbBoxClick
+      end
+      object oldnumb_edit: TEdit
+        Left = 128
+        Top = 272
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 50
+      end
+      object GroupBox3: TGroupBox
+        Left = 455
+        Top = 0
+        Width = 126
+        Height = 540
+        Align = alRight
+        Caption = #1055#1086#1083#1103
+        TabOrder = 51
+        Visible = False
+        ExplicitHeight = 463
+        object CheckBoxI1: TCheckBox
+          Left = 3
+          Top = 33
+          Width = 97
+          Height = 17
+          Caption = #1052#1072#1088#1082#1072
+          Checked = True
+          State = cbChecked
+          TabOrder = 0
+        end
+        object CheckBoxI2: TCheckBox
+          Left = 3
+          Top = 49
+          Width = 97
+          Height = 17
+          Caption = #1043#1086#1089' '#8470
+          Checked = True
+          State = cbChecked
+          TabOrder = 1
+        end
+        object CheckBoxI3: TCheckBox
+          Left = 3
+          Top = 65
+          Width = 97
+          Height = 17
+          Caption = #1043#1086#1076' '#1074#1099#1087#1091#1089#1082#1072
+          TabOrder = 2
+        end
+        object CheckBoxI4: TCheckBox
+          Left = 3
+          Top = 81
+          Width = 97
+          Height = 17
+          Caption = 'VIN'
+          TabOrder = 3
+        end
+        object CheckBoxI5: TCheckBox
+          Left = 3
+          Top = 97
+          Width = 97
+          Height = 17
+          Caption = #8470' '#1076#1074#1080#1075#1072#1090#1077#1083#1103
+          TabOrder = 4
+        end
+        object CheckBoxI6: TCheckBox
+          Left = 3
+          Top = 113
+          Width = 97
+          Height = 17
+          Caption = #8470' '#1082#1091#1079#1086#1074#1072
+          TabOrder = 5
+        end
+        object CheckBoxI7: TCheckBox
+          Left = 3
+          Top = 129
+          Width = 97
+          Height = 17
+          Caption = #8470' '#1096#1072#1089#1089#1080
+          TabOrder = 6
+        end
+        object CheckBoxI8: TCheckBox
+          Left = 3
+          Top = 145
+          Width = 97
+          Height = 17
+          Caption = #1041#1102#1076#1078#1077#1090
+          Checked = True
+          State = cbChecked
+          TabOrder = 7
+        end
+        object CheckBoxI9: TCheckBox
+          Left = 3
+          Top = 161
+          Width = 97
+          Height = 17
+          Caption = #1057#1083#1091#1078#1073#1072
+          Checked = True
+          State = cbChecked
+          TabOrder = 8
+        end
+        object CheckBoxI11: TCheckBox
+          Left = 3
+          Top = 193
+          Width = 116
+          Height = 17
+          Caption = #1057#1091#1084#1084#1072' '#1088#1077#1084#1086#1085#1090#1072
+          Checked = True
+          State = cbChecked
+          TabOrder = 9
+        end
+        object CheckBoxI13: TCheckBox
+          Left = 3
+          Top = 225
+          Width = 97
+          Height = 17
+          Caption = #1057#1091#1084#1084#1072' '#1085#1072' '#1079'/'#1095
+          Checked = True
+          State = cbChecked
+          TabOrder = 10
+        end
+        object CheckBoxI20: TCheckBox
+          Left = 3
+          Top = 335
+          Width = 97
+          Height = 17
+          Caption = #1050#1086#1083'-'#1074#1086' '#1076#1085#1077#1081
+          Checked = True
+          State = cbChecked
+          TabOrder = 11
+        end
+        object CheckBoxI15: TCheckBox
+          Left = 3
+          Top = 257
+          Width = 116
+          Height = 17
+          Caption = #1057#1091#1084#1084#1072' '#1058#1052#1062
+          Checked = True
+          State = cbChecked
+          TabOrder = 12
+        end
+        object CheckBoxI19: TCheckBox
+          Left = 3
+          Top = 319
+          Width = 116
+          Height = 17
+          Caption = #1042#1089#1077#1075#1086' '#1079#1072#1090#1088#1072#1095#1077#1085#1086
+          Checked = True
+          State = cbChecked
+          TabOrder = 13
+        end
+        object CheckBoxI21: TCheckBox
+          Left = 4
+          Top = 351
+          Width = 116
+          Height = 17
+          Caption = #1056#1077#1084#1086#1085#1090', '#1079#1072#1084#1077#1085#1072
+          Checked = True
+          State = cbChecked
+          TabOrder = 14
+        end
+        object CheckBoxI22: TCheckBox
+          Left = 3
+          Top = 367
+          Width = 97
+          Height = 17
+          Caption = #1055#1077#1088#1080#1086#1076' '#1088#1077#1084#1086#1085#1090#1072' '
+          Checked = True
+          State = cbChecked
+          TabOrder = 15
+        end
+        object CheckBoxI10: TCheckBox
+          Left = 3
+          Top = 177
+          Width = 97
+          Height = 17
+          Caption = #1053#1072#1080#1084#1077#1085'. '#1088#1077#1084#1086#1085#1090#1072
+          Checked = True
+          State = cbChecked
+          TabOrder = 16
+        end
+        object CheckBoxI12: TCheckBox
+          Left = 3
+          Top = 209
+          Width = 116
+          Height = 17
+          Caption = #1053#1072#1080#1084#1077#1085'. '#1079'/'#1095
+          Checked = True
+          State = cbChecked
+          TabOrder = 17
+        end
+        object CheckBoxI14: TCheckBox
+          Left = 3
+          Top = 241
+          Width = 97
+          Height = 17
+          Caption = #1053#1072#1080#1084#1077#1085'. '#1058#1052#1062
+          Checked = True
+          State = cbChecked
+          TabOrder = 18
+        end
+        object CheckBoxI18: TCheckBox
+          Left = 3
+          Top = 304
+          Width = 97
+          Height = 17
+          Caption = #1052#1072#1089#1083#1086
+          Checked = True
+          State = cbChecked
+          TabOrder = 19
+        end
+        object CheckBoxI17: TCheckBox
+          Left = 3
+          Top = 288
+          Width = 116
+          Height = 17
+          Caption = #1057#1091#1084#1084#1072' '#1058#1052#1062' ('#1089#1082#1083#1072#1076')'
+          Checked = True
+          State = cbChecked
+          TabOrder = 20
+        end
+        object CheckBoxI16: TCheckBox
+          Left = 3
+          Top = 272
+          Width = 117
+          Height = 17
+          Caption = #1058#1052#1062' ('#1089#1082#1083#1072#1076')'
+          Checked = True
+          State = cbChecked
+          TabOrder = 21
+        end
+        object CheckBoxI23: TCheckBox
+          Left = 3
+          Top = 382
+          Width = 97
+          Height = 17
+          Caption = #1052#1086#1076#1077#1083#1100' '#1044#1042#1057
+          Checked = True
+          State = cbChecked
+          TabOrder = 22
+        end
+        object CheckBoxI24: TCheckBox
+          Left = 3
+          Top = 397
+          Width = 97
+          Height = 17
+          Caption = #1054#1073#1098#1077#1084
+          Checked = True
+          State = cbChecked
+          TabOrder = 23
+        end
+        object CheckBoxI25: TCheckBox
+          Left = 3
+          Top = 412
+          Width = 97
+          Height = 17
+          Caption = #1058#1080#1087' '#1044#1042#1057
+          Checked = True
+          State = cbChecked
+          TabOrder = 24
+        end
+        object CheckBoxI26: TCheckBox
+          Left = 3
+          Top = 427
+          Width = 97
+          Height = 17
+          Caption = #1055#1088#1086#1080#1079#1074#1086#1076#1080#1090#1077#1083#1100
+          Checked = True
+          State = cbChecked
+          TabOrder = 25
+        end
+      end
+      object ComboBox1: TComboBox
+        Left = 128
+        Top = 0
+        Width = 145
+        Height = 21
+        TabOrder = 53
+        Text = 'ComboBox1'
+        Visible = False
+        OnChange = ComboBox1Change
+        OnKeyPress = ComboBox1KeyPress
+        Items.Strings = (
+          '2000'
+          '2001'
+          '2002'
+          '2003'
+          '2004'
+          '2005'
+          '2006'
+          '2007'
+          '2008'
+          '2009'
+          '2010'
+          '2011'
+          '2012'
+          '2013'
+          '2014'
+          '2015'
+          '2016'
+          '2017'
+          '2018'
+          '2019'
+          '2020')
+      end
+      object model_box: TCheckBox
+        Left = 8
+        Top = 200
+        Width = 97
+        Height = 17
+        Caption = #1052#1086#1076#1077#1083#1100
+        TabOrder = 54
+        OnClick = model_boxClick
+      end
+      object db_model: TRxDBLookupCombo
+        Left = 128
+        Top = 200
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_model
+        TabOrder = 55
+      end
+      object dislok_box: TCheckBox
+        Left = 280
+        Top = 200
+        Width = 97
+        Height = 17
+        Caption = #1044#1080#1089#1083#1086#1082#1072#1094#1080#1103
+        TabOrder = 56
+        OnClick = dislok_boxClick
+      end
+      object TTypeTCBox: TCheckBox
+        Left = 8
+        Top = 390
+        Width = 97
+        Height = 17
+        Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1103' '#1058#1057
+        TabOrder = 58
+        OnClick = TTypeTCBoxClick
+      end
+      object db_typetc: TRxDBLookupCombo
+        Left = 128
+        Top = 389
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_typetc
+        TabOrder = 59
+      end
+      object TArenda: TCheckBox
+        Left = 280
+        Top = 368
+        Width = 97
+        Height = 17
+        Caption = #1042' '#1072#1088#1077#1085#1076#1077
+        TabOrder = 60
+        Visible = False
+      end
+      object Spisat_box: TCheckBox
+        Left = 280
+        Top = 344
+        Width = 153
+        Height = 17
+        Caption = #1055#1086#1076#1083#1077#1078#1072#1097#1080#1077' '#1089#1087#1080#1089#1072#1085#1080#1102
+        TabOrder = 61
+      end
+      object db_fuel: TRxDBLookupCombo
+        Left = 440
+        Top = 394
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.dss_markGsm
+        TabOrder = 62
+      end
+      object fuel_box: TCheckBox
+        Left = 280
+        Top = 392
+        Width = 97
+        Height = 17
+        Caption = #1042#1080#1076' '#1090#1086#1087#1083#1080#1074#1072
+        TabOrder = 63
+        OnClick = fuel_boxClick
+      end
+      object preserv_box: TCheckBox
+        Left = 8
+        Top = 152
+        Width = 97
+        Height = 17
+        Caption = #1055#1086#1076' '#1089#1083#1091#1078#1073#1072
+        TabOrder = 64
+        OnClick = preserv_boxClick
+      end
+      object db_preserv: TRxDBLookupCombo
+        Left = 128
+        Top = 152
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_preserv
+        TabOrder = 65
+      end
+      object TnotATX: TCheckBox
+        Left = 280
+        Top = 408
+        Width = 97
+        Height = 17
+        Caption = #1053#1077' '#1091#1095#1077#1090' '#1040#1058#1061
+        TabOrder = 66
+        Visible = False
+      end
+      object year1: TMaskEdit
+        Left = 136
+        Top = 296
+        Width = 56
+        Height = 21
+        EditMask = '!9999;1;_'
+        MaxLength = 4
+        TabOrder = 67
+        Text = '    '
+      end
+      object year2: TMaskEdit
+        Left = 216
+        Top = 296
+        Width = 57
+        Height = 21
+        EditMask = '!9999;1;_'
+        MaxLength = 4
+        TabOrder = 68
+        Text = '    '
+      end
+      object ComboBox2: TComboBox
+        Left = 443
+        Top = 331
+        Width = 137
+        Height = 21
+        ItemIndex = 0
+        TabOrder = 69
+        Text = #1074#1089#1077
+        Visible = False
+        OnKeyPress = ComboBox2KeyPress
+        Items.Strings = (
+          #1074#1089#1077
+          #1087#1077#1088#1077#1079#1072#1082#1088#1077#1087#1083#1077#1085#1080#1077
+          #1076#1083#1103' '#1076#1072#1083#1100#1085'. '#1089#1087#1080#1089#1072#1085#1080#1103
+          #1089#1085#1103#1090#1080#1077' '#1089' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080)
+      end
+      object ModelDVC_box: TCheckBox
+        Left = 8
+        Top = 412
+        Width = 97
+        Height = 17
+        Caption = #1052#1086#1076#1077#1083#1100' '#1044#1042#1057
+        TabOrder = 70
+        OnClick = ModelDVC_boxClick
+      end
+      object modelDVC_edit: TEdit
+        Left = 128
+        Top = 411
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 71
+      end
+      object VolumDVC_box: TCheckBox
+        Left = 8
+        Top = 435
+        Width = 97
+        Height = 17
+        Caption = #1054#1073#1098#1077#1084' '#1044#1042#1057
+        TabOrder = 72
+        OnClick = VolumDVC_boxClick
+      end
+      object VolumDVC_edit: TEdit
+        Left = 128
+        Top = 434
+        Width = 145
+        Height = 21
+        Enabled = False
+        TabOrder = 73
+      end
+      object TypeDVC_box: TCheckBox
+        Left = 8
+        Top = 459
+        Width = 97
+        Height = 17
+        Caption = #1058#1080#1087' '#1044#1042#1057
+        TabOrder = 74
+        OnClick = TypeDVC_boxClick
+      end
+      object db_typeDVC: TRxDBLookupCombo
+        Left = 128
+        Top = 456
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_typeDVC
+        TabOrder = 75
+      end
+      object Manufacture_box: TCheckBox
+        Left = 8
+        Top = 483
+        Width = 97
+        Height = 17
+        Caption = #1055#1088#1086#1080#1079#1074#1086#1076#1080#1090#1077#1083#1100' '#1058#1057
+        TabOrder = 76
+        OnClick = Manufacture_boxClick
+      end
+      object db_manufactureTC: TRxDBLookupCombo
+        Left = 128
+        Top = 483
+        Width = 145
+        Height = 21
+        DropDownCount = 8
+        Enabled = False
+        LookupField = 'id'
+        LookupDisplay = 'name'
+        LookupSource = dm.ds_manufactureTC
+        TabOrder = 77
+      end
+    end
+  end
+  object GroupBox6: TGroupBox
+    Left = 0
+    Top = 557
+    Width = 711
+    Height = 44
+    Align = alBottom
+    TabOrder = 1
+    ExplicitTop = 480
+    object LbB_Search: TLbButton
+      Left = 7
+      Top = 12
+      Width = 100
+      Height = 25
+      Caption = #1057#1086#1079#1076#1072#1090#1100' '#1086#1090#1095#1077#1090
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 0
+      UseHotTrackFont = False
+      OnClick = LbB_SearchClick
+    end
+    object LbButton2: TLbButton
+      Left = 113
+      Top = 12
+      Width = 100
+      Height = 25
+      Caption = #1047#1072#1082#1088#1099#1090#1100
+      Color = 13876122
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      ModalResult = 0
+      ParentColor = False
+      ParentFont = False
+      Style = bsModern
+      TabOrder = 1
+      UseHotTrackFont = False
+      OnClick = bclClick
+    end
+  end
+  object SearchStorage: TFormStorage
+    IniSection = 'Software\LebAlex\atx_uvd\reportForm'
+    UseRegistry = False
+    StoredValues = <>
+    Left = 472
+    Top = 400
+  end
+end

@@ -1,0 +1,528 @@
+unit libModel_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, RxLookup, StdCtrls, LbSpeedButton, Grids, DBGrids, LbStaticText,
+  LbButton, ExtCtrls, DB, ADODB, Mask, DBCtrls;
+
+type
+  TfrmLibModel = class(TForm)
+    Panel2: TPanel;
+    LbB_New: TLbButton;
+    LbB_Cancel: TLbButton;
+    LbB_Post: TLbButton;
+    LbB_Del: TLbButton;
+    LbB_Last: TLbButton;
+    LbB_Next: TLbButton;
+    LbB_Prior: TLbButton;
+    LbB_First: TLbButton;
+    LbB_Edit: TLbButton;
+    DBGrid: TDBGrid;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Mark_box: TRxDBLookupCombo;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    LbB_Print: TLbButton;
+    procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormResize(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure bclClick(Sender: TObject);
+    procedure LbB_EditClick(Sender: TObject);
+    procedure LbB_FirstClick(Sender: TObject);
+    procedure LbB_PriorClick(Sender: TObject);
+    procedure LbB_NextClick(Sender: TObject);
+    procedure LbB_LastClick(Sender: TObject);
+    procedure LbB_NewClick(Sender: TObject);
+    procedure LbB_CancelClick(Sender: TObject);
+    procedure LbB_PostClick(Sender: TObject);
+    procedure LbB_DelClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure Mark_boxChange(Sender: TObject);
+    procedure DBGridKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure DBGridKeyPress(Sender: TObject; var Key: Char);
+    procedure LbB_PrintClick(Sender: TObject);
+  private
+    Lib_what:integer;
+    old_expl_year:integer;
+  public
+    procedure OpenLib(what:integer);
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
+
+  end;
+
+var
+  frmLibModel: TfrmLibModel;
+
+implementation
+
+uses main_u, dm_u;
+{$R *.dfm}
+procedure TfrmLibModel.Createparams(var Params: TCreateParams);
+begin
+  inherited CreateParams( Params );
+  with Params do
+  begin
+    Style := Style or ws_Overlapped;
+    WndParent := Main.Handle;
+    //Style := (Style or WS_POPUP) and (not WS_DLGFRAME);
+  end;
+
+end;
+
+procedure TfrmLibModel.LbStaticText1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+ReleaseCapture;
+Perform(WM_SYSCOMMAND, $F012, 0);
+end;
+
+procedure TfrmLibModel.FormResize(Sender: TObject);
+begin
+if frmLibModel.Width<600 then
+frmLibModel.Width:=600;
+end;
+
+procedure TfrmLibModel.FormCreate(Sender: TObject);
+begin
+if Main.UserRole=1 then
+LbB_Del.Visible:=true else
+LbB_Del.Visible:=false;
+end;
+procedure TfrmLibModel.OpenLib(what:integer);
+begin
+Lib_what:=what;
+LbB_Print.Visible:=false;
+if what=1 then
+begin
+if Main.UserRole<>TECH_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+end;
+LbB_Print.Visible:=true;
+ Label1.Caption:='Марка';
+Caption:='Модели';
+ Mark_box.LookupSource:=dm.dss_mark;
+ dm.tMark_avt.Open;
+ dm.tMark_avt.Sort:='name';
+DBGrid.Columns.Clear;
+DBGrid.Columns.Add;
+DBGrid.Columns[0].Title.Caption:='Название';
+DBGrid.Columns[0].FieldName:='name';
+DBGrid.Columns[0].Width:=DBGrid.Width-123;
+DBGrid.Columns.Add;
+DBGrid.Columns[1].Title.Caption:='Срок эксп.';
+DBGrid.Columns[1].FieldName:='expl_year';
+DBGrid.Columns[1].Width:=70;
+end;
+if what=2 then
+begin
+if Main.UserRole<>GSM_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+end;
+ Label1.Caption:='Марка';
+Caption:='Цены на ГСМ';
+ Mark_box.LookupSource:=dm.dss_markGsm;
+ dm.tMarkGSM.Open;
+ dm.tMarkGSM.Sort:='name';
+DBGrid.Columns.Clear;
+DBGrid.Columns.Add;
+DBGrid.Columns[0].Title.Caption:='Дата';
+DBGrid.Columns[0].FieldName:='date';
+DBGrid.Columns[0].Width:=60;
+DBGrid.Columns.Add;
+DBGrid.Columns[1].Title.Caption:='Цена';
+DBGrid.Columns[1].FieldName:='val';
+DBGrid.Columns[1].Width:=60;
+end;
+if what=3 then
+begin
+if Main.UserRole<>GSM_USER then
+begin
+    LbB_New.Enabled:=false;
+    LbB_Edit.Enabled:=false;
+    LbB_Post.Enabled:=false;
+end;
+ Label1.Caption:='Место дислокации';
+Caption:='Дополнительные %';
+ Mark_box.LookupSource:=dm.dss_dislok;
+ dm.tDislokation.Open;
+ dm.tDislokation.Sort:='name';
+ DBEdit1.Visible:=true;
+  DBEdit2.Visible:=true;
+   DBEdit3.Visible:=true;
+    DBEdit4.Visible:=true;
+     DBEdit5.Visible:=true;
+      DBEdit6.Visible:=true;
+       DBEdit7.Visible:=true;
+        DBEdit8.Visible:=true;
+ DBEdit1.DataSource:=dm.ds_libr2;
+ DBEdit1.DataField:='pr1';
+ DBEdit2.DataSource:=dm.ds_libr2;
+ DBEdit2.DataField:='pr2';
+ DBEdit3.DataSource:=dm.ds_libr2;
+ DBEdit3.DataField:='klimat0';
+ DBEdit4.DataSource:=dm.ds_libr2;
+ DBEdit4.DataField:='klimat1';
+ DBEdit5.DataSource:=dm.ds_libr2;
+ DBEdit5.DataField:='klimat2';
+ DBEdit6.DataSource:=dm.ds_libr2;
+ DBEdit6.DataField:='klimat3';
+ DBEdit7.DataSource:=dm.ds_libr2;
+ DBEdit7.DataField:='klimat4';
+ DBEdit8.DataSource:=dm.ds_libr2;
+ DBEdit8.DataField:='klimat5';
+
+ Label2.Visible:=true;
+  Label3.Visible:=true;
+   Label4.Visible:=true;
+    Label5.Visible:=true;
+     Label6.Visible:=true;
+      Label7.Visible:=true;
+       Label8.Visible:=true;
+        Label9.Visible:=true;
+LbB_Last.Visible:=false;
+LbB_First.Visible:=false;
+LbB_Prior.Visible:=false;
+LbB_Next.Visible:=false;
+
+DBGrid.Visible:=false;
+end;
+if Main.UserRole=1 then
+begin
+    LbB_New.Enabled:=true;
+    LbB_Edit.Enabled:=true;
+    LbB_Post.Enabled:=FALSE;
+    LbB_Del.Enabled:=true;
+end;
+
+end;
+
+procedure TfrmLibModel.bclClick(Sender: TObject);
+begin
+Close;
+end;
+
+procedure TfrmLibModel.LbB_EditClick(Sender: TObject);
+begin
+try
+dm.ADOLidr2.Edit;
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+LbB_New.Enabled:=false;
+LbB_Del.Enabled:=false;
+LbB_Edit.Enabled:=false;
+if Lib_what<>3 then begin
+old_expl_year:=dm.ADOLidr2.FieldValues['expl_year'];
+DBGrid.Options:=DBGrid.Options+[dgEditing];
+DBGrid.EditorMode:=true;
+DBGrid.SetFocus;
+end;
+if Lib_what=3 then
+begin
+DBEdit1.Enabled:=true;
+DBEdit2.Enabled:=true;
+DBEdit3.Enabled:=true;
+DBEdit4.Enabled:=true;
+DBEdit5.Enabled:=true;
+DBEdit6.Enabled:=true;
+DBEdit7.Enabled:=true;
+DBEdit8.Enabled:=true;
+end;
+
+except
+//
+end;
+end;
+
+procedure TfrmLibModel.LbB_FirstClick(Sender: TObject);
+begin
+dm.ADOLidr2.First;
+end;
+
+procedure TfrmLibModel.LbB_PriorClick(Sender: TObject);
+begin
+dm.ADOLidr2.Prior;
+end;
+
+procedure TfrmLibModel.LbB_NextClick(Sender: TObject);
+begin
+dm.ADOLidr2.Next;
+end;
+
+procedure TfrmLibModel.LbB_LastClick(Sender: TObject);
+begin
+dm.ADOLidr2.Last;
+end;
+
+procedure TfrmLibModel.LbB_NewClick(Sender: TObject);
+begin
+dm.ADOLidr2.Insert;
+LbB_Cancel.Enabled:=true;
+LbB_Post.Enabled:=true;
+LbB_New.Enabled:=false;
+LbB_Del.Enabled:=false;
+LbB_Edit.Enabled:=false;
+if Lib_what<>3 then begin
+DBGrid.Options:=DBGrid.Options+[dgEditing];
+DBGrid.EditorMode:=true;
+DBGrid.SetFocus;
+end;
+if Lib_what=3 then
+begin
+DBEdit1.Enabled:=true;
+DBEdit2.Enabled:=true;
+DBEdit3.Enabled:=true;
+DBEdit4.Enabled:=true;
+DBEdit5.Enabled:=true;
+DBEdit6.Enabled:=true;
+DBEdit7.Enabled:=true;
+DBEdit8.Enabled:=true;
+end;
+
+end;
+
+procedure TfrmLibModel.LbB_CancelClick(Sender: TObject);
+begin
+dm.ADOLidr2.Cancel;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+LbB_New.Enabled:=true;
+LbB_Del.Enabled:=true;
+if Lib_what<>3 then
+begin
+DBGrid.Options:=DBGrid.Options-[dgEditing];
+DBGrid.EditorMode:=false;
+end;
+if Lib_what=3 then
+begin
+DBEdit1.Enabled:=false;
+DBEdit2.Enabled:=false;
+DBEdit3.Enabled:=false;
+DBEdit4.Enabled:=false;
+DBEdit5.Enabled:=false;
+DBEdit6.Enabled:=false;
+DBEdit7.Enabled:=false;
+DBEdit8.Enabled:=false;
+end;
+end;
+
+procedure TfrmLibModel.LbB_PostClick(Sender: TObject);
+var
+ii:integer;
+ii2,ii3:Variant;
+begin
+try
+if Lib_what=1 then
+dm.ADOLidr2.Fields[1].Value:=Mark_box.KeyValue;
+if Lib_what=2 then
+dm.ADOLidr2.Fields[0].Value:=Mark_box.KeyValue;
+if Lib_what=3 then
+begin
+DBEdit1.Enabled:=false;
+DBEdit2.Enabled:=false;
+DBEdit3.Enabled:=false;
+DBEdit4.Enabled:=false;
+DBEdit5.Enabled:=false;
+DBEdit6.Enabled:=false;
+DBEdit7.Enabled:=false;
+DBEdit8.Enabled:=false;
+dm.ADOLidr2.Fields[0].Value:=Mark_box.KeyValue;
+end;
+try
+dm.ADOLidr2.Post;
+  except
+  ShowMessage('Возможно данная запись уже существует!');
+end;
+if Lib_what=1 then
+begin
+//ii:=Mark_box.KeyValue;
+//ii2:=dm.ADOLidr2.FieldValues['name'];
+//ii3:=dm.ADOLidr2.FieldValues['expl_year'];
+
+
+dm.StoredProc1.Parameters.Clear;
+dm.StoredProc1.ProcedureName:='UpdateExplYear;1';
+dm.StoredProc1.Parameters.AddParameter;
+dm.StoredProc1.Parameters[0].Name:='@Param1';
+dm.StoredProc1.Parameters[0].DataType:=ftInteger;
+dm.StoredProc1.Parameters[0].Value:=Mark_box.KeyValue;
+dm.StoredProc1.Parameters.AddParameter;
+dm.StoredProc1.Parameters[1].Name:='@Param2';
+dm.StoredProc1.Parameters[1].DataType:=ftString;
+dm.StoredProc1.Parameters[1].Value:=trim(dm.ADOLidr2.FieldValues['name']);
+dm.StoredProc1.Parameters.AddParameter;
+dm.StoredProc1.Parameters[2].Name:='@Param3';
+dm.StoredProc1.Parameters[2].DataType:=ftInteger;
+dm.StoredProc1.Parameters[2].Value:=dm.ADOLidr2.FieldValues['expl_year'];
+dm.StoredProc1.Parameters.AddParameter;
+dm.StoredProc1.Parameters[3].Name:='@Param4';
+dm.StoredProc1.Parameters[3].DataType:=ftInteger;
+dm.StoredProc1.Parameters[3].Value:=old_expl_year;
+dm.StoredProc1.ExecProc;
+dm.StoredProc1.Close;
+
+end;
+
+except
+dm.ADOLidr2.Cancel;
+end;
+LbB_Cancel.Enabled:=false;
+LbB_Post.Enabled:=false;
+//LbB_New.Enabled:=true;
+LbB_Del.Enabled:=true;
+LbB_Edit.Enabled:=true;
+DBGrid.Options:=DBGrid.Options-[dgEditing];
+DBGrid.EditorMode:=false;
+end;
+
+procedure TfrmLibModel.LbB_DelClick(Sender: TObject);
+begin
+  if Main.ATXMessageDlg('Вы уверены, что хотите удалить запись: "'+dm.ADOLidr2.Fields[2].AsString+'" ?'+#13+
+  'Удаление приведет к удалению всего автотранспорта принадлежащего данной записи!',
+    2,mtWarning) = mrYes then
+    try
+        dm.ADOLidr2.Delete;
+    except
+        Main.ATXMessageDlg('Не возможно удалить запись!',1,mtError);
+    end;
+end;
+
+procedure TfrmLibModel.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+//if Lib_what=1 then dm.tMark_avt.Close;
+if Lib_what=2 then dm.tMarkGSM.Close;
+if Lib_what=2 then dm.tDepart.Close;
+if Lib_what=3 then
+begin
+ DBEdit1.DataSource:=nil;
+ DBEdit1.DataField:='';
+ DBEdit2.DataSource:=nil;
+ DBEdit2.DataField:='';
+ DBEdit3.DataSource:=nil;
+ DBEdit3.DataField:='';
+ DBEdit4.DataSource:=nil;
+ DBEdit4.DataField:='';
+ DBEdit5.DataSource:=nil;
+ DBEdit5.DataField:='';
+ DBEdit6.DataSource:=nil;
+ DBEdit6.DataField:='';
+ DBEdit7.DataSource:=nil;
+ DBEdit7.DataField:='';
+ DBEdit8.DataSource:=nil;
+ DBEdit8.DataField:='';
+ end;
+dm.ADOLidr2.Active:=false;
+frmLibModel:=nil;
+end;
+
+procedure TfrmLibModel.DBGridDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+DBGrid.Canvas.Font.Color :=clBlack;
+if gdSelected in state then
+  DBGrid.Canvas.Brush.Color:=$EFE3DF
+  else
+  DBGrid.Canvas.Brush.Color:=clWhite;
+  DBGrid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TfrmLibModel.Mark_boxChange(Sender: TObject);
+begin
+with dm do
+begin
+if ADO.Connected then begin
+if ADOLidr2.Active then ADOLidr2.Active:=false;
+ADOLidr2.Parameters.Clear;
+ADOLidr2.ProcedureName:='GetLibr2;1';
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[0].Name:='@RETURN_VALUE';
+ADOLidr2.Parameters[0].DataType:=ftInteger;
+ADOLidr2.Parameters[0].Direction:=pdReturnValue;
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[1].Name:='@what';
+ADOLidr2.Parameters[1].DataType:=ftInteger;
+ADOLidr2.Parameters[1].Value:=Lib_what;
+ADOLidr2.Parameters.AddParameter;
+ADOLidr2.Parameters[2].Name:='@id_mark';
+ADOLidr2.Parameters[2].DataType:=ftInteger;
+ADOLidr2.Parameters[2].Value:=Mark_box.KeyValue;
+try
+ADOLidr2.Open;
+if Lib_what=1 then ADOLidr2.Sort:='name';
+if Lib_what=2 then ADOLidr2.Sort:='date';
+//if Lib_what=3 then ADOLidr2.Sort:='date';
+if Lib_what=3 then
+if ADOLidr2.Eof then LbB_New.Enabled:=true
+else LbB_New.Enabled:=false;
+
+except
+//
+end;
+end;
+end;
+end;
+procedure TfrmLibModel.DBGridKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+if Ord(Key)=9 then Key:=0;
+end;
+
+procedure TfrmLibModel.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+   if Key = #13 then
+   begin
+     Key := #0;
+     if GetKeyState(VK_Shift) and $8000 <> 0 then
+       PostMessage(Handle, WM_NEXTDLGCTL, 1, 0)
+     else
+       PostMessage(Handle, WM_NEXTDLGCTL, 0, 0);
+   end;
+end;
+
+procedure TfrmLibModel.DBGridKeyPress(Sender: TObject; var Key: Char);
+begin
+if Lib_what<>1 then
+if Key in ['0'..'9','.',','] then
+begin
+//
+end
+else Key:=#0;
+
+end;
+
+procedure TfrmLibModel.LbB_PrintClick(Sender: TObject);
+begin
+Main.CreateReportLibr(16);
+end;
+
+end.
