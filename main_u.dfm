@@ -1797,7 +1797,14 @@ object Main: TMain
       end
       object N31: TMenuItem
         Caption = #1054#1073#1088#1072#1073#1086#1090#1082#1072' '#1092#1072#1081#1083#1072' '#1086#1090' '#1057#1090#1088#1072#1093#1086#1074#1086#1081
-        OnClick = N31Click
+        object N36: TMenuItem
+          Caption = #1069#1082#1089#1087#1086#1088#1090' '#1092#1072#1081#1083#1072
+          OnClick = N31Click
+        end
+        object N37: TMenuItem
+          Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099' '#1076#1083#1103' '#1101#1082#1089#1087#1086#1088#1090#1072' '#1092#1072#1081#1083#1072
+          OnClick = N37Click
+        end
       end
     end
     object ItemAdmin: TMenuItem

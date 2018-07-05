@@ -17,7 +17,8 @@ uses
   loaddata_u in 'loaddata_u.pas' {frmLoadData},
   messDlg_u in 'messDlg_u.pas' {frmMessDlg},
   libModel_u in 'libModel_u.pas' {frmLibModel},
-  loaddataprogres_u in 'loaddataprogres_u.pas' {frmLoadDataProgres};
+  loaddataprogres_u in 'loaddataprogres_u.pas' {frmLoadDataProgres},
+  excelParams_u in 'excelParams_u.pas' {frmExcelParams};
 
 {$R *.res}
 
@@ -31,6 +32,7 @@ Slash.Update;
   Application.CreateForm(Tdm, dm);
   Application.CreateForm(TMain, Main);
   Application.CreateForm(TfrmLoadDataProgres, frmLoadDataProgres);
+  Application.CreateForm(TfrmExcelParams, frmExcelParams);
   Slash.chekUpdate;
   Slash.Hide;
  finally

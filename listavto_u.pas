@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, LbSpeedButton, ExtCtrls, LbStaticText, Grids, DBGrids, LbButton,
-  rxPlacemnt;
+  rxPlacemnt, Data.DB;
 type
   TfrmListAvto = class(TForm)
     Panel3: TPanel;

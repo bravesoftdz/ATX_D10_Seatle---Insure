@@ -309,11 +309,11 @@ object Slash: TSlash
     object Label2: TLabel
       Left = 8
       Top = 120
-      Width = 183
+      Width = 143
       Height = 48
       Caption = 
-        'Phone: +7902 7 665 680'#13#10'E-mail: lebalex@isem.sei.irk.ru'#13#10'WWW: ht' +
-        'tp://lebalex.dax.ru'
+        'Phone: +7964 755 27 01'#13#10'E-mail: lebalex@mail.ru'#13#10'WWW: http://leb' +
+        'alex.xyz'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -324,7 +324,10 @@ object Slash: TSlash
   end
   object IdFTP: TIdFTP
     IPVersion = Id_IPv4
-    AutoLogin = True
+    ConnectTimeout = 0
+    NATKeepAlive.UseKeepAlive = False
+    NATKeepAlive.IdleTimeMS = 0
+    NATKeepAlive.IntervalMS = 0
     ProxySettings.ProxyType = fpcmNone
     ProxySettings.Port = 0
     Left = 72

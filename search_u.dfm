@@ -701,8 +701,8 @@ object frmsearch: Tfrmsearch
     end
   end
   object SearchStorage: TFormStorage
-    IniSection = 'Software\LebAlex\atx_uvd\searchForm'
-    UseRegistry = False
+    IniSection = 'searchForm'
+    UseRegistry = True
     StoredProps.Strings = (
       'date_insur_box.Checked'
       'depart_box.Checked'

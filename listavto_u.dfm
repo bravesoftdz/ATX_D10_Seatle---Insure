@@ -96,8 +96,8 @@ object frmListAvto: TfrmListAvto
     OnDrawColumnCell = DBGrid1DrawColumnCell
   end
   object SearchStorage: TFormStorage
-    IniSection = 'Software\LebAlex\atx_uvd\listAvtForm'
-    UseRegistry = False
+    IniSection = 'listAvtForm'
+    UseRegistry = True
     StoredValues = <>
     Left = 480
     Top = 312

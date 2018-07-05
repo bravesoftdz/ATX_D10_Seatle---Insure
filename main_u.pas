@@ -87,6 +87,8 @@ type
     N31: TMenuItem;
     frxCSVExport1: TfrxCSVExport;
     N35: TMenuItem;
+    N36: TMenuItem;
+    N37: TMenuItem;
     procedure ExitExecute(Sender: TObject);
     procedure LbStaticText1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -144,6 +146,7 @@ type
     procedure N34Click(Sender: TObject);
     procedure N31Click(Sender: TObject);
     procedure N35Click(Sender: TObject);
+    procedure N37Click(Sender: TObject);
   private
     whatReport:integer;
     dateR1,dateR2:String;
@@ -198,7 +201,7 @@ implementation
     users_u, avtocard_u, libr_u,
     search_u,   report_u, report2_u,
   listavto_u,  loaddata_u, messDlg_u,
-  libModel_u, listnew_u, loaddataprogres_u;
+  libModel_u, listnew_u, loaddataprogres_u, excelParams_u;
 {$R *.dfm}
 
 procedure TMain.Createparams(var Params: TCreateParams);
@@ -1025,6 +1028,8 @@ MaxRow, MaxCol,X, Y:integer ;
 str,coast,descript,errorStr:string;
 osago_coast:real;
 r,r1,r2:integer;
+Reg:TRegistry;
+n_row_insure,n_row_coast,n_col_start:integer;
 begin
 descript:='Не найденные страховки'+#13;
 Main.Cursor:=crHourGlass;
@@ -1032,6 +1037,24 @@ Application.CreateForm(TfrmLoadDataProgres, frmLoadDataProgres);
 frmLoadDataProgres.Show;
 Application.ProcessMessages;
 try
+Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    if Reg.OpenKey('\Software\ATX_Insure\frmExcelParams', True) then
+   begin
+      n_row_insure:=StrToInt(Reg.ReadString('n_row_insure_Text'));
+      n_row_coast:=StrToInt(Reg.ReadString('n_row_coast_Text'));
+      n_col_start:=StrToInt(Reg.ReadString('n_col_start_Text'));
+      Reg.CloseKey;
+    end;
+    except
+      n_row_insure:=20;
+      n_row_coast:=19;
+      n_col_start:=8;
+    end;
+    Reg.Free;
+
+
 Str:=trim(OpenDialog1.FileName);
 
 XLApp1 := createoleobject('excel.application');
@@ -1047,15 +1070,16 @@ frmLoadDataProgres.ProgressBar1.Max:=MaxRow;
         dm.Q1.SQL.Clear;
         dm.Q1.SQL.Add('update ATX_UVD_INSURE.dbo.tInsure set osago_coast=? where number=?');
 r1:=0; r2:=0;
-     for y:=8 to maxRow do begin
-      str:=sheet.Cells[y,20].Value;
+     for y:=n_col_start to maxRow do begin
+      str:=sheet.Cells[y,n_row_insure].Value;
       if str<>'' then
       begin
         //ShowMessage(str);
         inc(r2);
-        coast:=sheet.Cells[y,19].Value;
+        coast:=sheet.Cells[y,n_row_coast].Value;
         try
-        str:=Copy(str,5, Length(str)-4);
+        if not(str[1] in ['1','2','3','4','5','6','7','8','9','0']) then
+          str:=Copy(str,5, Length(str)-4);
         osago_coast:=StrToFloat(coast);
         dm.Q1.Parameters[0].DataType:=ftFloat;
         dm.Q1.Parameters[0].Value:=osago_coast;
@@ -1085,7 +1109,10 @@ r1:=0; r2:=0;
         dm.Q1.SQL.Clear;
 
         XLApp1.Workbooks.close;
-        ATXMessageDlgDescript('Обработано '+IntToStr(r1)+' записей из '+IntToStr(r2),1,mtInformation,descript+errorStr);
+        if r1=r2 then
+          ATXMessageDlg('Обработано '+IntToStr(r1)+' записей из '+IntToStr(r2),1,mtInformation)
+        else
+          ATXMessageDlgDescript('Обработано '+IntToStr(r1)+' записей из '+IntToStr(r2),1,mtInformation,descript+errorStr);
 
 except
 on E : Exception do     begin
@@ -1165,6 +1192,13 @@ begin
     Application.CreateForm(Tfrmreport2, frmreport2);
   frmreport2.osago_1(4);
   frmreport2.ShowModal;
+end;
+
+procedure TMain.N37Click(Sender: TObject);
+begin
+//параметры экспорта файла
+    Application.CreateForm(TfrmExcelParams,frmExcelParams);
+    frmExcelParams.ShowModal;
 end;
 
 procedure TMain.CoolItem9522Click(Sender: TObject);
